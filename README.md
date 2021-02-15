@@ -1,70 +1,11 @@
-# Getting Started with Create React App
+## Mechanical Keyboard Layout Editor
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Mechanical Keyboard Layout Editor는 기계식 키보드를 DIY로 제작하기 위해 키 스위치를 원하는 대로 배치하고 이를 json 형식으로 저장할 수 있는 웹 애플리케이션입니다.
 
-## Available Scripts
+이는 제가 개인적으로 진행 중인 인체 공학 기계식 키보드(*1)를 직접 만들기 위한 프로젝트 중의 한 과정입니다. 먼저 이 앱을 통하여 키보드 스위치의 배치를 완료하면 json 형식의 layout 파일이 만들어지고, layout 파일을 읽어들여 3D 프린팅 혹은 CNC 밀링을 할 수 있는 3D stl 혹은 2D dxf 모델을 생성하게 됩니다. CAD 모델을 출력한 후 기성품 스위치(Cherry MX 스위치 혹은 호환 제품)와 키캡을 구매하여 조립을 하면 됩니다. 후속 작업으로 키보드 제어 MICOM H/W와의 배선 및 납땜과 MICOM 펌웨어 빌드를 하면 직접 만든 키보드를 쓸 수 있게 됩니다.
 
-In the project directory, you can run:
+이 앱의 개발은 [Keyboard Layout Editor](http://www.keyboard-layout-editor.com/) 사이트에서 많은 영감을 받았습니다. 다만 이 사이트의 경우 키 배치와 키캡 제작까지 커버를 하는 반면, 저는 순수하게 키 배치 편집 만을 담당하고 있습니다. 이 프로젝트의 주요 목표는 인체 공학 기계식 키보드의 제작이지만, 부가적으로 react.js의 스터디도 겸하고 있고 KLE에서의 기능을 좀 더 확장하고자 하여 직접 개발을 진행하게 되었습니다.
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+*1: 인체공학이라고 해서 특별한 구조가 있다기 보다는, 좌우가 분리되어 있고 몇몇 키를 좀 더 추가(좌, 우 양쪽에 B키 추가)하고, 방향키와 INS/DEL/HOME/END/PGUP/PGDN 키가 있는 키보드를 만들 예정입니다.
