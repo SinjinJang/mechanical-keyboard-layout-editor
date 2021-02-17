@@ -26,9 +26,27 @@ class KeyPlate extends React.Component {
     super(props);
 
     this.state = {
-      width: 2+1.75,  // TODO: 가장 오른쪽 키의 x + w 계산
-      height: 2+1,  // TODO: 가장 아래쪽 키의 y + h 계산
-      layout: []
+      width: 2 + 1,  // TODO: 가장 오른쪽 키의 x + w 계산
+      height: 5.25 + 1,  // TODO: 가장 아래쪽 키의 y + h 계산
+      layout: [
+        { 'key': 'Print Screen', 'x': 0, 'y': 0 },
+        { 'key': 'Scroll Lock', 'x': 1, 'y': 0 },
+        { 'key': 'Pause', 'x': 2, 'y': 0 },
+
+        { 'key': 'Ins', 'x': 0, 'y': 1.25 },
+        { 'key': 'Home', 'x': 1, 'y': 1.25 },
+        { 'key': 'Page Up', 'x': 2, 'y': 1.25 },
+
+        { 'key': 'Delete', 'x': 0, 'y': 2.25 },
+        { 'key': 'End', 'x': 1, 'y': 2.25 },
+        { 'key': 'Page Down', 'x': 2, 'y': 2.25 },
+
+        { 'key': 'Up', 'x': 1, 'y': 4.25 },
+
+        { 'key': 'Left', 'x': 0, 'y': 5.25 },
+        { 'key': 'Down', 'x': 1, 'y': 5.25 },
+        { 'key': 'Right', 'x': 2, 'y': 5.25 }
+      ]
     };
   }
 
@@ -46,18 +64,23 @@ class KeyPlate extends React.Component {
       width: (this.state.width * UNIT_1),
       height: (this.state.height * UNIT_1),
     };
+
+    // 키 스위치 구성
+    const keys = []
+    for (const val of this.state.layout) {
+      keys.push(
+        <KeySwitch
+          label={val.key}
+          x={val.x} y={val.y}
+          w='1' h='1'
+        />
+      )
+    }
+
     return (
       <div className="key-plate-outer" style={style}>
         <div className="key-plate-inner" style={styleInner}>
-          <KeySwitch label="a" x="0" y="0" w="1" h="1" />
-          <KeySwitch label="b" x="1" y="0" w="1" h="1" />
-          <KeySwitch label="c" x="2" y="0" w="1.25" h="1" />
-          <KeySwitch label="d" x="0" y="1" w="1" h="1" />
-          <KeySwitch label="e" x="1" y="1" w="1" h="1" />
-          <KeySwitch label="f" x="2" y="1" w="1.5" h="1" />
-          <KeySwitch label="g" x="0" y="2" w="1" h="1" />
-          <KeySwitch label="h" x="1" y="2" w="1" h="1" />
-          <KeySwitch label="i" x="2" y="2" w="1.75" h="1" />
+          {keys}
         </div>
       </div>
     )
