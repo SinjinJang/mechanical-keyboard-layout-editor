@@ -81,6 +81,7 @@ class KeyPlate extends React.Component {
     for (const val of this.state.layout) {
       keys.push(
         <KeySwitch
+          key={val.key}
           label={val.key}
           x={val.x} y={val.y}
           w='1' h='1'
