@@ -26,6 +26,29 @@ class EditPanel extends React.Component {
       <div>
         <button onClick={this.props.onAddSwitchClick}>Add Switch
         </button>
+        <label>
+          Key Label:
+          <input type='text' name='key_label' />
+        </label>
+        <label>
+          Width:
+          <select name='key_width'>
+            <option value='1'>1U</option>
+            <option value='1.25'>1.25U</option>
+            <option value='1.5'>1.5U</option>
+            <option value='1.75'>1.75U</option>
+            <option value='2'>2U</option>
+            <option value='2.5'>2.25U</option>
+            <option value='2.75'>2.75U</option>
+          </select>
+        </label>
+        <label>
+          Height:
+          <select name='key_height'>
+            <option value='1'>1U</option>
+            <option value='2'>2U</option>
+          </select>
+        </label>
       </div>
     )
   }
