@@ -78,10 +78,10 @@ class KeyPlate extends React.Component {
 
     // 키 스위치 구성
     const keys = []
-    for (const val of this.state.layout) {
+    for (const [idx, val] of this.state.layout.entries()) {
       keys.push(
         <KeySwitch
-          key={val.key}
+          key={idx + '-' + val.key}
           label={val.key}
           x={val.x} y={val.y}
           w='1' h='1'
