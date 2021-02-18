@@ -84,7 +84,8 @@ class KeyPlate extends React.Component {
           key={idx + '-' + val.key}
           label={val.key}
           x={val.x} y={val.y}
-          w='1' h='1'
+          w={val.w !== undefined ? val.w : 1}
+          h={val.h !== undefined ? val.h : 1}
         />
       )
     }
