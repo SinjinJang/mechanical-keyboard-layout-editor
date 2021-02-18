@@ -66,7 +66,7 @@ class KeyPlate extends React.Component {
     layout.push({
       'key': '',
       'x': this.state.width,
-      'y': this.state.height,
+      'y': this.state.height - 1,
     })
     this.setState({ layout: layout });
   }
