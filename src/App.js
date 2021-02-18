@@ -61,8 +61,14 @@ class KeyPlate extends React.Component {
     };
   }
 
-  handleAddSwitch(e) {
-    console.log('handleAddSwitch');
+  handleAddSwitch() {
+    const layout = this.state.layout.slice();
+    layout.push({
+      'key': '',
+      'x': this.state.width,
+      'y': this.state.height,
+    })
+    this.setState({ layout: layout });
   }
 
   render() {
@@ -93,7 +99,7 @@ class KeyPlate extends React.Component {
     return (
       <div>
         <EditPanel
-          onAddSwitchClick={this.handleAddSwitch}
+          onAddSwitchClick={() => this.handleAddSwitch()}
         />
         <div className="key-plate-outer" style={style}>
           <div className="key-plate-inner" style={styleInner}>
