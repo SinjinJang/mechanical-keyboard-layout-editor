@@ -20,6 +20,17 @@ class KeySwitch extends React.Component {
   }
 }
 
+class EditPanel extends React.Component {
+  render() {
+    return (
+      <div>
+        <button onClick={this.props.onAddSwitchClick}>Add Switch
+        </button>
+      </div>
+    )
+  }
+}
+
 class KeyPlate extends React.Component {
 
   constructor(props) {
@@ -78,9 +89,14 @@ class KeyPlate extends React.Component {
     }
 
     return (
-      <div className="key-plate-outer" style={style}>
-        <div className="key-plate-inner" style={styleInner}>
-          {keys}
+      <div>
+        <EditPanel
+          onAddSwitchClick={this.handleAddSwitch}
+        />
+        <div className="key-plate-outer" style={style}>
+          <div className="key-plate-inner" style={styleInner}>
+            {keys}
+          </div>
         </div>
       </div>
     )
