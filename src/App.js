@@ -67,8 +67,23 @@ class KeyPlate extends React.Component {
       'key': '',
       'x': this.state.width,
       'y': this.state.height - 1,
+      'w': 1,
+      'h': 1,
     })
-    this.setState({ layout: layout });
+
+    // 스위치 판의 넓이 및 높이 재계산
+    const endKey = layout.reduce((prev, curr) => {
+      return prev.x > curr.x ? prev : curr;
+    });
+    const bottomKey = layout.reduce((prev, curr) => {
+      return prev.y > curr.y ? prev : curr;
+    })
+
+    this.setState({
+      width: endKey.x + endKey.w,
+      hegith: bottomKey.y + bottomKey.h,
+      layout: layout
+    });
   }
 
   render() {
