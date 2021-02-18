@@ -44,7 +44,7 @@ class KeyPlate extends React.Component {
         { 'key': 'Scroll Lock', 'x': 1, 'y': 0, 'w': 1, 'h': 1 },
         { 'key': 'Pause', 'x': 2, 'y': 0, 'w': 1, 'h': 1 },
 
-        { 'key': 'Ins', 'x': 0, 'y': 1.25, 'w': 1, 'h': 1 },
+        { 'key': 'Insert', 'x': 0, 'y': 1.25, 'w': 1, 'h': 1 },
         { 'key': 'Home', 'x': 1, 'y': 1.25, 'w': 1, 'h': 1 },
         { 'key': 'Page Up', 'x': 2, 'y': 1.25, 'w': 1, 'h': 1 },
 
