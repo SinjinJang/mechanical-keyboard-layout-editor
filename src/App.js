@@ -37,8 +37,8 @@ class KeyPlate extends React.Component {
     super(props);
 
     this.state = {
-      width: 2 + 1,  // TODO: 가장 오른쪽 키의 x + w 계산
-      height: 5.25 + 1,  // TODO: 가장 아래쪽 키의 y + h 계산
+      width: 2 + 1,
+      height: 5.25 + 1,
       layout: [
         { 'key': 'Print Screen', 'x': 0, 'y': 0, 'w': 1, 'h': 1 },
         { 'key': 'Scroll Lock', 'x': 1, 'y': 0, 'w': 1, 'h': 1 },
