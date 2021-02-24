@@ -121,7 +121,7 @@ class KeyPlate extends React.Component {
     });
   }
 
-  handleDrag = (e, ui) => {
+  handleDrag(e, ui) {
     // 키 스위치의 좌표 값을 갱신
     const keyName = ui.node.textContent;
     const newLayout = { ...this.state.layout };
