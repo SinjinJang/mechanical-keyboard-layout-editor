@@ -104,21 +104,8 @@ class KeyPlate extends React.Component {
       'h': 1,
     };
 
-    // 스위치 판의 넓이 및 높이 재계산
-    let newWidth = -1;
-    let newHeight = -1;
-    for (const [_, val] of Object.entries(newLayout)) {
-      const end = val.x + val.w;
-      newWidth = (end > newWidth) ? end : newWidth;
-      const bottom = val.y + val.h;
-      newHeight = (bottom > newHeight) ? bottom : newHeight;
-    }
-
-    this.setState({
-      width: newWidth,
-      hegith: newHeight,
-      layout: newLayout
-    });
+    const newSize = this.resizePlate(newLayout);
+    this.setState({ layout: newLayout, ...newSize });
   }
 
   handleDrag(e, ui) {
@@ -129,7 +116,22 @@ class KeyPlate extends React.Component {
     keyObj.x += (ui.deltaX / UNIT_1);
     keyObj.y += (ui.deltaY / UNIT_1);
 
-    this.setState({ layout: newLayout });
+    const newSize = this.resizePlate(newLayout);
+    this.setState({ layout: newLayout, ...newSize });
+  };
+
+  // 스위치 판의 넓이 및 높이를 다시 계산한다.
+  resizePlate(newLayout) {
+    let newWidth = -1;
+    let newHeight = -1;
+    for (const [_, val] of Object.entries(newLayout)) {
+      const end = val.x + val.w;
+      newWidth = (end > newWidth) ? end : newWidth;
+      const bottom = val.y + val.h;
+      newHeight = (bottom > newHeight) ? bottom : newHeight;
+    }
+
+    return { width: newWidth, height: newHeight };
   };
 
   render() {
