@@ -1,21 +1,31 @@
 import './App.css';
 import React from 'react';
+import Draggable from 'react-draggable';
 
 // 기본 1U 스위치의 크기 정의 (px 단위)
-const UNIT_1 = 50;
+const UNIT_1 = 60;
+const UNIT_0_25 = UNIT_1 / 4;
 
 class KeySwitch extends React.Component {
   render() {
+    const position = {
+      x: this.props.x * UNIT_1,
+      y: this.props.y * UNIT_1,
+    };
     const style = {
-      left: (this.props.x * UNIT_1),
-      top: (this.props.y * UNIT_1),
       width: (this.props.w * UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
       height: (this.props.h * UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
     };
     return (
-      <div className="key-switch" style={style}>
-        {this.props.label}
-      </div>
+      <Draggable
+        grid={[UNIT_0_25, UNIT_0_25]}
+        onDrag={this.props.handleDrag}
+        position={position}
+      >
+        <div className='key-switch' style={style}>
+          {this.props.label}
+        </div>
+      </Draggable>
     )
   }
 }
@@ -109,6 +119,22 @@ class KeyPlate extends React.Component {
     });
   }
 
+  handleDrag = (e, ui) => {
+    // 키 스위치의 좌표 값을 갱신
+    const keyName = ui.node.textContent;
+    const layout = this.state.layout.slice();
+    for (const keyObj of layout) {
+      if (keyObj.key === keyName) {
+        keyObj.x += (ui.deltaX / UNIT_1);
+        keyObj.y += (ui.deltaY / UNIT_1);
+        break;
+      }
+    }
+    this.setState({
+      layout: layout
+    });
+  };
+
   render() {
     const MARGIN_PLATE = 30;
     const style = {
@@ -129,6 +155,7 @@ class KeyPlate extends React.Component {
           label={val.key}
           x={val.x} y={val.y}
           w={val.w} h={val.h}
+          handleDrag={(e, ui) => this.handleDrag(e, ui)}
         />
       )
     }
