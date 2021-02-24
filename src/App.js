@@ -72,67 +72,64 @@ class KeyPlate extends React.Component {
     this.state = {
       width: 2 + 1,
       height: 5.25 + 1,
-      layout: [
-        { 'key': 'Print Screen', 'x': 0, 'y': 0, 'w': 1, 'h': 1 },
-        { 'key': 'Scroll Lock', 'x': 1, 'y': 0, 'w': 1, 'h': 1 },
-        { 'key': 'Pause', 'x': 2, 'y': 0, 'w': 1, 'h': 1 },
+      layout: {
+        'Print Screen': { 'x': 0, 'y': 0, 'w': 1, 'h': 1 },
+        'Scroll Lock': { 'x': 1, 'y': 0, 'w': 1, 'h': 1 },
+        'Pause': { 'x': 2, 'y': 0, 'w': 1, 'h': 1 },
 
-        { 'key': 'Insert', 'x': 0, 'y': 1.25, 'w': 1, 'h': 1 },
-        { 'key': 'Home', 'x': 1, 'y': 1.25, 'w': 1, 'h': 1 },
-        { 'key': 'Page Up', 'x': 2, 'y': 1.25, 'w': 1, 'h': 1 },
+        'Insert': { 'x': 0, 'y': 1.25, 'w': 1, 'h': 1 },
+        'Home': { 'x': 1, 'y': 1.25, 'w': 1, 'h': 1 },
+        'Page Up': { 'x': 2, 'y': 1.25, 'w': 1, 'h': 1 },
 
-        { 'key': 'Delete', 'x': 0, 'y': 2.25, 'w': 1, 'h': 1 },
-        { 'key': 'End', 'x': 1, 'y': 2.25, 'w': 1, 'h': 1 },
-        { 'key': 'Page Down', 'x': 2, 'y': 2.25, 'w': 1, 'h': 1 },
+        'Delete': { 'x': 0, 'y': 2.25, 'w': 1, 'h': 1 },
+        'End': { 'x': 1, 'y': 2.25, 'w': 1, 'h': 1 },
+        'Page Down': { 'x': 2, 'y': 2.25, 'w': 1, 'h': 1 },
 
-        { 'key': 'Up', 'x': 1, 'y': 4.25, 'w': 1, 'h': 1 },
+        'Up': { 'x': 1, 'y': 4.25, 'w': 1, 'h': 1 },
 
-        { 'key': 'Left', 'x': 0, 'y': 5.25, 'w': 1, 'h': 1 },
-        { 'key': 'Down', 'x': 1, 'y': 5.25, 'w': 1, 'h': 1 },
-        { 'key': 'Right', 'x': 2, 'y': 5.25, 'w': 1, 'h': 1 }
-      ]
+        'Left': { 'x': 0, 'y': 5.25, 'w': 1, 'h': 1 },
+        'Down': { 'x': 1, 'y': 5.25, 'w': 1, 'h': 1 },
+        'Right': { 'x': 2, 'y': 5.25, 'w': 1, 'h': 1 },
+      }
     };
   }
 
   handleAddSwitch() {
-    const layout = this.state.layout.slice();
-    layout.push({
-      'key': '',
+    const newLayout = { ...this.state.layout };
+    const newKeyName = 'Key ' + Object.keys(newLayout).length;
+    newLayout[newKeyName] = {
       'x': this.state.width,
       'y': this.state.height - 1,
       'w': 1,
       'h': 1,
-    })
+    };
 
     // 스위치 판의 넓이 및 높이 재계산
-    const endKey = layout.reduce((prev, curr) => {
-      return prev.x > curr.x ? prev : curr;
-    });
-    const bottomKey = layout.reduce((prev, curr) => {
-      return prev.y > curr.y ? prev : curr;
-    })
+    let newWidth = -1;
+    let newHeight = -1;
+    for (const [_, val] of Object.entries(newLayout)) {
+      const end = val.x + val.w;
+      newWidth = (end > newWidth) ? end : newWidth;
+      const bottom = val.y + val.h;
+      newHeight = (bottom > newHeight) ? bottom : newHeight;
+    }
 
     this.setState({
-      width: endKey.x + endKey.w,
-      hegith: bottomKey.y + bottomKey.h,
-      layout: layout
+      width: newWidth,
+      hegith: newHeight,
+      layout: newLayout
     });
   }
 
   handleDrag = (e, ui) => {
     // 키 스위치의 좌표 값을 갱신
     const keyName = ui.node.textContent;
-    const layout = this.state.layout.slice();
-    for (const keyObj of layout) {
-      if (keyObj.key === keyName) {
-        keyObj.x += (ui.deltaX / UNIT_1);
-        keyObj.y += (ui.deltaY / UNIT_1);
-        break;
-      }
-    }
-    this.setState({
-      layout: layout
-    });
+    const newLayout = { ...this.state.layout };
+    const keyObj = newLayout[keyName];
+    keyObj.x += (ui.deltaX / UNIT_1);
+    keyObj.y += (ui.deltaY / UNIT_1);
+
+    this.setState({ layout: newLayout });
   };
 
   render() {
@@ -148,11 +145,11 @@ class KeyPlate extends React.Component {
 
     // 키 스위치 구성
     const keys = []
-    for (const [idx, val] of this.state.layout.entries()) {
+    for (const [key, val] of Object.entries(this.state.layout)) {
       keys.push(
         <KeySwitch
-          key={idx + '-' + val.key}
-          label={val.key}
+          key={key}
+          label={key}
           x={val.x} y={val.y}
           w={val.w} h={val.h}
           handleDrag={(e, ui) => this.handleDrag(e, ui)}
