@@ -2,6 +2,7 @@ import './App.css';
 import React from 'react';
 import Draggable from 'react-draggable';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 // 기본 1U 스위치의 크기 정의 (px 단위)
 const UNIT_1 = 60;
@@ -40,16 +41,14 @@ class EditPanel extends React.Component {
     return (
       <div>
         <Button variant='outline-primary' onClick={this.props.onAddSwitchClick}>Add Switch</Button>
-        <label>
-          Key Label:
+        <label>Key Label:
           <input id='keyLabel' type='text' name='key_label'
             value={this.props.selectedKey}
             onChange={this.props.onAttrChange}
           />
         </label>
-        <label>
-          Width:
-          <select id='width' name='key_width'
+        <label>Width:
+          <Form.Control as='select' id='width' name='key_width'
             value={this.props.selectedAttrs?.w}
             onChange={this.props.onAttrChange}
           >
@@ -60,17 +59,16 @@ class EditPanel extends React.Component {
             <option value='2'>2U</option>
             <option value='2.5'>2.25U</option>
             <option value='2.75'>2.75U</option>
-          </select>
+          </Form.Control>
         </label>
-        <label>
-          Height:
-          <select id='height' name='key_height'
+        <label>Height:
+          <Form.Control as='select' id='height' name='key_height'
             value={this.props.selectedAttrs?.h}
             onChange={this.props.onAttrChange}
           >
             <option value='1'>1U</option>
             <option value='2'>2U</option>
-          </select>
+          </Form.Control>
         </label>
         <Button
           variant='outline-secondary'
