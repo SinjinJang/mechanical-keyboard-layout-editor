@@ -156,15 +156,15 @@ class KeyPlate extends React.Component {
 
     // 키 스위치 구성
     const keys = []
-    for (const [key, val] of Object.entries(this.state.layout)) {
+    for (const [keyLabel, attrs] of Object.entries(this.state.layout)) {
       keys.push(
         <KeySwitch
-          key={key}
-          label={key}
-          x={val.x} y={val.y}
-          w={val.w} h={val.h}
+          key={keyLabel}
+          label={keyLabel}
+          x={attrs.x} y={attrs.y}
+          w={attrs.w} h={attrs.h}
           onDrag={(e, ui) => this.handleSwitchDrag(e, ui)}
-          onClick={(e) => this.handleSwitchClick(key)}
+          onClick={(e) => this.handleSwitchClick(keyLabel)}
         />
       )
     }
