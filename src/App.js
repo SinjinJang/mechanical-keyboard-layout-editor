@@ -100,8 +100,8 @@ class KeyPlate extends React.Component {
 
   handleAddSwitch() {
     const newLayout = { ...this.state.layout };
-    const newKeyName = 'Key ' + Object.keys(newLayout).length;
-    newLayout[newKeyName] = {
+    const newKeyLabel = 'Key ' + Object.keys(newLayout).length;
+    newLayout[newKeyLabel] = {
       'x': this.state.width,
       'y': this.state.height - 1,
       'w': 1,
@@ -114,9 +114,9 @@ class KeyPlate extends React.Component {
 
   handleSwitchDrag(e, ui) {
     // 키 스위치의 좌표 값을 갱신
-    const keyName = ui.node.textContent;
+    const keyLabel = ui.node.textContent;
     const newLayout = { ...this.state.layout };
-    const keyObj = newLayout[keyName];
+    const keyObj = newLayout[keyLabel];
     keyObj.x += (ui.deltaX / UNIT_1);
     keyObj.y += (ui.deltaY / UNIT_1);
 
