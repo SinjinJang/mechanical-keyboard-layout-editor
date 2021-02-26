@@ -19,7 +19,7 @@ class KeySwitch extends React.Component {
     return (
       <Draggable
         grid={[UNIT_0_25, UNIT_0_25]}
-        onDrag={this.props.handleDrag}
+        onDrag={this.props.onDrag}
         position={position}
       >
         <div
@@ -163,7 +163,7 @@ class KeyPlate extends React.Component {
           label={key}
           x={val.x} y={val.y}
           w={val.w} h={val.h}
-          handleDrag={(e, ui) => this.handleSwitchDrag(e, ui)}
+          onDrag={(e, ui) => this.handleSwitchDrag(e, ui)}
           onClick={(e) => this.handleSwitchClick(key)}
         />
       )
