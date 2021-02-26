@@ -44,14 +44,14 @@ class EditPanel extends React.Component {
           <Form.Label>Key Label</Form.Label>
           <Form.Control type='text' name='key_label'
             value={this.props.selectedKey}
-            onChange={this.props.onAttrChange}
+            onChange={this.props.onLabelChange}
           />
         </Form.Group>
         <Form.Group controlId='width'>
           <Form.Label>Width</Form.Label>
           <Form.Control as='select' name='key_width'
             value={this.props.selectedAttrs?.w}
-            onChange={this.props.onAttrChange}
+            onChange={this.props.onSizeChange}
           >
             <option value='1'>1U</option>
             <option value='1.25'>1.25U</option>
@@ -66,7 +66,7 @@ class EditPanel extends React.Component {
           <Form.Label>Height</Form.Label>
           <Form.Control as='select' name='key_height'
             value={this.props.selectedAttrs?.h}
-            onChange={this.props.onAttrChange}
+            onChange={this.props.onSizeChange}
           >
             <option value='1'>1U</option>
             <option value='2'>2U</option>
@@ -135,15 +135,28 @@ class KeyPlate extends React.Component {
     this.setState({ layout: newLayout, ...newSize });
   }
 
-  handleChangeAttrs(e) {
-    let selectedKey = this.state.selectedKey;
-    const layout = { ...this.state.layout };
-    const attrs = layout[selectedKey];
+  handleLabelChange(e) {
+    const newLayout = { ...this.state.layout };
+    const selectedKey = this.state.selectedKey;
 
-    if (e.target.id === 'keyLabel') {
-      delete layout[selectedKey];
-      selectedKey = e.target.value;
-    } else if (e.target.id === 'width') {
+    // layout 객체에서 키 라벨을 변경하여 저장
+    const attrs = newLayout[selectedKey];
+    delete newLayout[selectedKey];
+    newLayout[e.target.value] = attrs;
+
+    this.setState({
+      layout: newLayout,
+      selectedKey: e.target.value,
+    });
+  }
+
+  handleSizeChange(e) {
+    const newLayout = { ...this.state.layout };
+    const selectedKey = this.state.selectedKey;
+
+    // 넓이 또는 높이 크기 변경
+    const attrs = newLayout[selectedKey];
+    if (e.target.id === 'width') {
       attrs.w = e.target.value;
     } else if (e.target.id === 'height') {
       attrs.h = e.target.value;
@@ -152,9 +165,10 @@ class KeyPlate extends React.Component {
       return;
     }
 
+    const newSize = this.resizePlate(newLayout);
     this.setState({
-      layout: { ...layout, [selectedKey]: attrs },
-      selectedKey: selectedKey,
+      ...newSize,
+      layout: newLayout,
     });
   }
 
@@ -224,7 +238,8 @@ class KeyPlate extends React.Component {
           selectedKey={this.state.selectedKey}
           selectedAttrs={this.state.layout[this.state.selectedKey]}
           onAddSwitchClick={() => this.handleAddSwitch()}
-          onAttrChange={(e) => this.handleChangeAttrs(e)}
+          onSizeChange={(e) => this.handleSizeChange(e)}
+          onLabelChange={(e) => this.handleLabelChange(e)}
           onDownloadClick={() => this.handleDownloadClick()}
         />
         <div className="key-plate-outer" style={styleOuter}>
