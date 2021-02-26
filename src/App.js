@@ -112,7 +112,7 @@ class KeyPlate extends React.Component {
     this.setState({ layout: newLayout, ...newSize });
   }
 
-  handleDrag(e, ui) {
+  handleSwitchDrag(e, ui) {
     // 키 스위치의 좌표 값을 갱신
     const keyName = ui.node.textContent;
     const newLayout = { ...this.state.layout };
@@ -163,7 +163,7 @@ class KeyPlate extends React.Component {
           label={key}
           x={val.x} y={val.y}
           w={val.w} h={val.h}
-          handleDrag={(e, ui) => this.handleDrag(e, ui)}
+          handleDrag={(e, ui) => this.handleSwitchDrag(e, ui)}
           onClick={(e) => this.handleSwitchClick(key)}
         />
       )
