@@ -75,7 +75,7 @@ class EditPanel extends React.Component {
         <Button
           variant='outline-secondary'
           download='layout.json'
-          href={`data:text/json; charset=utf-8, ${this.props.onDownloadClick}`}
+          href={`data:text/json; charset=utf-8,${this.props.onDownloadClick()}`}
         >
           Download
         </Button>
@@ -169,10 +169,7 @@ class KeyPlate extends React.Component {
   }
 
   handleDownloadClick() {
-    console.log('>>>>> download click')
-    return encodeURIComponent(
-      JSON.stringify(this.state.layout)
-    );
+    return JSON.stringify(this.state.layout);
   }
 
   // 스위치 판의 넓이 및 높이를 다시 계산한다.
