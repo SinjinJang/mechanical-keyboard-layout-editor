@@ -156,10 +156,11 @@ class KeyPlate extends React.Component {
 
     // 넓이 또는 높이 크기 변경
     const attrs = newLayout[selectedKey];
+    const newValue = Number(e.target.value);
     if (e.target.id === 'width') {
-      attrs.w = e.target.value;
+      attrs.w = newValue;
     } else if (e.target.id === 'height') {
-      attrs.h = e.target.value;
+      attrs.h = newValue;
     } else {
       console.log('>>>>> undefined id: ' + e.target.id);
       return;
