@@ -40,15 +40,16 @@ class EditPanel extends React.Component {
   render() {
     return (
       <div>
-        <Button variant='outline-primary' onClick={this.props.onAddSwitchClick}>Add Switch</Button>
-        <label>Key Label:
-          <input id='keyLabel' type='text' name='key_label'
+        <Form.Group controlId='keyLabel'>
+          <Form.Label>Key Label</Form.Label>
+          <Form.Control type='text' name='key_label'
             value={this.props.selectedKey}
             onChange={this.props.onAttrChange}
           />
-        </label>
-        <label>Width:
-          <Form.Control as='select' id='width' name='key_width'
+        </Form.Group>
+        <Form.Group controlId='width'>
+          <Form.Label>Width</Form.Label>
+          <Form.Control as='select' name='key_width'
             value={this.props.selectedAttrs?.w}
             onChange={this.props.onAttrChange}
           >
@@ -60,16 +61,18 @@ class EditPanel extends React.Component {
             <option value='2.5'>2.25U</option>
             <option value='2.75'>2.75U</option>
           </Form.Control>
-        </label>
-        <label>Height:
-          <Form.Control as='select' id='height' name='key_height'
+        </Form.Group>
+        <Form.Group controlId='height'>
+          <Form.Label>Height</Form.Label>
+          <Form.Control as='select' name='key_height'
             value={this.props.selectedAttrs?.h}
             onChange={this.props.onAttrChange}
           >
             <option value='1'>1U</option>
             <option value='2'>2U</option>
           </Form.Control>
-        </label>
+        </Form.Group>
+        <Button variant='outline-primary' onClick={this.props.onAddSwitchClick}>Add Switch</Button>{' '}
         <Button
           variant='outline-secondary'
           download='layout.json'
