@@ -39,8 +39,7 @@ class EditPanel extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={this.props.onAddSwitchClick}>Add Switch
-        </button>
+        <Button variant='outline-primary' onClick={this.props.onAddSwitchClick}>Add Switch</Button>
         <label>
           Key Label:
           <input id='keyLabel' type='text' name='key_label'
@@ -74,7 +73,7 @@ class EditPanel extends React.Component {
           </select>
         </label>
         <Button
-          variant='primary'
+          variant='outline-secondary'
           download='layout.json'
           href={`data:text/json; charset=utf-8, ${this.props.onDownloadClick}`}
         >
