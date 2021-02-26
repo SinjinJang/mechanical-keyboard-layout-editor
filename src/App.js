@@ -42,11 +42,11 @@ class EditPanel extends React.Component {
         </button>
         <label>
           Key Label:
-          <input type='text' name='key_label' />
+          <input type='text' name='key_label' value={this.props.selectedKey.keyLabel} />
         </label>
         <label>
           Width:
-          <select name='key_width'>
+          <select name='key_width' value={this.props.selectedKey.attrs?.w}>
             <option value='1'>1U</option>
             <option value='1.25'>1.25U</option>
             <option value='1.5'>1.5U</option>
@@ -58,7 +58,7 @@ class EditPanel extends React.Component {
         </label>
         <label>
           Height:
-          <select name='key_height'>
+          <select name='key_height' value={this.props.selectedKey.attrs?.h}>
             <option value='1'>1U</option>
             <option value='2'>2U</option>
           </select>
@@ -94,7 +94,11 @@ class KeyPlate extends React.Component {
         'Left': { 'x': 0, 'y': 5.25, 'w': 1, 'h': 1 },
         'Down': { 'x': 1, 'y': 5.25, 'w': 1, 'h': 1 },
         'Right': { 'x': 2, 'y': 5.25, 'w': 1, 'h': 1 },
-      }
+      },
+      selectedKey: {
+        keyLabel: '',
+        attrs: null,
+      },
     };
   }
 
@@ -126,7 +130,12 @@ class KeyPlate extends React.Component {
 
   handleSwitchClick(keyLabel) {
     const keyObj = this.state.layout[keyLabel];
-    console.log(keyObj);
+    this.setState({
+      selectedKey: {
+        keyLabel: keyLabel,
+        attrs: keyObj,
+      }
+    });
   }
 
   // 스위치 판의 넓이 및 높이를 다시 계산한다.
@@ -172,6 +181,7 @@ class KeyPlate extends React.Component {
     return (
       <div>
         <EditPanel
+          selectedKey={this.state.selectedKey}
           onAddSwitchClick={() => this.handleAddSwitch()}
         />
         <div className="key-plate-outer" style={style}>
