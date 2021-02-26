@@ -22,7 +22,11 @@ class KeySwitch extends React.Component {
         onDrag={this.props.handleDrag}
         position={position}
       >
-        <div className='key-switch' style={style}>
+        <div
+          className='key-switch'
+          style={style}
+          onClick={this.props.onClick}
+        >
           {this.props.label}
         </div>
       </Draggable>
@@ -120,6 +124,11 @@ class KeyPlate extends React.Component {
     this.setState({ layout: newLayout, ...newSize });
   };
 
+  handleSwitchClick(keyLabel) {
+    const keyObj = this.state.layout[keyLabel];
+    console.log(keyObj);
+  }
+
   // 스위치 판의 넓이 및 높이를 다시 계산한다.
   resizePlate(newLayout) {
     let newWidth = -1;
@@ -155,6 +164,7 @@ class KeyPlate extends React.Component {
           x={val.x} y={val.y}
           w={val.w} h={val.h}
           handleDrag={(e, ui) => this.handleDrag(e, ui)}
+          onClick={(e) => this.handleSwitchClick(key)}
         />
       )
     }
