@@ -72,7 +72,12 @@ class EditPanel extends React.Component {
             <option value='2'>2U</option>
           </Form.Control>
         </Form.Group>
-        <Button variant='outline-primary' onClick={this.props.onAddSwitchClick}>Add Switch</Button>{' '}
+        <Button
+          variant='outline-primary'
+          onClick={this.props.onAddSwitchClick}
+        >
+          Add Switch
+        </Button>{' '}
         <Button
           variant='outline-secondary'
           download='layout.json'
