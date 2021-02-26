@@ -1,6 +1,7 @@
 import './App.css';
 import React from 'react';
 import Draggable from 'react-draggable';
+import Button from 'react-bootstrap/Button';
 
 // 기본 1U 스위치의 크기 정의 (px 단위)
 const UNIT_1 = 60;
@@ -72,6 +73,13 @@ class EditPanel extends React.Component {
             <option value='2'>2U</option>
           </select>
         </label>
+        <Button
+          variant='primary'
+          download='layout.json'
+          href={`data:text/json; charset=utf-8, ${this.props.onDownloadClick}`}
+        >
+          Download
+        </Button>
       </div>
     )
   }
@@ -161,6 +169,13 @@ class KeyPlate extends React.Component {
     this.setState({ selectedKey: keyLabel });
   }
 
+  handleDownloadClick() {
+    console.log('>>>>> download click')
+    return encodeURIComponent(
+      JSON.stringify(this.state.layout)
+    );
+  }
+
   // 스위치 판의 넓이 및 높이를 다시 계산한다.
   resizePlate(newLayout) {
     let newWidth = -1;
@@ -208,6 +223,7 @@ class KeyPlate extends React.Component {
           selectedAttrs={this.state.layout[this.state.selectedKey]}
           onAddSwitchClick={() => this.handleAddSwitch()}
           onAttrChange={(e) => this.handleChangeAttrs(e)}
+          onDownloadClick={() => this.handleDownloadClick()}
         />
         <div className="key-plate-outer" style={styleOuter}>
           <div className="key-plate-inner" style={styleInner}>
