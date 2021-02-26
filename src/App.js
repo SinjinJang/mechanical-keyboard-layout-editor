@@ -177,13 +177,13 @@ class KeyPlate extends React.Component {
 
   render() {
     const MARGIN_PLATE = 30;
-    const style = {
-      width: (this.state.width * UNIT_1) + MARGIN_PLATE,
-      height: (this.state.height * UNIT_1) + MARGIN_PLATE,
-    };
     const styleInner = {
       width: (this.state.width * UNIT_1),
       height: (this.state.height * UNIT_1),
+    };
+    const styleOuter = {
+      width: styleInner.width + MARGIN_PLATE,
+      height: styleInner.height + MARGIN_PLATE,
     };
 
     // 키 스위치 구성
@@ -209,7 +209,7 @@ class KeyPlate extends React.Component {
           onAddSwitchClick={() => this.handleAddSwitch()}
           onAttrChange={(e) => this.handleChangeAttrs(e)}
         />
-        <div className="key-plate-outer" style={style}>
+        <div className="key-plate-outer" style={styleOuter}>
           <div className="key-plate-inner" style={styleInner}>
             {keys}
           </div>
