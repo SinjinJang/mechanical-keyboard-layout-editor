@@ -84,7 +84,14 @@ class EditPanel extends React.Component {
           href={`data:text/json; charset=utf-8,${this.props.onDownloadClick()}`}
         >
           Download
-        </Button>
+        </Button>{' '}
+        <Form.Group controlId='uploadLayout'>
+          <Form.Label>Layout File to Upload</Form.Label>
+          <Form.File id='layoutFile'
+            type='file' accept='.json'
+            onChange={this.props.onLayoutFileChange}
+          />
+        </Form.Group>
       </div>
     )
   }
@@ -193,6 +200,20 @@ class KeyPlate extends React.Component {
     return JSON.stringify(this.state.layout);
   }
 
+  handleLayoutFileChange(e) {
+    const reader = new FileReader();
+    reader.readAsBinaryString(e.target.files[0]);
+    reader.onloadend = () => {
+      const layoutObj = JSON.parse(reader.result);
+      this.setState({
+        width: layoutObj.width,
+        height: layoutObj.height,
+        layout: layoutObj.layout,
+        selectedKey: '',
+      });
+    }
+  }
+
   // 스위치 판의 넓이 및 높이를 다시 계산한다.
   resizePlate(newLayout) {
     let newWidth = -1;
@@ -242,6 +263,7 @@ class KeyPlate extends React.Component {
           onSizeChange={(e) => this.handleSizeChange(e)}
           onLabelChange={(e) => this.handleLabelChange(e)}
           onDownloadClick={() => this.handleDownloadClick()}
+          onLayoutFileChange={(e) => this.handleLayoutFileChange(e)}
         />
         <div className="key-plate-outer" style={styleOuter}>
           <div className="key-plate-inner" style={styleInner}>
