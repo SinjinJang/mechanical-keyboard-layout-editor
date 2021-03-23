@@ -205,6 +205,13 @@ class KeyPlate extends React.Component {
     reader.readAsBinaryString(e.target.files[0]);
     reader.onloadend = () => {
       const layoutObj = JSON.parse(reader.result);
+
+      // 불러온 layout 파일에서 키의 width, height 속성이 없을 경우 1로 설정
+      Object.entries(layoutObj.layout).map(([_, v]) => {
+        v.w = ('w' in v) ? v.w : 1;
+        v.h = ('h' in v) ? v.h : 1;
+      });
+
       this.setState({
         width: layoutObj.width,
         height: layoutObj.height,
