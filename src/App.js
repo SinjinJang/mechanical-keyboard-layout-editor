@@ -245,10 +245,11 @@ class KeyPlate extends React.Component {
       width: styleInner.width + MARGIN_PLATE,
       height: styleInner.height + MARGIN_PLATE,
     };
+    const { selectedKey, layout } = this.state;
 
     // 키 스위치 구성
     const keys = []
-    for (const [keyLabel, attrs] of Object.entries(this.state.layout)) {
+    for (const [keyLabel, attrs] of Object.entries(layout)) {
       keys.push(
         <KeySwitch
           key={keyLabel}
@@ -264,8 +265,8 @@ class KeyPlate extends React.Component {
     return (
       <div>
         <EditPanel
-          selectedKey={this.state.selectedKey}
-          selectedAttrs={this.state.layout[this.state.selectedKey]}
+          selectedKey={selectedKey}
+          selectedAttrs={layout[selectedKey]}
           onAddSwitchClick={() => this.handleAddSwitch()}
           onSizeChange={(e) => this.handleSizeChange(e)}
           onLabelChange={(e) => this.handleLabelChange(e)}
