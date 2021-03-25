@@ -58,7 +58,7 @@ class EditPanel extends React.Component {
             <option value='1.5'>1.5U</option>
             <option value='1.75'>1.75U</option>
             <option value='2'>2U</option>
-            <option value='2.5'>2.25U</option>
+            <option value='2.25'>2.25U</option>
             <option value='2.75'>2.75U</option>
           </Form.Control>
         </Form.Group>
