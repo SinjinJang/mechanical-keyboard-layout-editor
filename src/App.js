@@ -40,58 +40,73 @@ class EditPanel extends React.Component {
   render() {
     return (
       <div>
-        <Form.Group controlId='keyLabel'>
-          <Form.Label>Key Label</Form.Label>
-          <Form.Control type='text' name='key_label'
-            value={this.props.selectedKey}
-            onChange={this.props.onLabelChange}
-          />
-        </Form.Group>
-        <Form.Group controlId='width'>
-          <Form.Label>Width</Form.Label>
-          <Form.Control as='select' name='key_width'
-            value={this.props.selectedAttrs?.w}
-            onChange={this.props.onSizeChange}
-          >
-            <option value='1'>1U</option>
-            <option value='1.25'>1.25U</option>
-            <option value='1.5'>1.5U</option>
-            <option value='1.75'>1.75U</option>
-            <option value='2'>2U</option>
-            <option value='2.5'>2.25U</option>
-            <option value='2.75'>2.75U</option>
-          </Form.Control>
-        </Form.Group>
-        <Form.Group controlId='height'>
-          <Form.Label>Height</Form.Label>
-          <Form.Control as='select' name='key_height'
-            value={this.props.selectedAttrs?.h}
-            onChange={this.props.onSizeChange}
-          >
-            <option value='1'>1U</option>
-            <option value='2'>2U</option>
-          </Form.Control>
-        </Form.Group>
+        <div className='editpanel__container'>
+          <Form.Group controlId='uploadLayout' className='editpanel__item'>
+            <Form.Label>Layout File to Upload</Form.Label>
+            <Form.File id='layoutFile'
+              type='file' accept='.json'
+              onChange={this.props.onLayoutFileChange}
+            />
+          </Form.Group>
+        </div>
+        <div className='editpanel__container'>
         <Button
-          variant='outline-primary'
-          onClick={this.props.onAddSwitchClick}
-        >
-          Add Switch
-        </Button>{' '}
-        <Button
-          variant='outline-secondary'
-          download='layout.json'
-          href={`data:text/json; charset=utf-8,${this.props.onDownloadClick()}`}
-        >
-          Download
-        </Button>{' '}
-        <Form.Group controlId='uploadLayout'>
-          <Form.Label>Layout File to Upload</Form.Label>
-          <Form.File id='layoutFile'
-            type='file' accept='.json'
-            onChange={this.props.onLayoutFileChange}
-          />
-        </Form.Group>
+            className='editpanel__item'
+            variant='outline-primary'
+            onClick={this.props.onAddSwitchClick}
+          >
+            Add Switch
+          </Button>
+          <Button
+            className='editpanel__item'
+            variant='outline-secondary'
+            download='layout.json'
+            href={`data:text/json; charset=utf-8,${this.props.onDownloadClick()}`}
+          >
+            Download Layout
+          </Button>
+          <Button
+            className='editpanel__item'
+            variant='outline-success'
+            onClick={() => alert('TODO: generate 3D/2D model')}
+          >
+            Generate 3D/2D Model
+          </Button>
+        </div>
+        <div className='editpanel__container'>
+          <Form.Group controlId='keyLabel' className='editpanel__item'>
+            <Form.Label>Key Label</Form.Label>
+            <Form.Control type='text' name='key_label'
+              value={this.props.selectedKey}
+              onChange={this.props.onLabelChange}
+            />
+          </Form.Group>
+          <Form.Group controlId='width' className='editpanel__item'>
+            <Form.Label>Width</Form.Label>
+            <Form.Control as='select' name='key_width'
+              value={this.props.selectedAttrs?.w}
+              onChange={this.props.onSizeChange}
+            >
+              <option value='1'>1U</option>
+              <option value='1.25'>1.25U</option>
+              <option value='1.5'>1.5U</option>
+              <option value='1.75'>1.75U</option>
+              <option value='2'>2U</option>
+              <option value='2.5'>2.25U</option>
+              <option value='2.75'>2.75U</option>
+            </Form.Control>
+          </Form.Group>
+          <Form.Group controlId='height' className='editpanel__item'>
+            <Form.Label>Height</Form.Label>
+            <Form.Control as='select' name='key_height'
+              value={this.props.selectedAttrs?.h}
+              onChange={this.props.onSizeChange}
+            >
+              <option value='1'>1U</option>
+              <option value='2'>2U</option>
+            </Form.Control>
+          </Form.Group>
+        </div>
       </div>
     )
   }
