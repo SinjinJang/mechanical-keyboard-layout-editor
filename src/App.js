@@ -16,13 +16,13 @@ class KeySwitch extends React.Component {
       x: this.props.x * UNIT_1 + PLATE_PADDING,
       y: this.props.y * UNIT_1 + PLATE_PADDING,
     };
-    const style = {
-      width: (this.props.w * UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
-      height: (this.props.h * UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
-    };
     const bounds = {
       left: PLATE_PADDING,
       top: PLATE_PADDING,
+    };
+    const style = {
+      width: (this.props.w * UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
+      height: (this.props.h * UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
     };
     return (
       <Draggable
