@@ -247,13 +247,9 @@ class KeyPlate extends React.Component {
 
   render() {
     const MARGIN_PLATE = 30;
-    const styleInner = {
-      width: (this.state.width * UNIT_1),
-      height: (this.state.height * UNIT_1),
-    };
-    const styleOuter = {
-      width: styleInner.width + MARGIN_PLATE,
-      height: styleInner.height + MARGIN_PLATE,
+    const stylePlate = {
+      width: (this.state.width * UNIT_1) + MARGIN_PLATE,
+      height: (this.state.height * UNIT_1) + MARGIN_PLATE,
     };
     const { selectedKey, layout } = this.state;
 
@@ -283,10 +279,8 @@ class KeyPlate extends React.Component {
           onDownloadClick={() => this.handleDownloadClick()}
           onLayoutFileChange={(e) => this.handleLayoutFileChange(e)}
         />
-        <div className="key-plate-outer" style={styleOuter}>
-          <div className="key-plate-inner" style={styleInner}>
-            {keys}
-          </div>
+        <div className='key-plate' style={stylePlate}>
+          {keys}
         </div>
       </div>
     )

@@ -1,20 +1,18 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
-.key-plate-outer {
+.key-plate {
   border-radius: 10px;
   border: 1px solid #777;
-  position: relative;
-  top: 30px;
-  left: 30px;
-}
+  justify-content: center;
+  padding: 15px;
 
-.key-plate-inner {
-  /* 부모 DIV 기준 가로,세로 중앙 정렬 */
   position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .key-switch {
