@@ -122,7 +122,7 @@ class KeyPlate extends React.Component {
     };
     const defaultSize = this.resizePlate(defaultLayout);
     this.state = {
-      selectedKey: '',
+      selectedKey: null,
       layout: defaultLayout,
       ...defaultSize,
     };
@@ -146,6 +146,11 @@ class KeyPlate extends React.Component {
     const newLayout = { ...this.state.layout };
     const selectedKey = this.state.selectedKey;
 
+    // 예외 처리: 선택된 키가 없다면 입력 내용은 무시함.
+    if (selectedKey == null) {
+      return;
+    }
+
     // layout 객체에서 키 라벨을 변경하여 저장
     const attrs = newLayout[selectedKey];
     delete newLayout[selectedKey];
@@ -160,6 +165,11 @@ class KeyPlate extends React.Component {
   handleSizeChange(e) {
     const newLayout = { ...this.state.layout };
     const selectedKey = this.state.selectedKey;
+
+    // 예외 처리: 선택된 키가 없다면 입력 내용은 무시함.
+    if (selectedKey == null) {
+      return;
+    }
 
     // 넓이 또는 높이 크기 변경
     const attrs = newLayout[selectedKey];
