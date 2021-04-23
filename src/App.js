@@ -7,12 +7,14 @@ import Form from 'react-bootstrap/Form';
 // 기본 1U 스위치의 크기 정의 (px 단위)
 const UNIT_1 = 60;
 const UNIT_0_25 = UNIT_1 / 4;
+// 키 배치판 테두리 표시를 위한 여백
+const PLATE_PADDING = 15;
 
 class KeySwitch extends React.Component {
   render() {
     const position = {
-      x: this.props.x * UNIT_1,
-      y: this.props.y * UNIT_1,
+      x: this.props.x * UNIT_1 + PLATE_PADDING,
+      y: this.props.y * UNIT_1 + PLATE_PADDING,
     };
     const style = {
       width: (this.props.w * UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
@@ -246,10 +248,9 @@ class KeyPlate extends React.Component {
   };
 
   render() {
-    const MARGIN_PLATE = 30;
     const stylePlate = {
-      width: (this.state.width * UNIT_1) + MARGIN_PLATE,
-      height: (this.state.height * UNIT_1) + MARGIN_PLATE,
+      width: (this.state.width * UNIT_1) + PLATE_PADDING * 2,
+      height: (this.state.height * UNIT_1) + PLATE_PADDING * 2,
     };
     const { selectedKey, layout } = this.state;
 
