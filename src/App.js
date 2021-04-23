@@ -301,6 +301,7 @@ class KeyPlate extends React.Component {
 function App() {
   return (
     <div className="App">
+      <h1>Mechanical Keyboard Layout Editor</h1>
       <KeyPlate />
     </div>
   );
