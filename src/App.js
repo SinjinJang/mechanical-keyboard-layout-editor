@@ -20,11 +20,16 @@ class KeySwitch extends React.Component {
       width: (this.props.w * UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
       height: (this.props.h * UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
     };
+    const bounds = {
+      left: PLATE_PADDING,
+      top: PLATE_PADDING,
+    };
     return (
       <Draggable
         grid={[UNIT_0_25, UNIT_0_25]}
         onDrag={this.props.onDrag}
         position={position}
+        bounds={bounds}
       >
         <div
           className='key-switch'
