@@ -117,29 +117,14 @@ class KeyPlate extends React.Component {
   constructor(props) {
     super(props);
 
+    const defaultLayout = {
+      'New Key': { 'x': 0, 'y': 0, 'w': 1, 'h': 1 },
+    };
+    const defaultSize = this.resizePlate(defaultLayout);
     this.state = {
-      width: 2 + 1,
-      height: 5.25 + 1,
-      layout: {
-        'Print Screen': { 'x': 0, 'y': 0, 'w': 1, 'h': 1 },
-        'Scroll Lock': { 'x': 1, 'y': 0, 'w': 1, 'h': 1 },
-        'Pause': { 'x': 2, 'y': 0, 'w': 1, 'h': 1 },
-
-        'Insert': { 'x': 0, 'y': 1.25, 'w': 1, 'h': 1 },
-        'Home': { 'x': 1, 'y': 1.25, 'w': 1, 'h': 1 },
-        'Page Up': { 'x': 2, 'y': 1.25, 'w': 1, 'h': 1 },
-
-        'Delete': { 'x': 0, 'y': 2.25, 'w': 1, 'h': 1 },
-        'End': { 'x': 1, 'y': 2.25, 'w': 1, 'h': 1 },
-        'Page Down': { 'x': 2, 'y': 2.25, 'w': 1, 'h': 1 },
-
-        'Up': { 'x': 1, 'y': 4.25, 'w': 1, 'h': 1 },
-
-        'Left': { 'x': 0, 'y': 5.25, 'w': 1, 'h': 1 },
-        'Down': { 'x': 1, 'y': 5.25, 'w': 1, 'h': 1 },
-        'Right': { 'x': 2, 'y': 5.25, 'w': 1, 'h': 1 },
-      },
       selectedKey: '',
+      layout: defaultLayout,
+      ...defaultSize,
     };
   }
 
