@@ -55,15 +55,6 @@ class EditPanel extends React.Component {
               onChange={this.props.onLayoutFileChange}
             />
           </Form.Group>
-        </div>
-        <div className='editpanel__container'>
-        <Button
-            className='editpanel__item'
-            variant='outline-primary'
-            onClick={this.props.onAddSwitchClick}
-          >
-            Add Switch
-          </Button>
           <Button
             className='editpanel__item'
             variant='outline-secondary'
@@ -113,6 +104,13 @@ class EditPanel extends React.Component {
               <option value='2'>2U</option>
             </Form.Control>
           </Form.Group>
+          <Button
+            className='editpanel__item'
+            variant='outline-primary'
+            onClick={this.props.onAddSwitchClick}
+          >
+            Add Switch
+          </Button>
         </div>
       </div>
     )
