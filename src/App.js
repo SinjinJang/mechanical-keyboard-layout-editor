@@ -4,6 +4,10 @@ import Draggable from 'react-draggable';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
+import plus_icon from './images/add_circle_outline_black_24dp.svg';
+import minus_icon from './images/remove_circle_outline_black_24dp.svg';
+
+
 // 기본 1U 스위치의 크기 정의 (px 단위)
 const UNIT_1 = 60;
 const UNIT_0_25 = UNIT_1 / 4;
@@ -106,10 +110,21 @@ class EditPanel extends React.Component {
           </Form.Group>
           <Button
             className='editpanel__item'
-            variant='outline-primary'
-            onClick={this.props.onAddSwitchClick}
+            variant='outline-light'
           >
-            Add Switch
+            <img
+              src={plus_icon}
+              className='editpanel__imageicon'
+              onClick={this.props.onAddSwitchClick} />
+          </Button>
+          <Button
+            className='editpanel__item'
+            variant='outline-light'
+          >
+            <img
+              src={minus_icon}
+              className='editpanel__imageicon'
+              onClick={this.props.onAddSwitchClick} />
           </Button>
         </div>
       </div>
