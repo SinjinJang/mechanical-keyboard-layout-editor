@@ -120,8 +120,7 @@ class EditPanel extends React.Component {
           >
             <img
               src='/images/remove_circle_outline_black_24dp.svg'
-              className='editpanel__imageicon'
-              onClick={this.props.onAddSwitchClick} />
+              className='editpanel__imageicon' />
           </Button>
         </div>
       </div>
