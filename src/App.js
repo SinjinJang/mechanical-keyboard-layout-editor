@@ -110,8 +110,9 @@ class EditPanel extends React.Component {
             variant='outline-light'
           >
             <img
-              src='/images/add_circle_outline_black_24dp.svg'
               className='editpanel__imageicon'
+              alt='Add New Switch'
+              src='/images/add_circle_outline_black_24dp.svg'
               onClick={this.props.onAddSwitchClick} />
           </Button>
           <Button
@@ -119,8 +120,10 @@ class EditPanel extends React.Component {
             variant='outline-light'
           >
             <img
+              className='editpanel__imageicon'
+              alt='Remove Selected Switch'
               src='/images/remove_circle_outline_black_24dp.svg'
-              className='editpanel__imageicon' />
+            />
           </Button>
         </div>
       </div>
