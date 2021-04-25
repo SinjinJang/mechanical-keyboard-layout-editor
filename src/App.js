@@ -16,18 +16,19 @@ const PLATE_PADDING = 15;
 
 class KeySwitch extends React.Component {
   render() {
+    const { label, x, y, w, h, isSelected } = this.props;
     const position = {
-      x: this.props.x * UNIT_1 + PLATE_PADDING,
-      y: this.props.y * UNIT_1 + PLATE_PADDING,
+      x: x * UNIT_1 + PLATE_PADDING,
+      y: y * UNIT_1 + PLATE_PADDING,
     };
     const bounds = {
       left: PLATE_PADDING,
       top: PLATE_PADDING,
     };
     const style = {
-      width: (this.props.w * UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
-      height: (this.props.h * UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
-      fontWeight: this.props.isSelected ? 'bold' : 'normal',
+      width: (w * UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
+      height: (h * UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
+      fontWeight: isSelected ? 'bold' : 'normal',
     };
     return (
       <Draggable
@@ -41,7 +42,7 @@ class KeySwitch extends React.Component {
           style={style}
           onClick={this.props.onClick}
         >
-          {this.props.label}
+          {label}
         </div>
       </Draggable>
     )
