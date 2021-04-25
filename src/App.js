@@ -27,6 +27,7 @@ class KeySwitch extends React.Component {
     const style = {
       width: (this.props.w * UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
       height: (this.props.h * UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
+      fontWeight: this.props.isSelected ? 'bold' : 'normal',
     };
     return (
       <Draggable
@@ -283,6 +284,7 @@ class KeyPlate extends React.Component {
           label={keyLabel}
           x={attrs.x} y={attrs.y}
           w={attrs.w} h={attrs.h}
+          isSelected={keyLabel === selectedKey}
           onDrag={(e, ui) => this.handleSwitchDrag(e, ui)}
           onClick={(e) => this.handleSwitchClick(keyLabel)}
         />
