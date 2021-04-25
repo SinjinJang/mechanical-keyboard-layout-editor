@@ -128,7 +128,7 @@ class EditPanel extends React.Component {
               className='editpanel__imageicon'
               alt='Remove Selected Switch'
               src={minus_icon}
-            />
+              onClick={this.props.onRemoveSwitchClick} />
           </Button>
         </div>
       </div>
@@ -156,14 +156,26 @@ class KeyPlate extends React.Component {
     const newLayout = { ...this.state.layout };
     const newKeyLabel = 'Key ' + Object.keys(newLayout).length;
     newLayout[newKeyLabel] = {
-      'x': this.state.width,
-      'y': this.state.height - 1,
+      'x': this.state.width,  // right end 배치
+      'y': Math.max(this.state.height - 1, 0),  // bottom align 배치
       'w': 1,
       'h': 1,
     };
 
     const newSize = this.resizePlate(newLayout);
     this.setState({ layout: newLayout, ...newSize });
+  }
+
+  handleRemoveSwitch() {
+    const newLayout = { ...this.state.layout };
+    delete newLayout[this.state.selectedKey];
+    const newSize = this.resizePlate(newLayout);
+    this.setState({
+      selectedKey: null,
+      selectedAttrs: null,
+      layout: newLayout,
+      ...newSize,
+    });
   }
 
   handleLabelChange(e) {
@@ -257,8 +269,8 @@ class KeyPlate extends React.Component {
 
   // 스위치 판의 넓이 및 높이를 다시 계산한다.
   resizePlate(newLayout) {
-    let newWidth = -1;
-    let newHeight = -1;
+    let newWidth = 0;
+    let newHeight = 0;
     for (const [_, val] of Object.entries(newLayout)) {
       const end = val.x + val.w;
       newWidth = (end > newWidth) ? end : newWidth;
@@ -298,6 +310,7 @@ class KeyPlate extends React.Component {
           selectedKey={selectedKey}
           selectedAttrs={layout[selectedKey]}
           onAddSwitchClick={() => this.handleAddSwitch()}
+          onRemoveSwitchClick={() => this.handleRemoveSwitch()}
           onSizeChange={(e) => this.handleSizeChange(e)}
           onLabelChange={(e) => this.handleLabelChange(e)}
           onDownloadClick={() => this.handleDownloadClick()}
