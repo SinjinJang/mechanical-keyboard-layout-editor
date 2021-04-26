@@ -152,10 +152,24 @@ class KeyPlate extends React.Component {
     };
   }
 
+  /**
+   * 새로 추가할 중복되지 않은 이름의 키 라벨을 생성해준다.
+   * 
+   * @returns 신규 추가될 키 라벨
+   */
+  newKeyLabel() {
+    const { layout } = this.state;
+    let seq = Object.keys(layout).length;
+    let label;
+    do {
+      label = 'Key ' + (seq++);
+    } while(label in layout);
+    return label;
+  }
+
   handleAddSwitch() {
     const newLayout = { ...this.state.layout };
-    const newKeyLabel = 'Key ' + Object.keys(newLayout).length;
-    newLayout[newKeyLabel] = {
+    newLayout[this.newKeyLabel()] = {
       'x': this.state.width,  // right end 배치
       'y': Math.max(this.state.height - 1, 0),  // bottom align 배치
       'w': 1,
