@@ -1,53 +1,15 @@
 import './App.css';
 import React from 'react';
-import Draggable from 'react-draggable';
+
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+
+import * as global from './global';
+import KeySwitch from './components/KeySwitch';
 
 import plus_icon from './images/add_circle_outline_black_24dp.svg';
 import minus_icon from './images/remove_circle_outline_black_24dp.svg';
 
-
-// 기본 1U 스위치의 크기 정의 (px 단위)
-const UNIT_1 = 60;
-const UNIT_0_25 = UNIT_1 / 4;
-// 키 배치판 테두리 표시를 위한 여백
-const PLATE_PADDING = 15;
-
-class KeySwitch extends React.Component {
-  render() {
-    const { label, x, y, w, h, isSelected } = this.props;
-    const position = {
-      x: x * UNIT_1 + PLATE_PADDING,
-      y: y * UNIT_1 + PLATE_PADDING,
-    };
-    const bounds = {
-      left: PLATE_PADDING,
-      top: PLATE_PADDING,
-    };
-    const style = {
-      width: (w * UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
-      height: (h * UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
-      fontWeight: isSelected ? 'bold' : 'normal',
-    };
-    return (
-      <Draggable
-        grid={[UNIT_0_25, UNIT_0_25]}
-        onDrag={this.props.onDrag}
-        position={position}
-        bounds={bounds}
-      >
-        <div
-          className='key-switch'
-          style={style}
-          onClick={this.props.onClick}
-        >
-          {label}
-        </div>
-      </Draggable>
-    )
-  }
-}
 
 class EditPanel extends React.Component {
   render() {
@@ -163,7 +125,7 @@ class KeyPlate extends React.Component {
     let label;
     do {
       label = 'Key ' + (seq++);
-    } while(label in layout);
+    } while (label in layout);
     return label;
   }
 
@@ -245,8 +207,8 @@ class KeyPlate extends React.Component {
     const keyLabel = ui.node.textContent;
     const newLayout = { ...this.state.layout };
     const keyObj = newLayout[keyLabel];
-    keyObj.x += (ui.deltaX / UNIT_1);
-    keyObj.y += (ui.deltaY / UNIT_1);
+    keyObj.x += (ui.deltaX / global.UNIT_1);
+    keyObj.y += (ui.deltaY / global.UNIT_1);
 
     const newSize = this.resizePlate(newLayout);
     this.setState({ layout: newLayout, ...newSize });
@@ -297,8 +259,8 @@ class KeyPlate extends React.Component {
 
   render() {
     const stylePlate = {
-      width: (this.state.width * UNIT_1) + PLATE_PADDING * 2,
-      height: (this.state.height * UNIT_1) + PLATE_PADDING * 2,
+      width: (this.state.width * global.UNIT_1) + global.PLATE_PADDING * 2,
+      height: (this.state.height * global.UNIT_1) + global.PLATE_PADDING * 2,
     };
     const { selectedKey, layout } = this.state;
 
