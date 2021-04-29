@@ -4,7 +4,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import * as global from './global';
+import * as LayoutUtil from './utils/LayoutUtil';
 import KeySwitch from './components/KeySwitch';
 
 import plus_icon from './images/add_circle_outline_black_24dp.svg';
@@ -207,8 +207,8 @@ class KeyPlate extends React.Component {
     const keyLabel = ui.node.textContent;
     const newLayout = { ...this.state.layout };
     const keyObj = newLayout[keyLabel];
-    keyObj.x += (ui.deltaX / global.UNIT_1);
-    keyObj.y += (ui.deltaY / global.UNIT_1);
+    keyObj.x += (ui.deltaX / LayoutUtil.UNIT_1);
+    keyObj.y += (ui.deltaY / LayoutUtil.UNIT_1);
 
     const newSize = this.resizePlate(newLayout);
     this.setState({ layout: newLayout, ...newSize });
@@ -258,11 +258,8 @@ class KeyPlate extends React.Component {
   };
 
   render() {
-    const stylePlate = {
-      width: (this.state.width * global.UNIT_1) + global.PLATE_PADDING * 2,
-      height: (this.state.height * global.UNIT_1) + global.PLATE_PADDING * 2,
-    };
-    const { selectedKey, layout } = this.state;
+    const { selectedKey, layout, width, height } = this.state;
+    const stylePlate = { ...LayoutUtil.plateSize(width, height) };
 
     // 키 스위치 구성
     const keys = []

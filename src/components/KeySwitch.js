@@ -1,33 +1,30 @@
 import React from 'react';
 import Draggable from 'react-draggable';
 
-import * as global from '../global';
+import * as LayoutUtil from '../utils/LayoutUtil';
 import './KeySwitch.css';
 
 
 class KeySwitch extends React.Component {
-  render() {
+  constructor(props) {
+    super(props);
+    this.bounds = { ...LayoutUtil.keyPosition(0, 0) };
+  }
 
+  render() {
     const { label, x, y, w, h, isSelected } = this.props;
-    const position = {
-      x: x * global.UNIT_1 + global.PLATE_PADDING,
-      y: y * global.UNIT_1 + global.PLATE_PADDING,
-    };
-    const bounds = {
-      left: global.PLATE_PADDING,
-      top: global.PLATE_PADDING,
-    };
+    const position = { ...LayoutUtil.keyPosition(x, y) };
+
     const style = {
-      width: (w * global.UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
-      height: (h * global.UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
+      ...LayoutUtil.keySize(w, h),
       fontWeight: isSelected ? 'bold' : 'normal',
     };
     return (
       <Draggable
-        grid={[global.UNIT_0_25, global.UNIT_0_25]}
+        grid={[LayoutUtil.UNIT_0_25, LayoutUtil.UNIT_0_25]}
         onDrag={this.props.onDrag}
         position={position}
-        bounds={bounds}
+        bounds={this.bounds}
       >
         <div
           className='key-switch'
