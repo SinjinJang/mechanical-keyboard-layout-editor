@@ -1,5 +1,6 @@
 import './App.css';
 import React from 'react';
+import { useState } from '@hookstate/core';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -99,203 +100,155 @@ class EditPanel extends React.Component {
   }
 }
 
-class KeyPlate extends React.Component {
 
-  constructor(props) {
-    super(props);
+// /**
+//  * 새로 추가할 중복되지 않은 이름의 키 라벨을 생성해준다.
+//  * 
+//  * @returns 신규 추가될 키 라벨
+//  */
+// newKeyLabel() {
+//   const { layout } = this.state;
+//   let seq = Object.keys(layout).length;
+//   let label;
+//   do {
+//     label = 'Key ' + (seq++);
+//   } while (label in layout);
+//   return label;
+// }
 
-    const defaultLayout = {
-      'New Key': { 'x': 0, 'y': 0, 'w': 1, 'h': 1 },
-    };
-    const defaultSize = this.resizePlate(defaultLayout);
-    this.state = {
-      selectedKey: null,
-      layout: defaultLayout,
-      ...defaultSize,
-    };
-  }
+// handleAddSwitch() {
+//   const newLayout = { ...this.state.layout };
+//   newLayout[this.newKeyLabel()] = {
+//     'x': this.state.width,  // right end 배치
+//     'y': Math.max(this.state.height - 1, 0),  // bottom align 배치
+//     'w': 1,
+//     'h': 1,
+//   };
 
-  /**
-   * 새로 추가할 중복되지 않은 이름의 키 라벨을 생성해준다.
-   * 
-   * @returns 신규 추가될 키 라벨
-   */
-  newKeyLabel() {
-    const { layout } = this.state;
-    let seq = Object.keys(layout).length;
-    let label;
-    do {
-      label = 'Key ' + (seq++);
-    } while (label in layout);
-    return label;
-  }
+//   const newSize = this.resizePlate(newLayout);
+//   this.setState({ layout: newLayout, ...newSize });
+// }
 
-  handleAddSwitch() {
-    const newLayout = { ...this.state.layout };
-    newLayout[this.newKeyLabel()] = {
-      'x': this.state.width,  // right end 배치
-      'y': Math.max(this.state.height - 1, 0),  // bottom align 배치
-      'w': 1,
-      'h': 1,
-    };
+// handleRemoveSwitch() {
+//   const newLayout = { ...this.state.layout };
+//   delete newLayout[this.state.selectedKey];
+//   const newSize = this.resizePlate(newLayout);
+//   this.setState({
+//     selectedKey: null,
+//     selectedAttrs: null,
+//     layout: newLayout,
+//     ...newSize,
+//   });
+// }
 
-    const newSize = this.resizePlate(newLayout);
-    this.setState({ layout: newLayout, ...newSize });
-  }
+// handleLabelChange(e) {
+//   const newLayout = { ...this.state.layout };
+//   const selectedKey = this.state.selectedKey;
 
-  handleRemoveSwitch() {
-    const newLayout = { ...this.state.layout };
-    delete newLayout[this.state.selectedKey];
-    const newSize = this.resizePlate(newLayout);
-    this.setState({
-      selectedKey: null,
-      selectedAttrs: null,
-      layout: newLayout,
-      ...newSize,
-    });
-  }
+//   // 예외 처리: 선택된 키가 없다면 입력 내용은 무시함.
+//   if (selectedKey == null) {
+//     return;
+//   }
 
-  handleLabelChange(e) {
-    const newLayout = { ...this.state.layout };
-    const selectedKey = this.state.selectedKey;
+//   // layout 객체에서 키 라벨을 변경하여 저장
+//   const attrs = newLayout[selectedKey];
+//   delete newLayout[selectedKey];
+//   newLayout[e.target.value] = attrs;
 
-    // 예외 처리: 선택된 키가 없다면 입력 내용은 무시함.
-    if (selectedKey == null) {
-      return;
-    }
+//   this.setState({
+//     layout: newLayout,
+//     selectedKey: e.target.value,
+//   });
+// }
 
-    // layout 객체에서 키 라벨을 변경하여 저장
-    const attrs = newLayout[selectedKey];
-    delete newLayout[selectedKey];
-    newLayout[e.target.value] = attrs;
+// handleSizeChange(e) {
+//   const newLayout = { ...this.state.layout };
+//   const selectedKey = this.state.selectedKey;
 
-    this.setState({
-      layout: newLayout,
-      selectedKey: e.target.value,
-    });
-  }
+//   // 예외 처리: 선택된 키가 없다면 입력 내용은 무시함.
+//   if (selectedKey == null) {
+//     return;
+//   }
 
-  handleSizeChange(e) {
-    const newLayout = { ...this.state.layout };
-    const selectedKey = this.state.selectedKey;
+//   // 넓이 또는 높이 크기 변경
+//   const attrs = newLayout[selectedKey];
+//   const newValue = Number(e.target.value);
+//   if (e.target.id === 'width') {
+//     attrs.w = newValue;
+//   } else if (e.target.id === 'height') {
+//     attrs.h = newValue;
+//   } else {
+//     console.log('>>>>> undefined id: ' + e.target.id);
+//     return;
+//   }
 
-    // 예외 처리: 선택된 키가 없다면 입력 내용은 무시함.
-    if (selectedKey == null) {
-      return;
-    }
+//   const newSize = this.resizePlate(newLayout);
+//   this.setState({
+//     ...newSize,
+//     layout: newLayout,
+//   });
+// }
 
-    // 넓이 또는 높이 크기 변경
-    const attrs = newLayout[selectedKey];
-    const newValue = Number(e.target.value);
-    if (e.target.id === 'width') {
-      attrs.w = newValue;
-    } else if (e.target.id === 'height') {
-      attrs.h = newValue;
-    } else {
-      console.log('>>>>> undefined id: ' + e.target.id);
-      return;
-    }
 
-    const newSize = this.resizePlate(newLayout);
-    this.setState({
-      ...newSize,
-      layout: newLayout,
-    });
-  }
+// handleSwitchClick(keyLabel) {
+//   this.setState({ selectedKey: keyLabel });
+// }
 
-  handleSwitchDrag(e, ui) {
-    // 키 스위치의 좌표 값을 갱신
-    const keyLabel = ui.node.textContent;
-    const newLayout = { ...this.state.layout };
-    const keyObj = newLayout[keyLabel];
-    keyObj.x += (ui.deltaX / LayoutUtil.UNIT_1);
-    keyObj.y += (ui.deltaY / LayoutUtil.UNIT_1);
+// handleDownloadClick() {
+//   return JSON.stringify(this.state.layout);
+// }
 
-    const newSize = this.resizePlate(newLayout);
-    this.setState({ layout: newLayout, ...newSize });
-  };
+// handleLayoutFileChange(e) {
+//   const reader = new FileReader();
+//   reader.readAsBinaryString(e.target.files[0]);
+//   reader.onloadend = () => {
+//     const layoutObj = JSON.parse(reader.result);
 
-  handleSwitchClick(keyLabel) {
-    this.setState({ selectedKey: keyLabel });
-  }
+//     // 불러온 layout 파일에서 키의 width, height 속성이 없을 경우 1로 설정
+//     Object.entries(layoutObj.layout).map(([_, v]) => {
+//       v.w = ('w' in v) ? v.w : 1;
+//       v.h = ('h' in v) ? v.h : 1;
+//     });
 
-  handleDownloadClick() {
-    return JSON.stringify(this.state.layout);
-  }
+//     this.setState({
+//       width: layoutObj.width,
+//       height: layoutObj.height,
+//       layout: layoutObj.layout,
+//       selectedKey: '',
+//     });
+//   }
+// }
 
-  handleLayoutFileChange(e) {
-    const reader = new FileReader();
-    reader.readAsBinaryString(e.target.files[0]);
-    reader.onloadend = () => {
-      const layoutObj = JSON.parse(reader.result);
+function KeyPlate() {
+  const layoutState = useState([
+    { label: 'Key 1', w: 1, h: 1, x: 0, y: 0 },
+  ]);
 
-      // 불러온 layout 파일에서 키의 width, height 속성이 없을 경우 1로 설정
-      Object.entries(layoutObj.layout).map(([_, v]) => {
-        v.w = ('w' in v) ? v.w : 1;
-        v.h = ('h' in v) ? v.h : 1;
-      });
-
-      this.setState({
-        width: layoutObj.width,
-        height: layoutObj.height,
-        layout: layoutObj.layout,
-        selectedKey: '',
-      });
-    }
-  }
-
-  // 스위치 판의 넓이 및 높이를 다시 계산한다.
-  resizePlate(newLayout) {
-    let newWidth = 0;
-    let newHeight = 0;
-    for (const [_, val] of Object.entries(newLayout)) {
-      const end = val.x + val.w;
-      newWidth = (end > newWidth) ? end : newWidth;
-      const bottom = val.y + val.h;
-      newHeight = (bottom > newHeight) ? bottom : newHeight;
-    }
-
-    return { width: newWidth, height: newHeight };
-  };
-
-  render() {
-    const { selectedKey, layout, width, height } = this.state;
-    const stylePlate = { ...LayoutUtil.plateSize(width, height) };
-
-    // 키 스위치 구성
-    const keys = []
-    for (const [keyLabel, attrs] of Object.entries(layout)) {
-      keys.push(
-        <KeySwitch
-          key={keyLabel}
-          label={keyLabel}
-          x={attrs.x} y={attrs.y}
-          w={attrs.w} h={attrs.h}
-          isSelected={keyLabel === selectedKey}
-          onDrag={(e, ui) => this.handleSwitchDrag(e, ui)}
-          onClick={(e) => this.handleSwitchClick(keyLabel)}
-        />
-      )
-    }
-
-    return (
-      <div>
-        <EditPanel
-          selectedKey={selectedKey}
-          selectedAttrs={layout[selectedKey]}
-          onAddSwitchClick={() => this.handleAddSwitch()}
-          onRemoveSwitchClick={() => this.handleRemoveSwitch()}
-          onSizeChange={(e) => this.handleSizeChange(e)}
-          onLabelChange={(e) => this.handleLabelChange(e)}
-          onDownloadClick={() => this.handleDownloadClick()}
-          onLayoutFileChange={(e) => this.handleLayoutFileChange(e)}
-        />
-        <div className='key-plate' style={stylePlate}>
-          {keys}
-        </div>
+  return (
+    <div>
+      {/*
+      <EditPanel
+        selectedKey={selectedKey}
+        selectedAttrs={layout[selectedKey]}
+        onAddSwitchClick={() => this.handleAddSwitch()}
+        onRemoveSwitchClick={() => this.handleRemoveSwitch()}
+        onSizeChange={(e) => this.handleSizeChange(e)}
+        onLabelChange={(e) => this.handleLabelChange(e)}
+        onDownloadClick={() => this.handleDownloadClick()}
+        onLayoutFileChange={(e) => this.handleLayoutFileChange(e)}
+      /> */}
+      <div
+        className='key-plate'
+        style={LayoutUtil.plateSize(layoutState.get())}>
+        {layoutState.map(keyState =>
+          <KeySwitch
+            key={keyState.label.get()}
+            keyState={keyState}
+          />
+        )}
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 function App() {

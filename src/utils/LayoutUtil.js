@@ -16,9 +16,18 @@ export function keySize(w, h) {
   };
 }
 
-export function plateSize(w, h) {
+export function plateSize(newLayout) {
+  let newWidth = 0;
+  let newHeight = 0;
+  for (const val of newLayout) {
+    const end = val.x + val.w;
+    newWidth = (end > newWidth) ? end : newWidth;
+    const bottom = val.y + val.h;
+    newHeight = (bottom > newHeight) ? bottom : newHeight;
+  }
+
   return {
-    width: (w * UNIT_1) + PLATE_PADDING * 2,
-    height: (h * UNIT_1) + PLATE_PADDING * 2,
+    width: (newWidth * UNIT_1) + PLATE_PADDING * 2,
+    height: (newHeight * UNIT_1) + PLATE_PADDING * 2,
   };
 }

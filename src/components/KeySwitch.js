@@ -5,37 +5,30 @@ import * as LayoutUtil from '../utils/LayoutUtil';
 import './KeySwitch.css';
 
 
-class KeySwitch extends React.Component {
-  constructor(props) {
-    super(props);
-    this.bounds = { ...LayoutUtil.keyPosition(0, 0) };
+const DRAGGABLE_BOUNDS = LayoutUtil.keyPosition(0, 0);
+
+function KeySwitch(props) {
+  const { label, x, y, w, h } = props.keyState;
+  const handleDrag = (e, ui) => {
+    x.set(p => p + (ui.deltaX / LayoutUtil.UNIT_1));
+    y.set(p => p + (ui.deltaY / LayoutUtil.UNIT_1));
   }
-
-  render() {
-    const { label, x, y, w, h, isSelected } = this.props;
-    const position = { ...LayoutUtil.keyPosition(x, y) };
-
-    const style = {
-      ...LayoutUtil.keySize(w, h),
-      fontWeight: isSelected ? 'bold' : 'normal',
-    };
-    return (
-      <Draggable
-        grid={[LayoutUtil.UNIT_0_25, LayoutUtil.UNIT_0_25]}
-        onDrag={this.props.onDrag}
-        position={position}
-        bounds={this.bounds}
+  return (
+    <Draggable
+      grid={[LayoutUtil.UNIT_0_25, LayoutUtil.UNIT_0_25]}
+      position={LayoutUtil.keyPosition(x.get(), y.get())}
+      bounds={DRAGGABLE_BOUNDS}
+      onDrag={handleDrag}
+    >
+      <div
+        className='key-switch'
+        style={LayoutUtil.keySize(w.get(), h.get())}
+      // onClick={this.props.onClick}
       >
-        <div
-          className='key-switch'
-          style={style}
-          onClick={this.props.onClick}
-        >
-          {label}
-        </div>
-      </Draggable>
-    )
-  }
+        {label.get()}
+      </div>
+    </Draggable>
+  )
 }
 
 export default KeySwitch;
