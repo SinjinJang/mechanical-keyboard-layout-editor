@@ -12,7 +12,8 @@ function Footer() {
         <a href='https://github.com/SinjinJang/mechanical-keyboard-layout-editor' target='_blank'>mechanical-keyboard-layout-editor on GitHub</a>
       </div>
       <div className='footer__item'>
-        <a href='https://donaricano.com/mypage/1722367584_zHWZl2' target='_blank'>도네리카노 커피 후원</a>
+        <a href='https://donaricano.com/mypage/1722367584_zHWZl2' target='_blank'>도네리카노 커피 후원</a><br />
+        <a href='https://www.buymeacoffee.com/sinjin0' target='_blank'>Buy Me a Coffee</a>
       </div>
     </div>
   );
