@@ -4,6 +4,7 @@
   "homepage": "https://SinjinJang.github.io/mechanical-keyboard-layout-editor",
   "private": true,
   "dependencies": {
+    "@hookstate/core": "^3.0.7",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.1",
