@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 
 import * as LayoutUtil from './utils/LayoutUtil';
 import KeySwitch from './components/KeySwitch';
+import Footer from './components/Footer';
 
 import plus_icon from './images/add_circle_outline_black_24dp.svg';
 import minus_icon from './images/remove_circle_outline_black_24dp.svg';
@@ -302,6 +303,7 @@ function App() {
     <div className="App">
       <h1>Mechanical Keyboard Layout Editor</h1>
       <KeyPlate />
+      <Footer />
     </div>
   );
 }
