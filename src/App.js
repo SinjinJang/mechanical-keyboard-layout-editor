@@ -223,6 +223,7 @@ function KeyPlate() {
   const layoutState = useState([
     { label: 'Key 1', w: 1, h: 1, x: 0, y: 0 },
   ]);
+  const selectedState = useState('');
 
   return (
     <div>
@@ -244,6 +245,7 @@ function KeyPlate() {
           <KeySwitch
             key={keyState.label.get()}
             keyState={keyState}
+            selectedState={selectedState}
           />
         )}
       </div>

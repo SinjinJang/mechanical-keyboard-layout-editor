@@ -9,9 +9,15 @@ const DRAGGABLE_BOUNDS = LayoutUtil.keyPosition(0, 0);
 
 function KeySwitch(props) {
   const { label, x, y, w, h } = props.keyState;
+  const selectedState = props.selectedState;
+
+  const selectedClassName = selectedState.get() == label.get() ? 'key-switch-selected' : '';
   const handleDrag = (e, ui) => {
     x.set(p => p + (ui.deltaX / LayoutUtil.UNIT_1));
     y.set(p => p + (ui.deltaY / LayoutUtil.UNIT_1));
+  }
+  const handleClick = () => {
+    selectedState.set(label.get());
   }
   return (
     <Draggable
@@ -21,9 +27,9 @@ function KeySwitch(props) {
       onDrag={handleDrag}
     >
       <div
-        className='key-switch'
+        className={`key-switch ${selectedClassName}`}
         style={LayoutUtil.keySize(w.get(), h.get())}
-      // onClick={this.props.onClick}
+        onClick={handleClick}
       >
         {label.get()}
       </div>
