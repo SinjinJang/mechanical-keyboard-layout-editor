@@ -31,6 +31,13 @@ function EditPanel(props) {
     }
   };
 
+  const handleDownloadClick = () => {
+    return 'data:text/json; charset=utf-8,' + JSON.stringify({
+      ...LayoutUtil.plateSize(props.layoutState.get(), true),
+      layout: props.layoutState.get()
+    });
+  };
+
   return (
     <div>
       <div className='editpanel__container'>
@@ -41,15 +48,15 @@ function EditPanel(props) {
             onChange={handleLayoutFileChange}
           />
         </Form.Group>
-        {/* <Button
+        <Button
           className='editpanel__item'
           variant='outline-secondary'
           download='layout.json'
-          href={`data:text/json; charset=utf-8,${this.props.onDownloadClick()}`}
+          href={handleDownloadClick()}
         >
           Download Layout
-          </Button>
-        <Button
+        </Button>
+        {/*<Button
           className='editpanel__item'
           variant='outline-success'
           onClick={() => alert('TODO: generate 3D/2D model')}
@@ -209,31 +216,6 @@ function EditPanel(props) {
 //   this.setState({ selectedKey: keyLabel });
 // }
 
-// handleDownloadClick() {
-//   return JSON.stringify(this.state.layout);
-// }
-
-// handleLayoutFileChange(e) {
-//   const reader = new FileReader();
-//   reader.readAsBinaryString(e.target.files[0]);
-//   reader.onloadend = () => {
-//     const layoutObj = JSON.parse(reader.result);
-
-//     // 불러온 layout 파일에서 키의 width, height 속성이 없을 경우 1로 설정
-//     Object.entries(layoutObj.layout).map(([_, v]) => {
-//       v.w = ('w' in v) ? v.w : 1;
-//       v.h = ('h' in v) ? v.h : 1;
-//     });
-
-//     this.setState({
-//       width: layoutObj.width,
-//       height: layoutObj.height,
-//       layout: layoutObj.layout,
-//       selectedKey: '',
-//     });
-//   }
-// }
-
 function KeyPlate() {
   const layoutState = useState([
     { label: 'Key 1', w: 1, h: 1, x: 0, y: 0 },
@@ -245,12 +227,10 @@ function KeyPlate() {
       <EditPanel
         layoutState={layoutState}
         selectedState={selectedState}
-        // onAddSwitchClick={() => this.handleAddSwitch()}
-        // onRemoveSwitchClick={() => this.handleRemoveSwitch()}
-        // onSizeChange={(e) => this.handleSizeChange(e)}
-        // onLabelChange={(e) => this.handleLabelChange(e)}
-        // onDownloadClick={() => this.handleDownloadClick()}
-        // onLayoutFileChange={(e) => this.handleLayoutFileChange(e)}
+      // onAddSwitchClick={() => this.handleAddSwitch()}
+      // onRemoveSwitchClick={() => this.handleRemoveSwitch()}
+      // onSizeChange={(e) => this.handleSizeChange(e)}
+      // onLabelChange={(e) => this.handleLabelChange(e)}
       />
       <div
         className='key-plate'
