@@ -17,7 +17,8 @@ function KeySwitch(props) {
     y.set(p => p + (ui.deltaY / LayoutUtil.UNIT_1));
   }
   const handleClick = () => {
-    selectedState.set(props.key);
+    // 키 스위치 클릭 시 선택 및 해제하도록 변경
+    selectedState.set(p => (p === props.key) ? -1 : props.key);
   }
   return (
     <Draggable
