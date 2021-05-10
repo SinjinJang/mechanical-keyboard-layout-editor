@@ -46,7 +46,7 @@ function EditPanel(props) {
     }
 
     layoutState[selectedState.get()].label.set(e.target.value);
-  }
+  };
 
   const handleSizeChange = (e) => {
     // 예외 처리: 선택된 키가 없다면 입력 내용은 무시함.
@@ -64,7 +64,18 @@ function EditPanel(props) {
       console.log('>>>>> undefined id: ' + e.target.id);
       return;
     }
-  }
+  };
+
+  const handleAddSwitch = () => {
+    const { width, height } = LayoutUtil.plateSize(layoutState.get(), true);
+    layoutState.merge([{
+      'label': 'New Key',
+      'x': width,  // right end 배치
+      'y': Math.max(height - 1, 0),  // bottom align 배치
+      'w': 1,
+      'h': 1,
+    }]);
+  };
 
   return (
     <div>
@@ -125,7 +136,6 @@ function EditPanel(props) {
             <option value='2'>2U</option>
           </Form.Control>
         </Form.Group>
-        {/*
         <Button
           className='editpanel__item'
           variant='outline-light'
@@ -134,8 +144,9 @@ function EditPanel(props) {
             className='editpanel__imageicon'
             alt='Add New Switch'
             src={plus_icon}
-            onClick={this.props.onAddSwitchClick} />
+            onClick={handleAddSwitch} />
         </Button>
+        {/*
         <Button
           className='editpanel__item'
           variant='outline-light'
@@ -151,35 +162,6 @@ function EditPanel(props) {
   )
 }
 
-
-// /**
-//  * 새로 추가할 중복되지 않은 이름의 키 라벨을 생성해준다.
-//  * 
-//  * @returns 신규 추가될 키 라벨
-//  */
-// newKeyLabel() {
-//   const { layout } = this.state;
-//   let seq = Object.keys(layout).length;
-//   let label;
-//   do {
-//     label = 'Key ' + (seq++);
-//   } while (label in layout);
-//   return label;
-// }
-
-// handleAddSwitch() {
-//   const newLayout = { ...this.state.layout };
-//   newLayout[this.newKeyLabel()] = {
-//     'x': this.state.width,  // right end 배치
-//     'y': Math.max(this.state.height - 1, 0),  // bottom align 배치
-//     'w': 1,
-//     'h': 1,
-//   };
-
-//   const newSize = this.resizePlate(newLayout);
-//   this.setState({ layout: newLayout, ...newSize });
-// }
-
 // handleRemoveSwitch() {
 //   const newLayout = { ...this.state.layout };
 //   delete newLayout[this.state.selectedKey];
@@ -193,14 +175,6 @@ function EditPanel(props) {
 // }
 
 
-
-
-
-
-// handleSwitchClick(keyLabel) {
-//   this.setState({ selectedKey: keyLabel });
-// }
-
 function KeyPlate() {
   const layoutState = useState([
     { label: 'Key 1', w: 1, h: 1, x: 0, y: 0 },
@@ -212,7 +186,6 @@ function KeyPlate() {
       <EditPanel
         layoutState={layoutState}
         selectedState={selectedState}
-      // onAddSwitchClick={() => this.handleAddSwitch()}
       // onRemoveSwitchClick={() => this.handleRemoveSwitch()}
       />
       <div
