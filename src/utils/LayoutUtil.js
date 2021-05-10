@@ -16,7 +16,7 @@ export function keySize(w, h) {
   };
 }
 
-export function plateSize(newLayout, in_unit=false) {
+export function plateSize(newLayout, in_unit = false) {
   let newWidth = 0;
   let newHeight = 0;
   for (const val of newLayout) {
@@ -27,7 +27,7 @@ export function plateSize(newLayout, in_unit=false) {
   }
 
   return {
-    width: in_unit ? newWidth : (newWidth * UNIT_1) + PLATE_PADDING * 2,
-    height: in_unit ? newHeight : (newHeight * UNIT_1) + PLATE_PADDING * 2,
+    width: in_unit ? newWidth : (newWidth * UNIT_1 + PLATE_PADDING * 2),
+    height: in_unit ? newHeight : (newHeight * UNIT_1 + PLATE_PADDING * 2),
   };
 }
