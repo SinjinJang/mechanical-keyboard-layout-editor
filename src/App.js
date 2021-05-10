@@ -14,6 +14,7 @@ import minus_icon from './images/remove_circle_outline_black_24dp.svg';
 
 
 function EditPanel(props) {
+  const { layoutState, selectedState } = props;
   const handleLayoutFileChange = (e) => {
     const reader = new FileReader();
     reader.readAsBinaryString(e.target.files[0]);
@@ -26,17 +27,26 @@ function EditPanel(props) {
         v.h = ('h' in v) ? v.h : 1;
       });
 
-      props.layoutState.set(layoutObj.layout);
-      props.selectedState.set(-1);
+      layoutState.set(layoutObj.layout);
+      selectedState.set(-1);
     }
   };
 
   const handleDownloadClick = () => {
     return 'data:text/json; charset=utf-8,' + JSON.stringify({
-      ...LayoutUtil.plateSize(props.layoutState.get(), true),
-      layout: props.layoutState.get()
+      ...LayoutUtil.plateSize(layoutState.get(), true),
+      layout: layoutState.get()
     });
   };
+
+  const handleLabelChange = (e) => {
+    // 예외 처리: 선택된 키가 없다면 입력 내용은 무시함.
+    if (selectedState.get() === -1) {
+      return;
+    }
+
+    layoutState[selectedState.get()].label.set(e.target.value);
+  }
 
   return (
     <div>
@@ -56,7 +66,7 @@ function EditPanel(props) {
         >
           Download Layout
         </Button>
-        {/*<Button
+        <Button
           className='editpanel__item'
           variant='outline-success'
           onClick={() => alert('TODO: generate 3D/2D model')}
@@ -68,10 +78,11 @@ function EditPanel(props) {
         <Form.Group controlId='keyLabel' className='editpanel__item'>
           <Form.Label>Key Label</Form.Label>
           <Form.Control type='text' name='key_label'
-            value={this.props.selectedKey}
-            onChange={this.props.onLabelChange}
+            value={selectedState.get() === -1 ? '' : layoutState[selectedState.get()].label.get()}
+            onChange={handleLabelChange}
           />
         </Form.Group>
+        {/*
         <Form.Group controlId='width' className='editpanel__item'>
           <Form.Label>Width</Form.Label>
           <Form.Control as='select' name='key_width'
@@ -163,25 +174,7 @@ function EditPanel(props) {
 //   });
 // }
 
-// handleLabelChange(e) {
-//   const newLayout = { ...this.state.layout };
-//   const selectedKey = this.state.selectedKey;
 
-//   // 예외 처리: 선택된 키가 없다면 입력 내용은 무시함.
-//   if (selectedKey == null) {
-//     return;
-//   }
-
-//   // layout 객체에서 키 라벨을 변경하여 저장
-//   const attrs = newLayout[selectedKey];
-//   delete newLayout[selectedKey];
-//   newLayout[e.target.value] = attrs;
-
-//   this.setState({
-//     layout: newLayout,
-//     selectedKey: e.target.value,
-//   });
-// }
 
 // handleSizeChange(e) {
 //   const newLayout = { ...this.state.layout };
@@ -230,7 +223,6 @@ function KeyPlate() {
       // onAddSwitchClick={() => this.handleAddSwitch()}
       // onRemoveSwitchClick={() => this.handleRemoveSwitch()}
       // onSizeChange={(e) => this.handleSizeChange(e)}
-      // onLabelChange={(e) => this.handleLabelChange(e)}
       />
       <div
         className='key-plate'
