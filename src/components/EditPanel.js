@@ -165,7 +165,7 @@ function EditPanel(props) {
         </Button>
       </div>
     </div>
-  )
+  );
 }
 
 export default EditPanel;

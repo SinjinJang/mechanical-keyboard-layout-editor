@@ -32,7 +32,7 @@ function KeyPlate() {
         )}
       </div>
     </div>
-  )
+  );
 }
 
 export default KeyPlate;
