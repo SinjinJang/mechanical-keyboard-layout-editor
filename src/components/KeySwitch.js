@@ -11,14 +11,14 @@ function KeySwitch(props) {
   const { label, x, y, w, h } = props.keyState;
   const selectedState = props.selectedState;
 
-  const selectedClassName = selectedState.get() === props.key ? 'key-switch-selected' : '';
+  const selectedClassName = selectedState.get() === props.seq ? 'key-switch-selected' : '';
   const handleDrag = (e, ui) => {
     x.set(p => p + (ui.deltaX / LayoutUtil.UNIT_1));
     y.set(p => p + (ui.deltaY / LayoutUtil.UNIT_1));
   }
   const handleClick = () => {
     // 키 스위치 클릭 시 선택 및 해제하도록 변경
-    selectedState.set(p => (p === props.key) ? -1 : props.key);
+    selectedState.set(p => (p === props.seq) ? -1 : props.seq);
   }
   return (
     <Draggable

@@ -13,91 +13,106 @@ import plus_icon from './images/add_circle_outline_black_24dp.svg';
 import minus_icon from './images/remove_circle_outline_black_24dp.svg';
 
 
-class EditPanel extends React.Component {
-  render() {
-    return (
-      <div>
-        <div className='editpanel__container'>
-          <Form.Group controlId='uploadLayout' className='editpanel__item'>
-            <Form.Label>Layout File to Upload</Form.Label>
-            <Form.File id='layoutFile'
-              type='file' accept='.json'
-              onChange={this.props.onLayoutFileChange}
-            />
-          </Form.Group>
-          <Button
-            className='editpanel__item'
-            variant='outline-secondary'
-            download='layout.json'
-            href={`data:text/json; charset=utf-8,${this.props.onDownloadClick()}`}
-          >
-            Download Layout
+function EditPanel(props) {
+  const handleLayoutFileChange = (e) => {
+    const reader = new FileReader();
+    reader.readAsBinaryString(e.target.files[0]);
+    reader.onloadend = () => {
+      const layoutObj = JSON.parse(reader.result);
+
+      // 불러온 layout 파일에서 키의 width, height 속성이 없을 경우 1로 설정
+      Object.entries(layoutObj.layout).map(([_, v]) => {
+        v.w = ('w' in v) ? v.w : 1;
+        v.h = ('h' in v) ? v.h : 1;
+      });
+
+      props.layoutState.set(layoutObj.layout);
+      props.selectedState.set(-1);
+    }
+  };
+
+  return (
+    <div>
+      <div className='editpanel__container'>
+        <Form.Group controlId='uploadLayout' className='editpanel__item'>
+          <Form.Label>Layout File to Upload</Form.Label>
+          <Form.File id='layoutFile'
+            type='file' accept='.json'
+            onChange={handleLayoutFileChange}
+          />
+        </Form.Group>
+        {/* <Button
+          className='editpanel__item'
+          variant='outline-secondary'
+          download='layout.json'
+          href={`data:text/json; charset=utf-8,${this.props.onDownloadClick()}`}
+        >
+          Download Layout
           </Button>
-          <Button
-            className='editpanel__item'
-            variant='outline-success'
-            onClick={() => alert('TODO: generate 3D/2D model')}
-          >
-            Generate 3D/2D Model
+        <Button
+          className='editpanel__item'
+          variant='outline-success'
+          onClick={() => alert('TODO: generate 3D/2D model')}
+        >
+          Generate 3D/2D Model
           </Button>
-        </div>
-        <div className='editpanel__container'>
-          <Form.Group controlId='keyLabel' className='editpanel__item'>
-            <Form.Label>Key Label</Form.Label>
-            <Form.Control type='text' name='key_label'
-              value={this.props.selectedKey}
-              onChange={this.props.onLabelChange}
-            />
-          </Form.Group>
-          <Form.Group controlId='width' className='editpanel__item'>
-            <Form.Label>Width</Form.Label>
-            <Form.Control as='select' name='key_width'
-              value={this.props.selectedAttrs?.w}
-              onChange={this.props.onSizeChange}
-            >
-              <option value='1'>1U</option>
-              <option value='1.25'>1.25U</option>
-              <option value='1.5'>1.5U</option>
-              <option value='1.75'>1.75U</option>
-              <option value='2'>2U</option>
-              <option value='2.25'>2.25U</option>
-              <option value='2.75'>2.75U</option>
-            </Form.Control>
-          </Form.Group>
-          <Form.Group controlId='height' className='editpanel__item'>
-            <Form.Label>Height</Form.Label>
-            <Form.Control as='select' name='key_height'
-              value={this.props.selectedAttrs?.h}
-              onChange={this.props.onSizeChange}
-            >
-              <option value='1'>1U</option>
-              <option value='2'>2U</option>
-            </Form.Control>
-          </Form.Group>
-          <Button
-            className='editpanel__item'
-            variant='outline-light'
-          >
-            <img
-              className='editpanel__imageicon'
-              alt='Add New Switch'
-              src={plus_icon}
-              onClick={this.props.onAddSwitchClick} />
-          </Button>
-          <Button
-            className='editpanel__item'
-            variant='outline-light'
-          >
-            <img
-              className='editpanel__imageicon'
-              alt='Remove Selected Switch'
-              src={minus_icon}
-              onClick={this.props.onRemoveSwitchClick} />
-          </Button>
-        </div>
       </div>
-    )
-  }
+      <div className='editpanel__container'>
+        <Form.Group controlId='keyLabel' className='editpanel__item'>
+          <Form.Label>Key Label</Form.Label>
+          <Form.Control type='text' name='key_label'
+            value={this.props.selectedKey}
+            onChange={this.props.onLabelChange}
+          />
+        </Form.Group>
+        <Form.Group controlId='width' className='editpanel__item'>
+          <Form.Label>Width</Form.Label>
+          <Form.Control as='select' name='key_width'
+            value={this.props.selectedAttrs?.w}
+            onChange={this.props.onSizeChange}
+          >
+            <option value='1'>1U</option>
+            <option value='1.25'>1.25U</option>
+            <option value='1.5'>1.5U</option>
+            <option value='1.75'>1.75U</option>
+            <option value='2'>2U</option>
+            <option value='2.25'>2.25U</option>
+            <option value='2.75'>2.75U</option>
+          </Form.Control>
+        </Form.Group>
+        <Form.Group controlId='height' className='editpanel__item'>
+          <Form.Label>Height</Form.Label>
+          <Form.Control as='select' name='key_height'
+            value={this.props.selectedAttrs?.h}
+            onChange={this.props.onSizeChange}
+          >
+            <option value='1'>1U</option>
+            <option value='2'>2U</option>
+          </Form.Control>
+        </Form.Group>
+        <Button
+          className='editpanel__item'
+          variant='outline-light'
+        >
+          <img
+            className='editpanel__imageicon'
+            alt='Add New Switch'
+            src={plus_icon}
+            onClick={this.props.onAddSwitchClick} />
+        </Button>
+        <Button
+          className='editpanel__item'
+          variant='outline-light'
+        >
+          <img
+            className='editpanel__imageicon'
+            alt='Remove Selected Switch'
+            src={minus_icon}
+            onClick={this.props.onRemoveSwitchClick} />
+        </Button> */}
+      </div>
+    </div>
+  )
 }
 
 
@@ -227,23 +242,23 @@ function KeyPlate() {
 
   return (
     <div>
-      {/*
       <EditPanel
-        selectedKey={selectedKey}
-        selectedAttrs={layout[selectedKey]}
-        onAddSwitchClick={() => this.handleAddSwitch()}
-        onRemoveSwitchClick={() => this.handleRemoveSwitch()}
-        onSizeChange={(e) => this.handleSizeChange(e)}
-        onLabelChange={(e) => this.handleLabelChange(e)}
-        onDownloadClick={() => this.handleDownloadClick()}
-        onLayoutFileChange={(e) => this.handleLayoutFileChange(e)}
-      /> */}
+        layoutState={layoutState}
+        selectedState={selectedState}
+        // onAddSwitchClick={() => this.handleAddSwitch()}
+        // onRemoveSwitchClick={() => this.handleRemoveSwitch()}
+        // onSizeChange={(e) => this.handleSizeChange(e)}
+        // onLabelChange={(e) => this.handleLabelChange(e)}
+        // onDownloadClick={() => this.handleDownloadClick()}
+        // onLayoutFileChange={(e) => this.handleLayoutFileChange(e)}
+      />
       <div
         className='key-plate'
         style={LayoutUtil.plateSize(layoutState.get())}>
         {layoutState.map((keyState, index) =>
           <KeySwitch
             key={index}
+            seq={index}
             keyState={keyState}
             selectedState={selectedState}
           />
