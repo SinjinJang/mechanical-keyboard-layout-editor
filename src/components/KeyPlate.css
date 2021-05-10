@@ -1,0 +1,10 @@
+
+.key-plate {
+  border-radius: 10px;
+  border: 1px solid #777;
+  justify-content: center;
+
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
