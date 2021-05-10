@@ -48,6 +48,24 @@ function EditPanel(props) {
     layoutState[selectedState.get()].label.set(e.target.value);
   }
 
+  const handleSizeChange = (e) => {
+    // 예외 처리: 선택된 키가 없다면 입력 내용은 무시함.
+    if (selectedState.get() === -1) {
+      return;
+    }
+
+    // 넓이 또는 높이 크기 변경
+    const newValue = Number(e.target.value);
+    if (e.target.id === 'width') {
+      layoutState[selectedState.get()].w.set(newValue);
+    } else if (e.target.id === 'height') {
+      layoutState[selectedState.get()].h.set(newValue);
+    } else {
+      console.log('>>>>> undefined id: ' + e.target.id);
+      return;
+    }
+  }
+
   return (
     <div>
       <div className='editpanel__container'>
@@ -82,12 +100,11 @@ function EditPanel(props) {
             onChange={handleLabelChange}
           />
         </Form.Group>
-        {/*
         <Form.Group controlId='width' className='editpanel__item'>
           <Form.Label>Width</Form.Label>
           <Form.Control as='select' name='key_width'
-            value={this.props.selectedAttrs?.w}
-            onChange={this.props.onSizeChange}
+            value={selectedState.get() === -1 ? '1' : layoutState[selectedState.get()].w.get()}
+            onChange={handleSizeChange}
           >
             <option value='1'>1U</option>
             <option value='1.25'>1.25U</option>
@@ -101,13 +118,14 @@ function EditPanel(props) {
         <Form.Group controlId='height' className='editpanel__item'>
           <Form.Label>Height</Form.Label>
           <Form.Control as='select' name='key_height'
-            value={this.props.selectedAttrs?.h}
-            onChange={this.props.onSizeChange}
+            value={selectedState.get() === -1 ? '1' : layoutState[selectedState.get()].h.get()}
+            onChange={handleSizeChange}
           >
             <option value='1'>1U</option>
             <option value='2'>2U</option>
           </Form.Control>
         </Form.Group>
+        {/*
         <Button
           className='editpanel__item'
           variant='outline-light'
@@ -176,33 +194,7 @@ function EditPanel(props) {
 
 
 
-// handleSizeChange(e) {
-//   const newLayout = { ...this.state.layout };
-//   const selectedKey = this.state.selectedKey;
 
-//   // 예외 처리: 선택된 키가 없다면 입력 내용은 무시함.
-//   if (selectedKey == null) {
-//     return;
-//   }
-
-//   // 넓이 또는 높이 크기 변경
-//   const attrs = newLayout[selectedKey];
-//   const newValue = Number(e.target.value);
-//   if (e.target.id === 'width') {
-//     attrs.w = newValue;
-//   } else if (e.target.id === 'height') {
-//     attrs.h = newValue;
-//   } else {
-//     console.log('>>>>> undefined id: ' + e.target.id);
-//     return;
-//   }
-
-//   const newSize = this.resizePlate(newLayout);
-//   this.setState({
-//     ...newSize,
-//     layout: newLayout,
-//   });
-// }
 
 
 // handleSwitchClick(keyLabel) {
@@ -222,7 +214,6 @@ function KeyPlate() {
         selectedState={selectedState}
       // onAddSwitchClick={() => this.handleAddSwitch()}
       // onRemoveSwitchClick={() => this.handleRemoveSwitch()}
-      // onSizeChange={(e) => this.handleSizeChange(e)}
       />
       <div
         className='key-plate'
