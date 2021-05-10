@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { useState } from '@hookstate/core';
+import { useState, none } from '@hookstate/core';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -77,6 +77,16 @@ function EditPanel(props) {
     }]);
   };
 
+  const handleRemoveSwitch = () => {
+    // 예외 처리: 선택된 키가 없다면 동작 무시함.
+    if (selectedState.get() === -1) {
+      return;
+    }
+
+    layoutState[selectedState.get()].set(none);
+    selectedState.set(-1);
+  };
+
   return (
     <div>
       <div className='editpanel__container'>
@@ -146,7 +156,6 @@ function EditPanel(props) {
             src={plus_icon}
             onClick={handleAddSwitch} />
         </Button>
-        {/*
         <Button
           className='editpanel__item'
           variant='outline-light'
@@ -155,25 +164,12 @@ function EditPanel(props) {
             className='editpanel__imageicon'
             alt='Remove Selected Switch'
             src={minus_icon}
-            onClick={this.props.onRemoveSwitchClick} />
-        </Button> */}
+            onClick={handleRemoveSwitch} />
+        </Button>
       </div>
     </div>
   )
 }
-
-// handleRemoveSwitch() {
-//   const newLayout = { ...this.state.layout };
-//   delete newLayout[this.state.selectedKey];
-//   const newSize = this.resizePlate(newLayout);
-//   this.setState({
-//     selectedKey: null,
-//     selectedAttrs: null,
-//     layout: newLayout,
-//     ...newSize,
-//   });
-// }
-
 
 function KeyPlate() {
   const layoutState = useState([
@@ -186,7 +182,6 @@ function KeyPlate() {
       <EditPanel
         layoutState={layoutState}
         selectedState={selectedState}
-      // onRemoveSwitchClick={() => this.handleRemoveSwitch()}
       />
       <div
         className='key-plate'
