@@ -11,6 +11,7 @@ import minus_icon from '../images/remove_circle_outline_black_24dp.svg';
 
 function EditPanel(props) {
   const { layoutState, selectedState } = props;
+
   const handleLayoutFileChange = (e) => {
     const reader = new FileReader();
     reader.readAsBinaryString(e.target.files[0]);
