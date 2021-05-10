@@ -11,13 +11,13 @@ function KeySwitch(props) {
   const { label, x, y, w, h } = props.keyState;
   const selectedState = props.selectedState;
 
-  const selectedClassName = selectedState.get() == label.get() ? 'key-switch-selected' : '';
+  const selectedClassName = selectedState.get() === props.key ? 'key-switch-selected' : '';
   const handleDrag = (e, ui) => {
     x.set(p => p + (ui.deltaX / LayoutUtil.UNIT_1));
     y.set(p => p + (ui.deltaY / LayoutUtil.UNIT_1));
   }
   const handleClick = () => {
-    selectedState.set(label.get());
+    selectedState.set(props.key);
   }
   return (
     <Draggable

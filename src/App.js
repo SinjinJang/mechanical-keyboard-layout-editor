@@ -223,7 +223,7 @@ function KeyPlate() {
   const layoutState = useState([
     { label: 'Key 1', w: 1, h: 1, x: 0, y: 0 },
   ]);
-  const selectedState = useState('');
+  const selectedState = useState(-1);
 
   return (
     <div>
@@ -241,9 +241,9 @@ function KeyPlate() {
       <div
         className='key-plate'
         style={LayoutUtil.plateSize(layoutState.get())}>
-        {layoutState.map(keyState =>
+        {layoutState.map((keyState, index) =>
           <KeySwitch
-            key={keyState.label.get()}
+            key={index}
             keyState={keyState}
             selectedState={selectedState}
           />
