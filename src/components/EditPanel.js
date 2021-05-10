@@ -101,14 +101,14 @@ function EditPanel(props) {
           href={handleDownloadClick()}
         >
           Download Layout
-          </Button>
+        </Button>
         <Button
           className='editpanel__item'
           variant='outline-success'
           onClick={() => alert('TODO: generate 3D/2D model')}
         >
           Generate 3D/2D Model
-            </Button>
+        </Button>
       </div>
       <div className='editpanel__container'>
         <Form.Group controlId='keyLabel' className='editpanel__item'>
