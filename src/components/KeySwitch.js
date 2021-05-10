@@ -5,8 +5,6 @@ import * as LayoutUtil from '../utils/LayoutUtil';
 import './KeySwitch.css';
 
 
-const DRAGGABLE_BOUNDS = LayoutUtil.keyPosition(0, 0);
-
 function KeySwitch(props) {
   const { label, x, y, w, h } = props.keyState;
   const selectedState = props.selectedState;
@@ -23,8 +21,8 @@ function KeySwitch(props) {
   return (
     <Draggable
       grid={[LayoutUtil.UNIT_0_25, LayoutUtil.UNIT_0_25]}
+      bounds={{left: LayoutUtil.PLATE_PADDING, top: LayoutUtil.PLATE_PADDING}}
       position={LayoutUtil.keyPosition(x.get(), y.get())}
-      bounds={DRAGGABLE_BOUNDS}
       onDrag={handleDrag}
     >
       <div
