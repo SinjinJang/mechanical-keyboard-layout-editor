@@ -3,6 +3,8 @@ import './EditPanel.css';
 import { none } from '@hookstate/core';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import axios from 'axios';
+import FileSaver from 'file-saver';
 
 import { plateSize } from '../utils/LayoutUtil';
 import plus_icon from '../images/add_circle_outline_black_24dp.svg';
@@ -34,6 +36,21 @@ function EditPanel(props) {
       ...plateSize(layoutState.get(), true),
       layout: layoutState.get()
     });
+  };
+
+  const handleGenerateModelClick = async () => {
+    const host = 'https://diy-mechanical-keyboard.herokuapp.com';
+    const { data } = await axios.post(host + '/model-3d/plate',
+      {
+        ...plateSize(layoutState.get(), true),
+        layout: layoutState.get(),
+      }
+    );
+
+    FileSaver.saveAs(
+      new Blob([data], { type: 'text/plain; charset=utf-8' }),
+      'plate-model.stl'
+    );
   };
 
   const handleLabelChange = (e) => {
@@ -105,9 +122,9 @@ function EditPanel(props) {
         <Button
           className='editpanel__item'
           variant='outline-success'
-          onClick={() => alert('TODO: generate 3D/2D model')}
+          onClick={handleGenerateModelClick}
         >
-          Generate 3D/2D Model
+          Generate 3D Model
         </Button>
       </div>
       <div className='editpanel__container'>
