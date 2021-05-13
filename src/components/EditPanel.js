@@ -28,7 +28,7 @@ function EditPanel(props) {
 
       layoutState.set(layoutObj.layout);
       selectedState.set(-1);
-    }
+    };
   };
 
   const _makeLayoutJson = () => {
