@@ -32,10 +32,15 @@ function EditPanel(props) {
   };
 
   const handleDownloadClick = () => {
-    return 'data:text/json; charset=utf-8,' + JSON.stringify({
+    const jsonStr = JSON.stringify({
       ...plateSize(layoutState.get(), true),
       layout: layoutState.get()
     });
+
+    FileSaver.saveAs(
+      new Blob([jsonStr], { type: 'text/json; charset=utf-8' }),
+      'plate-layout.json'
+    );
   };
 
   const handleGenerateModelClick = async () => {
@@ -114,8 +119,7 @@ function EditPanel(props) {
         <Button
           className='editpanel__item'
           variant='outline-secondary'
-          download='layout.json'
-          href={handleDownloadClick()}
+          onClick={handleDownloadClick}
         >
           Download Layout
         </Button>
