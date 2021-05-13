@@ -31,25 +31,26 @@ function EditPanel(props) {
     }
   };
 
-  const handleDownloadClick = () => {
-    const jsonStr = JSON.stringify({
+  const _makeLayoutJson = () => {
+    return {
       ...plateSize(layoutState.get(), true),
       layout: layoutState.get()
-    });
+    }
+  }
 
+  const handleDownloadClick = () => {
+    const data = JSON.stringify(_makeLayoutJson());
     FileSaver.saveAs(
-      new Blob([jsonStr], { type: 'text/json; charset=utf-8' }),
+      new Blob([data], { type: 'text/json; charset=utf-8' }),
       'plate-layout.json'
     );
   };
 
   const handleGenerateModelClick = async () => {
     const host = 'https://diy-mechanical-keyboard.herokuapp.com';
-    const { data } = await axios.post(host + '/model-3d/plate',
-      {
-        ...plateSize(layoutState.get(), true),
-        layout: layoutState.get(),
-      }
+    const { data } = await axios.post(
+      host + '/model-3d/plate',
+      _makeLayoutJson()
     );
 
     FileSaver.saveAs(
