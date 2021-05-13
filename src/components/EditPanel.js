@@ -35,8 +35,8 @@ function EditPanel(props) {
     return {
       ...plateSize(layoutState.get(), true),
       layout: layoutState.get()
-    }
-  }
+    };
+  };
 
   const handleDownloadClick = () => {
     const data = JSON.stringify(_makeLayoutJson());
