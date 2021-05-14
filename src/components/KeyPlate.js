@@ -9,7 +9,7 @@ import KeySwitch from './KeySwitch';
 
 function KeyPlate() {
   const layoutState = useState([
-    { label: 'Key 1', w: 1, h: 1, x: 0, y: 0 },
+    { label: 'New Key', w: 1, h: 1, x: 0, y: 0 },
   ]);
   const selectedState = useState(-1);
 
