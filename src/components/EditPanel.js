@@ -1,16 +1,14 @@
 import './EditPanel.css';
 
 import { useState, none } from '@hookstate/core';
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { Button, IconButton, CircularProgress } from '@material-ui/core';
+import { AddBox, IndeterminateCheckBox } from '@material-ui/icons';
 
 import axios from 'axios';
 import FileSaver from 'file-saver';
 
 import { plateSize } from '../utils/LayoutUtil';
-import plus_icon from '../images/add_circle_outline_black_24dp.svg';
-import minus_icon from '../images/remove_circle_outline_black_24dp.svg';
 
 
 function EditPanel(props) {
@@ -132,14 +130,16 @@ function EditPanel(props) {
         </Form.Group>
         <Button
           className='editpanel__item'
-          variant='outline-secondary'
+          variant='outlined'
+          color='primary'
           onClick={handleDownloadClick}
         >
           Download Layout
         </Button>
         <Button
           className='editpanel__item'
-          variant='outline-success'
+          variant='outlined'
+          color='primary'
           onClick={handleGenerateModelClick}
         >
           Generate 3D Model
@@ -178,26 +178,20 @@ function EditPanel(props) {
             <option value='2'>2U</option>
           </Form.Control>
         </Form.Group>
-        <Button
-          className='editpanel__item'
-          variant='outline-light'
+        <IconButton
+          className='editpanel__imageicon'
+          alt='Add New Switch'
+          onClick={handleAddSwitch}
         >
-          <img
-            className='editpanel__imageicon'
-            alt='Add New Switch'
-            src={plus_icon}
-            onClick={handleAddSwitch} />
-        </Button>
-        <Button
-          className='editpanel__item'
-          variant='outline-light'
+          <AddBox />
+        </IconButton>
+        <IconButton
+          className='editpanel__imageicon'
+          alt='Remove Selected Switch'
+          onClick={handleRemoveSwitch}
         >
-          <img
-            className='editpanel__imageicon'
-            alt='Remove Selected Switch'
-            src={minus_icon}
-            onClick={handleRemoveSwitch} />
-        </Button>
+          <IndeterminateCheckBox />
+        </IconButton>
       </div>
     </div>
   );
