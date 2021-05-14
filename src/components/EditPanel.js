@@ -1,8 +1,7 @@
 import './EditPanel.css';
 
 import { useState, none } from '@hookstate/core';
-import Form from 'react-bootstrap/Form';
-import { Button, IconButton, CircularProgress } from '@material-ui/core';
+import { Button, IconButton, FormControl, InputLabel, TextField, Select, MenuItem, CircularProgress } from '@material-ui/core';
 import { AddBox, IndeterminateCheckBox } from '@material-ui/icons';
 
 import axios from 'axios';
@@ -83,12 +82,16 @@ function EditPanel(props) {
     if (selectedState.get() === -1) {
       return;
     }
+    // 예외 처리: 키가 선택된 상태에서 크기 없음 선택 불가
+    if (e.target.value === '') {
+      return;
+    }
 
     // 넓이 또는 높이 크기 변경
     const newValue = Number(e.target.value);
-    if (e.target.id === 'width') {
+    if (e.target.id === 'selected-key-width') {
       layoutState[selectedState.get()].w.set(newValue);
-    } else if (e.target.id === 'height') {
+    } else if (e.target.id === 'selected-key-height') {
       layoutState[selectedState.get()].h.set(newValue);
     } else {
       console.log('>>>>> undefined id: ' + e.target.id);
@@ -121,13 +124,13 @@ function EditPanel(props) {
     <div>
       {loadingState.get() ? <div className='loading'><CircularProgress /></div> : ''}
       <div className='editpanel__container'>
-        <Form.Group controlId='uploadLayout' className='editpanel__item'>
-          <Form.Label>Layout File to Upload</Form.Label>
+        {/* <Form.Group controlId='uploadLayout' className='editpanel__item'>
+          <InputLabel>Layout File to Upload</InputLabel>
           <Form.File id='layoutFile'
             type='file' accept='.json'
             onChange={handleLayoutFileChange}
           />
-        </Form.Group>
+        </Form.Group> */}
         <Button
           className='editpanel__item'
           variant='outlined'
@@ -146,19 +149,25 @@ function EditPanel(props) {
         </Button>
       </div>
       <div className='editpanel__container'>
-        <Form.Group controlId='keyLabel' className='editpanel__item'>
-          <Form.Label>Key Label</Form.Label>
-          <Form.Control type='text' name='key_label'
+        <FormControl className='editpanel__item'>
+          <TextField
+            native
+            id='selected-key-label'
+            label='Key Label'
             value={selectedState.get() === -1 ? '' : layoutState[selectedState.get()].label.get()}
             onChange={handleLabelChange}
           />
-        </Form.Group>
-        <Form.Group controlId='width' className='editpanel__item'>
-          <Form.Label>Width</Form.Label>
-          <Form.Control as='select' name='key_width'
-            value={selectedState.get() === -1 ? '1' : layoutState[selectedState.get()].w.get()}
+        </FormControl>
+        <FormControl className='editpanel__item'>
+          <InputLabel htmlFor='select-key-width'>Width</InputLabel>
+          <Select
+            native
+            id='selected-key-width'
+            label='Width'
+            value={selectedState.get() === -1 ? '' : layoutState[selectedState.get()].w.get()}
             onChange={handleSizeChange}
           >
+            <option value=''></option>
             <option value='1'>1U</option>
             <option value='1.25'>1.25U</option>
             <option value='1.5'>1.5U</option>
@@ -166,18 +175,22 @@ function EditPanel(props) {
             <option value='2'>2U</option>
             <option value='2.25'>2.25U</option>
             <option value='2.75'>2.75U</option>
-          </Form.Control>
-        </Form.Group>
-        <Form.Group controlId='height' className='editpanel__item'>
-          <Form.Label>Height</Form.Label>
-          <Form.Control as='select' name='key_height'
-            value={selectedState.get() === -1 ? '1' : layoutState[selectedState.get()].h.get()}
+          </Select>
+        </FormControl>
+        <FormControl className='editpanel__item'>
+          <InputLabel htmlFor='select-key-height'>Height</InputLabel>
+          <Select
+            native
+            id='selected-key-height'
+            label='Height'
+            value={selectedState.get() === -1 ? '' : layoutState[selectedState.get()].h.get()}
             onChange={handleSizeChange}
           >
+            <option value=''></option>
             <option value='1'>1U</option>
             <option value='2'>2U</option>
-          </Form.Control>
-        </Form.Group>
+          </Select>
+        </FormControl>
         <IconButton
           className='editpanel__imageicon'
           alt='Add New Switch'

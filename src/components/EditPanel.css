@@ -21,6 +21,7 @@
 
 .editpanel__item {
   box-sizing: border-box;
+  width: 120px;
 }
 
 .editpanel__imageicon {
