@@ -1,3 +1,10 @@
+.editpanel__loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999; /* make sure to always on top than others */
+}
 
 .editpanel__container {
   box-sizing: border-box;

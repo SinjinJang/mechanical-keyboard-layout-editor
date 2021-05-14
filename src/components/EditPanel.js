@@ -1,8 +1,10 @@
 import './EditPanel.css';
 
-import { none } from '@hookstate/core';
+import { useState, none } from '@hookstate/core';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import axios from 'axios';
 import FileSaver from 'file-saver';
 
@@ -13,6 +15,7 @@ import minus_icon from '../images/remove_circle_outline_black_24dp.svg';
 
 function EditPanel(props) {
   const { layoutState, selectedState } = props;
+  const loadingState = useState(false);
 
   const handleLayoutFileChange = (e) => {
     const reader = new FileReader();
@@ -47,6 +50,8 @@ function EditPanel(props) {
   };
 
   const handleGenerateModelClick = async () => {
+    loadingState.set(true);
+
     const host = 'https://diy-mechanical-keyboard.herokuapp.com';
     const { data } = await axios.post(
       host + '/model-3d/plate',
@@ -57,6 +62,8 @@ function EditPanel(props) {
       new Blob([data], { type: 'text/plain; charset=utf-8' }),
       'plate-model.stl'
     );
+
+    loadingState.set(false);
   };
 
   const handleLabelChange = (e) => {
@@ -109,6 +116,9 @@ function EditPanel(props) {
 
   return (
     <div>
+      <div className='editpanel__loading'>
+        {loadingState.get() ? <CircularProgress /> : ''}
+      </div>
       <div className='editpanel__container'>
         <Form.Group controlId='uploadLayout' className='editpanel__item'>
           <Form.Label>Layout File to Upload</Form.Label>
