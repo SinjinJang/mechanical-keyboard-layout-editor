@@ -14,21 +14,31 @@ function EditPanel(props) {
   const { layoutState, selectedState } = props;
   const loadingState = useState(false);
 
-  const handleLayoutFileChange = (e) => {
-    const reader = new FileReader();
-    reader.readAsBinaryString(e.target.files[0]);
-    reader.onloadend = () => {
-      const layoutObj = JSON.parse(reader.result);
+  const handleUploadClick = (e) => {
+    e.preventDefault();
 
-      // 불러온 layout 파일에서 키의 width, height 속성이 없을 경우 1로 설정
-      Object.entries(layoutObj.layout).map(([_, v]) => {
-        v.w = ('w' in v) ? v.w : 1;
-        v.h = ('h' in v) ? v.h : 1;
-      });
+    const handleOnChange = (e1) => {
+      const reader = new FileReader();
+      reader.readAsBinaryString(e1.target.files[0]);
+      reader.onloadend = () => {
+        const layoutObj = JSON.parse(reader.result);
 
-      layoutState.set(layoutObj.layout);
-      selectedState.set(-1);
+        // 불러온 layout 파일에서 키의 width, height 속성이 없을 경우 1로 설정
+        Object.entries(layoutObj.layout).map(([_, v]) => {
+          v.w = ('w' in v) ? v.w : 1;
+          v.h = ('h' in v) ? v.h : 1;
+        });
+
+        layoutState.set(layoutObj.layout);
+        selectedState.set(-1);
+      };
     };
+
+    const fileSelector = document.createElement('input');
+    fileSelector.setAttribute('type', 'file');
+    fileSelector.setAttribute('accept', '.json');
+    fileSelector.onchange = handleOnChange;
+    fileSelector.click();
   };
 
   const _makeLayoutJson = () => {
@@ -124,13 +134,14 @@ function EditPanel(props) {
     <div>
       {loadingState.get() ? <div className='loading'><CircularProgress /></div> : ''}
       <div className='editpanel__container'>
-        {/* <Form.Group controlId='uploadLayout' className='editpanel__item'>
-          <InputLabel>Layout File to Upload</InputLabel>
-          <Form.File id='layoutFile'
-            type='file' accept='.json'
-            onChange={handleLayoutFileChange}
-          />
-        </Form.Group> */}
+        <Button
+          className='editpanel__item'
+          variant='outlined'
+          color='primary'
+          onClick={handleUploadClick}
+        >
+          Upload Layout
+        </Button>
         <Button
           className='editpanel__item'
           variant='outlined'
@@ -151,7 +162,6 @@ function EditPanel(props) {
       <div className='editpanel__container'>
         <FormControl className='editpanel__item'>
           <TextField
-            native
             id='selected-key-label'
             label='Key Label'
             value={selectedState.get() === -1 ? '' : layoutState[selectedState.get()].label.get()}
