@@ -50,6 +50,11 @@ function EditPanel(props) {
   };
 
   const handleGenerateModelClick = async () => {
+    if (loadingState.get()) {
+      console.log('prevent duplicated click!');
+      return;
+    }
+
     loadingState.set(true);
 
     const host = 'https://diy-mechanical-keyboard.herokuapp.com';
