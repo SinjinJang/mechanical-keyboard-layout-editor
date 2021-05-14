@@ -121,9 +121,7 @@ function EditPanel(props) {
 
   return (
     <div>
-      <div className='editpanel__loading'>
-        {loadingState.get() ? <CircularProgress /> : ''}
-      </div>
+      {loadingState.get() ? <div className='loading'><CircularProgress /></div> : ''}
       <div className='editpanel__container'>
         <Form.Group controlId='uploadLayout' className='editpanel__item'>
           <Form.Label>Layout File to Upload</Form.Label>
