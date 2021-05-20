@@ -1,7 +1,8 @@
+import './About.css';
 
 const About = () => (
-  <div>
-    <h2>About</h2>
+  <div className='About'>
+    about...
   </div>
 );
 

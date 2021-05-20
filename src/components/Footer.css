@@ -6,6 +6,7 @@
 	padding: 10px 0;
 	background: #11111111;
   display: flex;
+  text-align: center;
 }
 
 .footer__item {
