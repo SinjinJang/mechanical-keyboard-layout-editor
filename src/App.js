@@ -1,18 +1,13 @@
-import './App.css';
+import { HashRouter, Route } from 'react-router-dom';
 
-import KeyPlate from './components/KeyPlate';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Home from './routes/Home';
+import About from './routes/About';
 
-
-function App() {
-  return (
-    <div className="App">
-      <Header />
-      <KeyPlate />
-      <Footer />
-    </div>
-  );
-}
+const App = () => (
+  <HashRouter>
+    <Route exact path='/' component={Home} />
+    <Route path='/about' component={About} />
+  </HashRouter>
+);
 
 export default App;
