@@ -131,7 +131,7 @@ function EditPanel(props) {
   };
 
   return (
-    <div>
+    <div className='editpanel'>
       {loadingState.get() ? <div className='loading'><CircularProgress /></div> : ''}
       <div className='editpanel__container'>
         <Button

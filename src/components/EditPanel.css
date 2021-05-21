@@ -1,3 +1,7 @@
+.editpanel {
+  padding-bottom: 20px;
+}
+
 .loading {
   position: fixed;
   width: 100%;
