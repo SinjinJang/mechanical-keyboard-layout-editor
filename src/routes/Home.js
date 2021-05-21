@@ -5,7 +5,7 @@ import KeyPlate from '../components/KeyPlate';
 
 function Home() {
   return (
-    <div className='Home'>
+    <div className='home'>
       <KeyPlate />
     </div>
   );

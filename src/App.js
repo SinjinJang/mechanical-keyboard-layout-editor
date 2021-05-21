@@ -7,7 +7,7 @@ import Footer from './components/Footer';
 import Navigation from './components/Navigation';
 
 const App = () => (
-  <div className='App'>
+  <>
     <Header />
     <HashRouter>
       <Navigation />
@@ -15,7 +15,7 @@ const App = () => (
       <Route path='/about' component={About} />
     </HashRouter>
     <Footer />
-  </div>
+  </>
 );
 
 export default App;

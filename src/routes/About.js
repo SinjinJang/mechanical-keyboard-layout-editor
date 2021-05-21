@@ -1,7 +1,7 @@
 import './About.css';
 
 const About = () => (
-  <div className='About'>
+  <div className='about'>
     about...
   </div>
 );
