@@ -156,7 +156,7 @@ function EditPanel(props) {
           color='primary'
           onClick={handleGenerateModelClick}
         >
-          Generate 3D Model
+          Generate STL (3D)
         </Button>
       </div>
       <div className='editpanel__container'>
