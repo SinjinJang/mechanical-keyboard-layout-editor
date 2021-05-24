@@ -202,14 +202,14 @@ function EditPanel(props) {
           </Select>
         </FormControl>
         <IconButton
-          className='editpanel__imageicon'
+          className='editpanel__item editpanel__imageicon'
           alt='Add New Switch'
           onClick={handleAddSwitch}
         >
           <AddBox />
         </IconButton>
         <IconButton
-          className='editpanel__imageicon'
+          className='editpanel__item editpanel__imageicon'
           alt='Remove Selected Switch'
           onClick={handleRemoveSwitch}
         >
