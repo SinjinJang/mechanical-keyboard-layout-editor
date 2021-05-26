@@ -56,7 +56,7 @@ function EditPanel(props) {
     );
   };
 
-  const handleGenerateModelClick = async () => {
+  const handleGenerateModelClick = async (fmt) => {
     if (loadingState.get()) {
       console.log('prevent duplicated click!');
       return;
@@ -66,13 +66,13 @@ function EditPanel(props) {
 
     const host = 'https://diy-mechanical-keyboard.herokuapp.com';
     const { data } = await axios.post(
-      host + '/model-3d/plate',
+      host + `/model/plate/${fmt}`,
       _makeLayoutJson()
     );
 
     FileSaver.saveAs(
       new Blob([data], { type: 'text/plain; charset=utf-8' }),
-      'plate-model.stl'
+      `model-plate.${fmt}`
     );
 
     loadingState.set(false);
@@ -154,9 +154,17 @@ function EditPanel(props) {
           className='editpanel__item'
           variant='outlined'
           color='primary'
-          onClick={handleGenerateModelClick}
+          onClick={() => handleGenerateModelClick('stl')}
         >
           Generate STL (3D)
+        </Button>
+        <Button
+          className='editpanel__item'
+          variant='outlined'
+          color='primary'
+          onClick={() => handleGenerateModelClick('dxf')}
+        >
+          Generate DXF (2D)
         </Button>
       </div>
       <div className='editpanel__container'>
