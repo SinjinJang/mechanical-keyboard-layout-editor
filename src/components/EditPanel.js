@@ -193,6 +193,10 @@ function EditPanel(props) {
             <option value='2'>2U</option>
             <option value='2.25'>2.25U</option>
             <option value='2.75'>2.75U</option>
+            <option value='6'>6U</option>
+            <option value='6.25'>6.25U</option>
+            <option value='6.5'>6.5U</option>
+            <option value='7'>7U</option>
           </Select>
         </FormControl>
         <FormControl className='editpanel__item'>
