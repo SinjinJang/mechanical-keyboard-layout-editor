@@ -31,3 +31,10 @@ export function plateSize(newLayout, in_unit = false) {
     height: in_unit ? newHeight : (newHeight * UNIT_1 + PLATE_PADDING * 2),
   };
 }
+
+export function makeLayoutObj(layout) {
+  return {
+    ...plateSize(layout, true),
+    layout: layout
+  };
+}

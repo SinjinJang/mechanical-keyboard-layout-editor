@@ -4,15 +4,16 @@ import { useState, none } from '@hookstate/core';
 import { Button, IconButton, FormControl, InputLabel, TextField, Select, MenuItem, CircularProgress } from '@material-ui/core';
 import { AddBox, IndeterminateCheckBox } from '@material-ui/icons';
 
-import axios from 'axios';
 import FileSaver from 'file-saver';
 
-import { plateSize } from '../utils/LayoutUtil';
+import { plateSize, makeLayoutObj } from '../utils/LayoutUtil';
+import EditPanelGenerateDialog from './EditPanelGenerateDialog';
 
 
 function EditPanel(props) {
   const { layoutState, selectedState } = props;
   const loadingState = useState(false);
+  const generateDialogState = useState({ open: false, fmt: '' });
 
   const handleUploadClick = (e) => {
     e.preventDefault();
@@ -41,41 +42,21 @@ function EditPanel(props) {
     fileSelector.click();
   };
 
-  const _makeLayoutJson = () => {
-    return {
-      ...plateSize(layoutState.get(), true),
-      layout: layoutState.get()
-    };
-  };
-
   const handleDownloadClick = () => {
-    const data = JSON.stringify(_makeLayoutJson());
+    const data = JSON.stringify(makeLayoutObj(layoutState.get()));
     FileSaver.saveAs(
       new Blob([data], { type: 'text/json; charset=utf-8' }),
-      'plate-layout.json'
+      'layout.json'
     );
   };
 
-  const handleGenerateModelClick = async (fmt) => {
+  const handleGenerateModelClick = (fmt) => {
     if (loadingState.get()) {
       console.log('prevent duplicated click!');
       return;
     }
 
-    loadingState.set(true);
-
-    const host = 'https://diy-mechanical-keyboard.herokuapp.com';
-    const { data } = await axios.post(
-      host + `/model/plate/${fmt}`,
-      _makeLayoutJson()
-    );
-
-    FileSaver.saveAs(
-      new Blob([data], { type: 'text/plain; charset=utf-8' }),
-      `model-plate.${fmt}`
-    );
-
-    loadingState.set(false);
+    generateDialogState.set({ open: true, fmt: fmt });
   };
 
   const handleLabelChange = (e) => {
@@ -133,6 +114,10 @@ function EditPanel(props) {
   return (
     <div className='editpanel'>
       {loadingState.get() ? <div className='loading'><CircularProgress /></div> : ''}
+      <EditPanelGenerateDialog
+        dialogState={generateDialogState}
+        layoutState={layoutState}
+      />
       <div className='editpanel__container'>
         <Button
           className='editpanel__item'
