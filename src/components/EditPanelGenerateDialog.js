@@ -7,32 +7,25 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import axios from 'axios';
-import { makeLayoutObj } from '../utils/LayoutUtil';
+
 
 export default function EditPanelGenerateDialog(props) {
-  const { dialogState: { open, fmt }, layoutState } = props;
+  const { openState, onConfirm } = props;
 
   const handleClose = () => {
-    open.set(false);
+    openState.set(false);
   }
 
-  const handleConfirmClick = async () => {
+  const handleConfirmClick = () => {
     // TODO: 이메일 유효성 체크
 
-    const host = 'https://diy-mechanical-keyboard.herokuapp.com';
-    const { data } = await axios.post(
-      host + `/model/plate/${fmt.get()}`,
-      makeLayoutObj(layoutState.get())
-    );
-    console.log(data);
-
     handleClose();
+    onConfirm('test@email.com');
   };
 
   return (
     <div>
-      <Dialog open={open.get()} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={openState.get()} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Generate Model</DialogTitle>
         <DialogContent>
           <DialogContentText>

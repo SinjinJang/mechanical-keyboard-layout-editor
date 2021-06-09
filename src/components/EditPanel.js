@@ -4,16 +4,27 @@ import { useState, none } from '@hookstate/core';
 import { Button, IconButton, FormControl, InputLabel, TextField, Select, MenuItem, CircularProgress } from '@material-ui/core';
 import { AddBox, IndeterminateCheckBox } from '@material-ui/icons';
 
+import axios from 'axios';
 import FileSaver from 'file-saver';
 
-import { plateSize, makeLayoutObj } from '../utils/LayoutUtil';
+import { plateSize } from '../utils/LayoutUtil';
 import EditPanelGenerateDialog from './EditPanelGenerateDialog';
+
+
+function _makeLayoutObj(layout, email_to = '') {
+  return {
+    ...plateSize(layout, true),
+    layout: layout,
+    email_to: email_to,
+  };
+}
 
 
 function EditPanel(props) {
   const { layoutState, selectedState } = props;
   const loadingState = useState(false);
-  const generateDialogState = useState({ open: false, fmt: '' });
+  const dialogOpenState = useState(false);
+  const fmtState = useState('');
 
   const handleUploadClick = (e) => {
     e.preventDefault();
@@ -43,7 +54,7 @@ function EditPanel(props) {
   };
 
   const handleDownloadClick = () => {
-    const data = JSON.stringify(makeLayoutObj(layoutState.get()));
+    const data = JSON.stringify(_makeLayoutObj(layoutState.get()));
     FileSaver.saveAs(
       new Blob([data], { type: 'text/json; charset=utf-8' }),
       'layout.json'
@@ -56,7 +67,21 @@ function EditPanel(props) {
       return;
     }
 
-    generateDialogState.set({ open: true, fmt: fmt });
+    fmtState.set(fmt);
+    dialogOpenState.set(true);
+  };
+
+  const handleConfirmModelClick = async (email) => {
+    loadingState.set(true);
+
+    const host = 'https://diy-mechanical-keyboard.herokuapp.com';
+    const { data } = await axios.post(
+      `${host}/model/plate/${fmtState.get()}`,
+      _makeLayoutObj(layoutState.get(), email)
+    );
+    console.log(data);
+
+    loadingState.set(false);
   };
 
   const handleLabelChange = (e) => {
@@ -115,8 +140,8 @@ function EditPanel(props) {
     <div className='editpanel'>
       {loadingState.get() ? <div className='loading'><CircularProgress /></div> : ''}
       <EditPanelGenerateDialog
-        dialogState={generateDialogState}
-        layoutState={layoutState}
+        openState={dialogOpenState}
+        onConfirm={handleConfirmModelClick}
       />
       <div className='editpanel__container'>
         <Button
