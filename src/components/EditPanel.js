@@ -8,7 +8,7 @@ import axios from 'axios';
 import FileSaver from 'file-saver';
 
 import { plateSize } from '../utils/LayoutUtil';
-import EditPanelGenerateDialog from './EditPanelGenerateDialog';
+import EditPanelEmailDialog from './EditPanelEmailDialog';
 
 
 function _makeLayoutObj(layout, email_to = '') {
@@ -71,7 +71,7 @@ function EditPanel(props) {
     dialogOpenState.set(true);
   };
 
-  const handleConfirmModelClick = async (email) => {
+  const handleConfirmEmailClick = async (email) => {
     loadingState.set(true);
 
     const host = 'https://diy-mechanical-keyboard.herokuapp.com';
@@ -139,9 +139,9 @@ function EditPanel(props) {
   return (
     <div className='editpanel'>
       {loadingState.get() ? <div className='loading'><CircularProgress /></div> : ''}
-      <EditPanelGenerateDialog
+      <EditPanelEmailDialog
         openState={dialogOpenState}
-        onConfirm={handleConfirmModelClick}
+        onConfirm={handleConfirmEmailClick}
       />
       <div className='editpanel__container'>
         <Button

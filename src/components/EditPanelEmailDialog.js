@@ -8,8 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 
-
-export default function EditPanelGenerateDialog(props) {
+export default function EditPanelEmailDialog(props) {
   const { openState, onConfirm } = props;
 
   const handleClose = () => {
