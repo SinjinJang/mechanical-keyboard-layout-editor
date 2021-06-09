@@ -7,19 +7,33 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import { useState } from '@hookstate/core';
+
 
 export default function EditPanelEmailDialog(props) {
   const { openState, onConfirm } = props;
+  const emailState = useState('');
 
   const handleClose = () => {
     openState.set(false);
   }
 
-  const handleConfirmClick = () => {
-    // TODO: 이메일 유효성 체크
+  const handleChange = (e) => {
+    const inputEmail = e.target.value;
 
+    // 이메일 유효성 체크
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const isValid = re.test(String(inputEmail).toLowerCase());
+    emailState.set(isValid ? inputEmail : '');
+  }
+
+  const handleConfirmClick = () => {
+    if (emailState.get() === '') {
+      console.log('이메일이 유효하지 않습니다.');
+      return;
+    }
     handleClose();
-    onConfirm('test@email.com');
+    onConfirm(emailState.get());
   };
 
   return (
@@ -37,6 +51,7 @@ export default function EditPanelEmailDialog(props) {
             label="Email Address"
             type="email"
             fullWidth
+            onChange={handleChange}
           />
         </DialogContent>
         <DialogActions>
