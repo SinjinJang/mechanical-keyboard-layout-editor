@@ -11,6 +11,9 @@ import { plateSize } from '../utils/LayoutUtil';
 import EditPanelEmailDialog from './EditPanelEmailDialog';
 
 
+const HOST = 'https://diy-mechanical-keyboard.herokuapp.com';
+
+
 function _makeLayoutObj(layout, email_to = '') {
   return {
     ...plateSize(layout, true),
@@ -25,6 +28,15 @@ function EditPanel(props) {
   const loadingState = useState(false);
   const dialogOpenState = useState(false);
   const fmtState = useState('');
+
+  const handlePredefinedClick = async () => {
+    loadingState.set(true);
+
+    const { data } = await axios.get(`${HOST}/layout`);
+    console.log(data.result);
+
+    loadingState.set(false);
+  };
 
   const handleUploadClick = (e) => {
     e.preventDefault();
@@ -74,9 +86,8 @@ function EditPanel(props) {
   const handleConfirmEmailClick = async (email) => {
     loadingState.set(true);
 
-    const host = 'https://diy-mechanical-keyboard.herokuapp.com';
     const { data } = await axios.post(
-      `${host}/model/plate/${fmtState.get()}`,
+      `${HOST}/model/plate/${fmtState.get()}`,
       _makeLayoutObj(layoutState.get(), email)
     );
     console.log(data);
@@ -144,6 +155,14 @@ function EditPanel(props) {
         onConfirm={handleConfirmEmailClick}
       />
       <div className='editpanel__container'>
+        <Button
+          className='editpanel__item'
+          variant='outlined'
+          color='primary'
+          onClick={handlePredefinedClick}
+        >
+          Predefined Layout
+        </Button>
         <Button
           className='editpanel__item'
           variant='outlined'
