@@ -9,6 +9,7 @@ import FileSaver from 'file-saver';
 
 import { plateSize } from '../utils/LayoutUtil';
 import EditPanelEmailDialog from './EditPanelEmailDialog';
+import EditPanelLayoutListDialog from './EditPanelLayoutListDialog';
 
 
 const HOST = 'https://diy-mechanical-keyboard.herokuapp.com';
@@ -29,11 +30,17 @@ function EditPanel(props) {
   const dialogOpenState = useState(false);
   const fmtState = useState('');
 
+  const layoutListDialogState = useState({
+    open: false,
+    predefinedList: [],
+  });
+
   const handlePredefinedClick = async () => {
     loadingState.set(true);
 
     const { data } = await axios.get(`${HOST}/layout`);
-    console.log(data.result);
+    layoutListDialogState.predefinedList.set(data.result);
+    layoutListDialogState.open.set(true);
 
     loadingState.set(false);
   };
@@ -153,6 +160,10 @@ function EditPanel(props) {
       <EditPanelEmailDialog
         openState={dialogOpenState}
         onConfirm={handleConfirmEmailClick}
+      />
+      <EditPanelLayoutListDialog
+        dialogState={layoutListDialogState}
+        onSelect={() => console.log('onSelect')}
       />
       <div className='editpanel__container'>
         <Button
