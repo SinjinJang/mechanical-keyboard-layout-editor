@@ -27,8 +27,11 @@ function _makeLayoutObj(layout, email_to = '') {
 function EditPanel(props) {
   const { layoutState, selectedState } = props;
   const loadingState = useState(false);
-  const dialogOpenState = useState(false);
-  const fmtState = useState('');
+
+  const emailDialogState = useState({
+    open: false,
+    fmt: '',
+  });
 
   const layoutListDialogState = useState({
     open: false,
@@ -86,15 +89,15 @@ function EditPanel(props) {
       return;
     }
 
-    fmtState.set(fmt);
-    dialogOpenState.set(true);
+    emailDialogState.fmt.set(fmt);
+    emailDialogState.open.set(true);
   };
 
   const handleConfirmEmailClick = async (email) => {
     loadingState.set(true);
 
     const { data } = await axios.post(
-      `${HOST}/model/plate/${fmtState.get()}`,
+      `${HOST}/model/plate/${emailDialogState.fmt.get()}`,
       _makeLayoutObj(layoutState.get(), email)
     );
     console.log(data);
@@ -158,7 +161,7 @@ function EditPanel(props) {
     <div className='editpanel'>
       {loadingState.get() ? <div className='loading'><CircularProgress /></div> : ''}
       <EditPanelEmailDialog
-        openState={dialogOpenState}
+        openState={emailDialogState.open}
         onConfirm={handleConfirmEmailClick}
       />
       <EditPanelLayoutListDialog
