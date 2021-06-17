@@ -48,6 +48,15 @@ function EditPanel(props) {
     loadingState.set(false);
   };
 
+  const handlePredefinedLayoutSelect = async (fname) => {
+    loadingState.set(true);
+
+    const { data: { result } } = await axios.get(`${HOST}/layout/${fname}`);
+    console.log(result);
+
+    loadingState.set(false);
+  };
+
   const handleUploadClick = (e) => {
     e.preventDefault();
 
@@ -166,7 +175,7 @@ function EditPanel(props) {
       />
       <EditPanelLayoutListDialog
         dialogState={layoutListDialogState}
-        onSelect={() => console.log('onSelect')}
+        onSelect={handlePredefinedLayoutSelect}
       />
       <div className='editpanel__container'>
         <Button
