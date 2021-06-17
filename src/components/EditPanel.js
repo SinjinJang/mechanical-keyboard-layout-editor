@@ -41,8 +41,8 @@ function EditPanel(props) {
   const handlePredefinedClick = async () => {
     loadingState.set(true);
 
-    const { data } = await axios.get(`${HOST}/layout`);
-    layoutListDialogState.predefinedList.set(data.result);
+    const { data: { result } } = await axios.get(`${HOST}/layout`);
+    layoutListDialogState.predefinedList.set(result);
     layoutListDialogState.open.set(true);
 
     loadingState.set(false);
