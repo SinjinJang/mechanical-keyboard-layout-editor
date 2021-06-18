@@ -65,15 +65,8 @@ function EditPanel(props) {
       const reader = new FileReader();
       reader.readAsBinaryString(e1.target.files[0]);
       reader.onloadend = () => {
-        const layoutObj = JSON.parse(reader.result);
-
-        // 불러온 layout 파일에서 키의 width, height 속성이 없을 경우 1로 설정
-        Object.entries(layoutObj.layout).map(([_, v]) => {
-          v.w = ('w' in v) ? v.w : 1;
-          v.h = ('h' in v) ? v.h : 1;
-        });
-
-        layoutState.set(layoutObj.layout);
+        const { layout } = JSON.parse(reader.result);
+        layoutState.set(layout);
         selectedState.set(-1);
       };
     };
