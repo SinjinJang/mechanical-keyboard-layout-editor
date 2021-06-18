@@ -53,6 +53,7 @@ function EditPanel(props) {
 
     const { data: { result } } = await axios.get(`${HOST}/layout/${fname}`);
     layoutState.set(result.layout);
+    layoutListDialogState.open.set(false);
 
     loadingState.set(false);
   };
