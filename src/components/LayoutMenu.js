@@ -50,6 +50,7 @@ function LayoutMenu(props) {
     loadingState.set(true);
 
     const { data: { result } } = await axios.get(`${HOST}/layout/${fname}`);
+    selectedState.set(-1);
     layoutState.set(result.layout);
     layoutListDialogState.open.set(false);
 
@@ -64,8 +65,8 @@ function LayoutMenu(props) {
       reader.readAsBinaryString(e1.target.files[0]);
       reader.onloadend = () => {
         const { layout } = JSON.parse(reader.result);
-        layoutState.set(layout);
         selectedState.set(-1);
+        layoutState.set(layout);
       };
     };
 
