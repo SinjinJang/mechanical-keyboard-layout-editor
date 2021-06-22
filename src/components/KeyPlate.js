@@ -5,6 +5,7 @@ import { useState } from '@hookstate/core';
 import { plateSize } from '../utils/LayoutUtil';
 import EditPanel from './EditPanel';
 import KeySwitch from './KeySwitch';
+import LayoutMenu from './LayoutMenu';
 
 
 function KeyPlate() {
@@ -15,6 +16,10 @@ function KeyPlate() {
 
   return (
     <div>
+      <LayoutMenu
+        layoutState={layoutState}
+        selectedState={selectedState}
+      />
       <EditPanel
         layoutState={layoutState}
         selectedState={selectedState}

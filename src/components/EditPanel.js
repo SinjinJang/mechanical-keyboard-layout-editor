@@ -1,112 +1,15 @@
+import './HorizontalBar.css';
 import './EditPanel.css';
 
-import { useState, none } from '@hookstate/core';
-import { Button, IconButton, FormControl, InputLabel, TextField, Select, MenuItem, CircularProgress } from '@material-ui/core';
+import { none } from '@hookstate/core';
+import { IconButton, FormControl, InputLabel, TextField, Select } from '@material-ui/core';
 import { AddBox, IndeterminateCheckBox } from '@material-ui/icons';
 
-import axios from 'axios';
-import FileSaver from 'file-saver';
-
 import { plateSize } from '../utils/LayoutUtil';
-import EditPanelEmailDialog from './EditPanelEmailDialog';
-import EditPanelLayoutListDialog from './EditPanelLayoutListDialog';
-
-
-const HOST = 'https://diy-mechanical-keyboard.herokuapp.com';
-
-
-function _makeLayoutObj(layout, email_to = '') {
-  return {
-    ...plateSize(layout, true),
-    layout: layout,
-    email_to: email_to,
-  };
-}
 
 
 function EditPanel(props) {
   const { layoutState, selectedState } = props;
-  const loadingState = useState(false);
-
-  const emailDialogState = useState({
-    open: false,
-    fmt: '',
-  });
-
-  const layoutListDialogState = useState({
-    open: false,
-    predefinedList: [],
-  });
-
-  const handlePredefinedClick = async () => {
-    loadingState.set(true);
-
-    const { data: { result } } = await axios.get(`${HOST}/layout`);
-    layoutListDialogState.predefinedList.set(result);
-    layoutListDialogState.open.set(true);
-
-    loadingState.set(false);
-  };
-
-  const handlePredefinedLayoutSelect = async (fname) => {
-    loadingState.set(true);
-
-    const { data: { result } } = await axios.get(`${HOST}/layout/${fname}`);
-    layoutState.set(result.layout);
-    layoutListDialogState.open.set(false);
-
-    loadingState.set(false);
-  };
-
-  const handleUploadClick = (e) => {
-    e.preventDefault();
-
-    const handleOnChange = (e1) => {
-      const reader = new FileReader();
-      reader.readAsBinaryString(e1.target.files[0]);
-      reader.onloadend = () => {
-        const { layout } = JSON.parse(reader.result);
-        layoutState.set(layout);
-        selectedState.set(-1);
-      };
-    };
-
-    const fileSelector = document.createElement('input');
-    fileSelector.setAttribute('type', 'file');
-    fileSelector.setAttribute('accept', '.json');
-    fileSelector.onchange = handleOnChange;
-    fileSelector.click();
-  };
-
-  const handleDownloadClick = () => {
-    const data = JSON.stringify(_makeLayoutObj(layoutState.get()));
-    FileSaver.saveAs(
-      new Blob([data], { type: 'text/json; charset=utf-8' }),
-      'layout.json'
-    );
-  };
-
-  const handleGenerateModelClick = (fmt) => {
-    if (loadingState.get()) {
-      console.log('prevent duplicated click!');
-      return;
-    }
-
-    emailDialogState.fmt.set(fmt);
-    emailDialogState.open.set(true);
-  };
-
-  const handleConfirmEmailClick = async (email) => {
-    loadingState.set(true);
-
-    const { data } = await axios.post(
-      `${HOST}/model/plate/${emailDialogState.fmt.get()}`,
-      _makeLayoutObj(layoutState.get(), email)
-    );
-    console.log(data);
-
-    loadingState.set(false);
-  };
 
   const handleLabelChange = (e) => {
     // 예외 처리: 선택된 키가 없다면 입력 내용은 무시함.
@@ -162,59 +65,8 @@ function EditPanel(props) {
 
   return (
     <div className='editpanel'>
-      {loadingState.get() ? <div className='loading'><CircularProgress /></div> : ''}
-      <EditPanelEmailDialog
-        openState={emailDialogState.open}
-        onConfirm={handleConfirmEmailClick}
-      />
-      <EditPanelLayoutListDialog
-        dialogState={layoutListDialogState}
-        onSelect={handlePredefinedLayoutSelect}
-      />
-      <div className='editpanel__container'>
-        <Button
-          className='editpanel__item'
-          variant='outlined'
-          color='primary'
-          onClick={handlePredefinedClick}
-        >
-          Predefined Layout
-        </Button>
-        <Button
-          className='editpanel__item'
-          variant='outlined'
-          color='primary'
-          onClick={handleUploadClick}
-        >
-          Upload Layout
-        </Button>
-        <Button
-          className='editpanel__item'
-          variant='outlined'
-          color='primary'
-          onClick={handleDownloadClick}
-        >
-          Download Layout
-        </Button>
-        <Button
-          className='editpanel__item'
-          variant='outlined'
-          color='primary'
-          onClick={() => handleGenerateModelClick('stl')}
-        >
-          Generate STL (3D)
-        </Button>
-        <Button
-          className='editpanel__item'
-          variant='outlined'
-          color='primary'
-          onClick={() => handleGenerateModelClick('dxf')}
-        >
-          Generate DXF (2D)
-        </Button>
-      </div>
-      <div className='editpanel__container'>
-        <FormControl className='editpanel__item'>
+      <div className='hbar__container'>
+        <FormControl className='hbar__item'>
           <TextField
             id='selected-key-label'
             label='Key Label'
@@ -222,7 +74,7 @@ function EditPanel(props) {
             onChange={handleLabelChange}
           />
         </FormControl>
-        <FormControl className='editpanel__item'>
+        <FormControl className='hbar__item'>
           <InputLabel htmlFor='select-key-width'>Width</InputLabel>
           <Select
             native
@@ -245,7 +97,7 @@ function EditPanel(props) {
             <option value='7'>7U</option>
           </Select>
         </FormControl>
-        <FormControl className='editpanel__item'>
+        <FormControl className='hbar__item'>
           <InputLabel htmlFor='select-key-height'>Height</InputLabel>
           <Select
             native
@@ -260,14 +112,14 @@ function EditPanel(props) {
           </Select>
         </FormControl>
         <IconButton
-          className='editpanel__item editpanel__imageicon'
+          className='hbar__item editpanel__imageicon'
           alt='Add New Switch'
           onClick={handleAddSwitch}
         >
           <AddBox />
         </IconButton>
         <IconButton
-          className='editpanel__item editpanel__imageicon'
+          className='hbar__item editpanel__imageicon'
           alt='Remove Selected Switch'
           onClick={handleRemoveSwitch}
         >

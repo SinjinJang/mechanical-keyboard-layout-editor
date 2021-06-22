@@ -1,0 +1,16 @@
+.hbar__container {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.hbar__item {
+  box-sizing: border-box;
+  width: 120px;
+}
+
+.hbar__item:not(:last-child) {
+  margin-right: 5px;
+}
