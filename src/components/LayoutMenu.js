@@ -7,8 +7,8 @@ import { Button, CircularProgress } from '@material-ui/core';
 import axios from 'axios';
 import FileSaver from 'file-saver';
 
-import EditPanelEmailDialog from './EditPanelEmailDialog';
-import EditPanelLayoutListDialog from './EditPanelLayoutListDialog';
+import LayoutMenuEmailDialog from './LayoutMenuEmailDialog';
+import LayoutMenuPredefinedDialog from './LayoutMenuPredefinedDialog';
 import { plateSize } from '../utils/LayoutUtil';
 
 
@@ -109,11 +109,11 @@ function LayoutMenu(props) {
   return (
     <div className='layoutmenu'>
       {loadingState.get() ? <div className='loading'><CircularProgress /></div> : ''}
-      <EditPanelEmailDialog
+      <LayoutMenuEmailDialog
         openState={emailDialogState.open}
         onConfirm={handleConfirmEmailClick}
       />
-      <EditPanelLayoutListDialog
+      <LayoutMenuPredefinedDialog
         dialogState={layoutListDialogState}
         onSelect={handlePredefinedLayoutSelect}
       />

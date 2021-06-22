@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { useState } from '@hookstate/core';
 
 
-export default function EditPanelEmailDialog(props) {
+export default function LayoutMenuEmailDialog(props) {
   const { openState, onConfirm } = props;
   const emailState = useState('');
   const validState = useState(false);

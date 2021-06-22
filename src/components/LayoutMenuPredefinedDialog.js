@@ -6,7 +6,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 
 
-export default function EditPanelLayoutListDialog(props) {
+export default function LayoutMenuPredefinedDialog(props) {
   const { dialogState, onSelect } = props;
 
   const handleClose = () => {
