@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/mechanical-keyboard-layout-editor/static/css/main.020d1719.chunk.css",
-    "main.js": "/mechanical-keyboard-layout-editor/static/js/main.8ea58fa1.chunk.js",
-    "main.js.map": "/mechanical-keyboard-layout-editor/static/js/main.8ea58fa1.chunk.js.map",
-    "runtime-main.js": "/mechanical-keyboard-layout-editor/static/js/runtime-main.077afe96.js",
-    "runtime-main.js.map": "/mechanical-keyboard-layout-editor/static/js/runtime-main.077afe96.js.map",
+    "main.css": "/mechanical-keyboard-layout-editor/static/css/main.2f0f0d24.chunk.css",
+    "main.js": "/mechanical-keyboard-layout-editor/static/js/main.d4262358.chunk.js",
+    "main.js.map": "/mechanical-keyboard-layout-editor/static/js/main.d4262358.chunk.js.map",
+    "runtime-main.js": "/mechanical-keyboard-layout-editor/static/js/runtime-main.c0ad7be3.js",
+    "runtime-main.js.map": "/mechanical-keyboard-layout-editor/static/js/runtime-main.c0ad7be3.js.map",
     "static/css/2.15a7a700.chunk.css": "/mechanical-keyboard-layout-editor/static/css/2.15a7a700.chunk.css",
-    "static/js/2.17ad3052.chunk.js": "/mechanical-keyboard-layout-editor/static/js/2.17ad3052.chunk.js",
-    "static/js/2.17ad3052.chunk.js.map": "/mechanical-keyboard-layout-editor/static/js/2.17ad3052.chunk.js.map",
-    "static/js/3.dff928de.chunk.js": "/mechanical-keyboard-layout-editor/static/js/3.dff928de.chunk.js",
-    "static/js/3.dff928de.chunk.js.map": "/mechanical-keyboard-layout-editor/static/js/3.dff928de.chunk.js.map",
+    "static/js/2.907489df.chunk.js": "/mechanical-keyboard-layout-editor/static/js/2.907489df.chunk.js",
+    "static/js/2.907489df.chunk.js.map": "/mechanical-keyboard-layout-editor/static/js/2.907489df.chunk.js.map",
+    "static/js/3.faefd56c.chunk.js": "/mechanical-keyboard-layout-editor/static/js/3.faefd56c.chunk.js",
+    "static/js/3.faefd56c.chunk.js.map": "/mechanical-keyboard-layout-editor/static/js/3.faefd56c.chunk.js.map",
     "index.html": "/mechanical-keyboard-layout-editor/index.html",
     "static/css/2.15a7a700.chunk.css.map": "/mechanical-keyboard-layout-editor/static/css/2.15a7a700.chunk.css.map",
-    "static/css/main.020d1719.chunk.css.map": "/mechanical-keyboard-layout-editor/static/css/main.020d1719.chunk.css.map",
-    "static/js/2.17ad3052.chunk.js.LICENSE.txt": "/mechanical-keyboard-layout-editor/static/js/2.17ad3052.chunk.js.LICENSE.txt"
+    "static/css/main.2f0f0d24.chunk.css.map": "/mechanical-keyboard-layout-editor/static/css/main.2f0f0d24.chunk.css.map",
+    "static/js/2.907489df.chunk.js.LICENSE.txt": "/mechanical-keyboard-layout-editor/static/js/2.907489df.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.077afe96.js",
+    "static/js/runtime-main.c0ad7be3.js",
     "static/css/2.15a7a700.chunk.css",
-    "static/js/2.17ad3052.chunk.js",
-    "static/css/main.020d1719.chunk.css",
-    "static/js/main.8ea58fa1.chunk.js"
+    "static/js/2.907489df.chunk.js",
+    "static/css/main.2f0f0d24.chunk.css",
+    "static/js/main.d4262358.chunk.js"
   ]
 }
