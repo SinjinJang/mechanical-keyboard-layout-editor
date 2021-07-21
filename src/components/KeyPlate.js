@@ -13,6 +13,7 @@ function KeyPlate() {
     { label: 'New Key', w: 1, h: 1, x: 0, y: 0 },
   ]);
   const selectedState = useState(-1);
+  const plateSizeInUnit = plateSize(layoutState.get(), true);
 
   return (
     <div>
@@ -36,7 +37,10 @@ function KeyPlate() {
           />
         )}
       </div>
-    </div>
+      <div className='key-plate-info'>
+        {layoutState.length} keys on {plateSizeInUnit.width}U x {plateSizeInUnit.height}U
+      </div>
+    </div >
   );
 }
 

@@ -4,7 +4,13 @@
   border: 1px solid #777;
   justify-content: center;
 
-  position: absolute;
+  position: relative;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.key-plate-info {
+  font-size: smaller;
+  font-style: italic;
+  color: #555;
 }
