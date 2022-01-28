@@ -40,14 +40,17 @@ export default function AboutDialog() {
             STL 형식의 3D 모델링 또는 DXF 형식의 2D 모델링 파일을 생성해줍니다.
           </DialogContentText>
           <DialogContentText id='about-dialog-description'>
-            현재는 키 스위치를 꽂을 수 있는 상판(plate)의 모델링 파일을 생성해주며,
-            PCB 용도의 하판도 생성을 할수 있도록 고려 중입니다.
-            키 스위치 및 키캡은 기성품을 구매하여 조립이 필요하며 Cherry MX, Kailh 스위치 등이 호환됩니다.
+            생성되는 모델링 파일의 종류는
+            1) 키 스위치를 꽂을 수 있는 보강판
+            2) PCB 용도의 하판
+            3) 케이스
+            입니다.
+            키 스위치, 스테빌라이저 및 키캡은 기성품을 구매하여 조립이 필요하며 Cherry MX, Kailh 스위치 등이 호환됩니다.
           </DialogContentText>
           <DialogContentText id='about-dialog-description'>
             사용자가 디자인한 키 레이아웃 및 모델링의 소유권은 모두 이를 디자인한 사용자에게 있습니다.
             또한, 생성된 3D 모델링 파일로 출력 시 발생할 수 있는 모든 문제는 사용자에게 책임이 있습니다.
-            제가 참고한 키 스위치 및 스테빌라이저에 맞도록 설계가 되었으므로 다른 부품과는 호환에 문제가 있을 수 있습니다.
+            제가 참고한 키 스위치 및 스테빌라이저에 맞도록 설계가 되었으므로 다른 부품과는 호환이 되지 않을 수 있습니다.
           </DialogContentText>
           <DialogContentText id='about-dialog-description'>
             발견하신 이슈 및 개선 사항, 또는 문의 사항이 있으시면,&nbsp;
@@ -59,7 +62,6 @@ export default function AboutDialog() {
             <p>알고 있는 이슈 사항:</p>
             <ul>
               <li>넓이가 6U~7U 크기인 키 스위치의 스테빌라이저 홀이 2U 크기로 생성</li>
-              <li>PCB-mount 스테빌라이저에서 plate-mount 스테빌라이저로 변경 예정</li>
             </ul>
           </DialogContentText>
         </DialogContent>
