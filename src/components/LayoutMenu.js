@@ -99,7 +99,7 @@ function LayoutMenu(props) {
     loadingState.set(true);
 
     const { data } = await axios.post(
-      `${HOST}/model/plate/${emailDialogState.fmt.get()}`,
+      `${HOST}/model/all/${emailDialogState.fmt.get()}`,
       _makeLayoutObj(layoutState.get(), email)
     );
     console.log(data);
