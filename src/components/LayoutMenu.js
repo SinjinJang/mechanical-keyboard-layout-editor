@@ -145,7 +145,7 @@ function LayoutMenu(props) {
         </Button>
         <Button
           className='hbar__item'
-          variant='outlined'
+          variant='contained'
           color='primary'
           onClick={() => handleGenerateModelClick('stl')}
         >
@@ -153,7 +153,7 @@ function LayoutMenu(props) {
         </Button>
         <Button
           className='hbar__item'
-          variant='outlined'
+          variant='contained'
           color='primary'
           onClick={() => handleGenerateModelClick('dxf')}
         >
