@@ -31,11 +31,12 @@ function EditPanel(props) {
     }
 
     // 넓이 또는 높이 크기 변경
-    const newValue = Number(e.target.value).toFixed(2);
+    const newValue = Number(e.target.value);
+    const roundValue = Math.round(newValue * 100) / 100;
     if (e.target.id === 'selected-key-width') {
-      layoutState[selectedState.get()].w.set(newValue);
+      layoutState[selectedState.get()].w.set(roundValue);
     } else if (e.target.id === 'selected-key-height') {
-      layoutState[selectedState.get()].h.set(newValue);
+      layoutState[selectedState.get()].h.set(roundValue);
     } else {
       console.log('>>>>> undefined id: ' + e.target.id);
       return;
