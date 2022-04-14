@@ -31,7 +31,7 @@ function EditPanel(props) {
     }
 
     // 넓이 또는 높이 크기 변경
-    const newValue = Number(e.target.value);
+    const newValue = Number(e.target.value).toFixed(2);
     if (e.target.id === 'selected-key-width') {
       layoutState[selectedState.get()].w.set(newValue);
     } else if (e.target.id === 'selected-key-height') {
