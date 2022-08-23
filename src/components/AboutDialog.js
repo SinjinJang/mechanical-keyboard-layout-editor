@@ -9,7 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import InfoIcon from '@material-ui/icons/Info';
 
 export default function AboutDialog() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -61,6 +61,7 @@ export default function AboutDialog() {
           <DialogContentText id='about-dialog-description'>
             <p>알고 있는 이슈 사항:</p>
             <ul>
+              <li>2022/08/23: <b>많은 키들을 배치하실 경우 도면 생성에 실패하는 경우가 있습니다. (무료 서버로 인한 서버 사양 부족) 다른 대안을 찾고 있는 중이니, 혹시 도면 생성 작업이 필요하시면 메일로 연락 부탁드립니다.</b></li>
               <li>넓이가 6U~7U 크기인 키 스위치의 스테빌라이저 홀이 2U 크기로 생성</li>
             </ul>
           </DialogContentText>
