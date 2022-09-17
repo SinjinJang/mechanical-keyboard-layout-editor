@@ -12,7 +12,7 @@ import LayoutMenuPredefinedDialog from './LayoutMenuPredefinedDialog';
 import { plateSize } from '../utils/LayoutUtil';
 
 
-const HOST = 'https://diy-mechanical-keyboard.herokuapp.com';
+const HOST = 'http://sinjin.iptime.org:7000';
 
 function _makeLayoutObj(layout, email_to = '') {
   return {
