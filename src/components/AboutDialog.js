@@ -61,8 +61,13 @@ export default function AboutDialog() {
           <DialogContentText id='about-dialog-description'>
             <p>알고 있는 이슈 사항:</p>
             <ul>
-              <li>2022/08/23: <b>많은 키들을 배치하실 경우 도면 생성에 실패하는 경우가 있습니다. (무료 서버로 인한 서버 사양 부족) 다른 대안을 찾고 있는 중이니, 혹시 도면 생성 작업이 필요하시면 메일로 연락 부탁드립니다.</b></li>
-              <li>넓이가 6U~7U 크기인 키 스위치의 스테빌라이저 홀이 2U 크기로 생성</li>
+              <li>2022/09/19: <u>무료 서버 사용으로 인한 제약 사항</u>
+                <ul>
+                  <li>도면 생성 서버의 사용 가능 시간은 <b>19:00~23:00</b> 입니다</li>
+                  <li>많은 키들을 배치하실 경우 <b>도면 생성이 오래</b> 걸립니다. (layout-full 기준 약 40분)</li>
+                  <li>위 사용 시간 및 도면 생성 시간을 참고하여 사용하시기 바랍니다</li>
+                </ul>
+              </li>
             </ul>
           </DialogContentText>
         </DialogContent>
