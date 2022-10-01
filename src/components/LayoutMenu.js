@@ -12,7 +12,7 @@ import LayoutMenuPredefinedDialog from './LayoutMenuPredefinedDialog';
 import { plateSize } from '../utils/LayoutUtil';
 
 
-const HOST = 'https://sinjin.iptime.org:7000';
+const HOST = 'https://7zlonf3otr4wqxgn5zufbijk7a0iajma.lambda-url.ap-northeast-2.on.aws';
 
 function _makeLayoutObj(layout, email_to = '') {
   return {
@@ -39,7 +39,7 @@ function LayoutMenu(props) {
   const handlePredefinedClick = async () => {
     loadingState.set(true);
 
-    const { data: { result } } = await axios.get(`${HOST}/layout`);
+    const { data: { result } } = await axios.get(`${HOST}?cmd=list_layout`);
     layoutListDialogState.predefinedList.set(result);
     layoutListDialogState.open.set(true);
 
@@ -49,7 +49,7 @@ function LayoutMenu(props) {
   const handlePredefinedLayoutSelect = async (fname) => {
     loadingState.set(true);
 
-    const { data: { result } } = await axios.get(`${HOST}/layout/${fname}`);
+    const { data: { result } } = await axios.get(`${HOST}?cmd=get_layout&fname=${fname}`);
     selectedState.set(-1);
     layoutState.set(result.layout);
     layoutListDialogState.open.set(false);
