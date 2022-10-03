@@ -59,13 +59,13 @@ export default function AboutDialog() {
             <a href='mailto:sinjin.jang0.gmail.com'>e-mail</a>로 알려주세요.
           </DialogContentText>
           <DialogContentText id='about-dialog-description'>
-            <p>알고 있는 이슈 사항:</p>
+            <p>이슈 사항:</p>
             <ul>
-              <li>2022/09/19: <u>무료 서버 사용으로 인한 제약 사항</u>
+              <li>2022/10/03: <u>무료 서버 사용으로 인한 제약 사항</u>
                 <ul>
-                  <li>도면 생성 서버의 사용 가능 시간은 <b>19:00~23:00</b> 입니다</li>
+                  <li>도면 생성 작업(STL/DXF)을 요청하시면 해당 요청 건 작업 대기열에 등록되고, 등록된 작업들은 <b>19:00~23:00 [KST]</b>에 순차적으로 처리됩니다.</li>
                   <li>많은 키들을 배치하실 경우 <b>도면 생성이 오래</b> 걸립니다. (layout-full 기준 약 40분)</li>
-                  <li>위 사용 시간 및 도면 생성 시간을 참고하여 사용하시기 바랍니다</li>
+                  <li>위 처리 시간 및 도면 생성 시간을 참고하여 사용하시기 바랍니다</li>
                 </ul>
               </li>
             </ul>
