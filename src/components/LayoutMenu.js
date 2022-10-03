@@ -12,12 +12,13 @@ import LayoutMenuPredefinedDialog from './LayoutMenuPredefinedDialog';
 import { plateSize } from '../utils/LayoutUtil';
 
 
-const HOST = 'https://7zlonf3otr4wqxgn5zufbijk7a0iajma.lambda-url.ap-northeast-2.on.aws';
+const HOST = 'https://b4apx5h1wh.execute-api.ap-northeast-2.amazonaws.com/prod';
 
-function _makeLayoutObj(layout, email_to = '') {
+function _makeLayoutObj(layout, fmt = '', email_to = '') {
   return {
     ...plateSize(layout, true),
     layout: layout,
+    fmt: fmt,
     email_to: email_to,
   };
 }
@@ -39,7 +40,7 @@ function LayoutMenu(props) {
   const handlePredefinedClick = async () => {
     loadingState.set(true);
 
-    const { data: { result } } = await axios.get(`${HOST}?cmd=list_layout`);
+    const { data: { result } } = await axios.get(`${HOST}/layouts`);
     layoutListDialogState.predefinedList.set(result);
     layoutListDialogState.open.set(true);
 
@@ -49,7 +50,7 @@ function LayoutMenu(props) {
   const handlePredefinedLayoutSelect = async (fname) => {
     loadingState.set(true);
 
-    const { data: { result } } = await axios.get(`${HOST}?cmd=get_layout&fname=${fname}`);
+    const { data: { result } } = await axios.get(`${HOST}/layouts/${fname}`);
     selectedState.set(-1);
     layoutState.set(result.layout);
     layoutListDialogState.open.set(false);
@@ -99,8 +100,8 @@ function LayoutMenu(props) {
     loadingState.set(true);
 
     const { data } = await axios.post(
-      `${HOST}/model/all/${emailDialogState.fmt.get()}`,
-      _makeLayoutObj(layoutState.get(), email)
+      `${HOST}/modeling`,
+      _makeLayoutObj(layoutState.get(), emailDialogState.fmt.get(), email)
     );
     console.log(data);
 
