@@ -12,7 +12,7 @@ import LayoutMenuPredefinedDialog from './LayoutMenuPredefinedDialog';
 import { plateSize } from '../utils/LayoutUtil';
 
 
-const HOST = 'https://aql0t45w22.execute-api.ap-northeast-2.amazonaws.com/prod';
+const HOST = 'https://wq7lmt4re3.execute-api.ap-northeast-2.amazonaws.com/prod';
 
 function _makeLayoutObj(layout, fmt = '', email_to = '') {
   return {
