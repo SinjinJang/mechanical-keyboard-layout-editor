@@ -13,7 +13,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
     "file-saver": "^2.0.5",
-    "gh-pages": "^6.0.0",
+    "gh-pages": "^6.1.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-draggable": "^4.4.3",
