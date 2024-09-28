@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/mechanical-keyboard-layout-editor/static/css/main.b075598b.css",
+    "main.js": "/mechanical-keyboard-layout-editor/static/js/main.3d53f50d.js",
+    "static/js/453.4dd8ed21.chunk.js": "/mechanical-keyboard-layout-editor/static/js/453.4dd8ed21.chunk.js",
+    "index.html": "/mechanical-keyboard-layout-editor/index.html",
+    "main.b075598b.css.map": "/mechanical-keyboard-layout-editor/static/css/main.b075598b.css.map",
+    "main.3d53f50d.js.map": "/mechanical-keyboard-layout-editor/static/js/main.3d53f50d.js.map",
+    "453.4dd8ed21.chunk.js.map": "/mechanical-keyboard-layout-editor/static/js/453.4dd8ed21.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b075598b.css",
+    "static/js/main.3d53f50d.js"
+  ]
+}
