@@ -1,3 +1,4 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Disallow: static
+Site: https://sinjinjang.github.io/mechanical-keyboard-layout-editor/sitemap.xml
