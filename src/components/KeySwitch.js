@@ -6,7 +6,7 @@ import './KeySwitch.css';
 
 
 function KeySwitch(props) {
-  const { label, x, y, w, h } = props.keyState;
+  const { label, x, y, w, h, a } = props.keyState;
   const selectedState = props.selectedState;
 
   const selectedClassName = selectedState.get() === props.seq ? 'key-switch-selected' : '';
@@ -27,7 +27,11 @@ function KeySwitch(props) {
     >
       <div
         className={`key-switch ${selectedClassName}`}
-        style={LayoutUtil.keySize(w.get(), h.get())}
+        style={{
+          ...LayoutUtil.keySize(w.get(), h.get()),
+          transform: `rotate(${a.get()}deg)`,
+          transformOrigin: 'center center'
+        }}
         onClick={handleClick}
       >
         {label.get()}

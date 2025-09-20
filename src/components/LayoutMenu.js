@@ -51,8 +51,13 @@ function LayoutMenu(props) {
     loadingState.set(true);
 
     const { data: { result } } = await axios.get(`${HOST}/layouts/${fname}`);
+    // 기존 파일 호환성을 위해 a 속성이 없는 키에 기본값 0 추가
+    const layoutWithRotation = result.layout.map(key => ({
+      ...key,
+      a: key.a !== undefined ? key.a : 0
+    }));
     selectedState.set(-1);
-    layoutState.set(result.layout);
+    layoutState.set(layoutWithRotation);
     layoutListDialogState.open.set(false);
 
     loadingState.set(false);
@@ -66,8 +71,13 @@ function LayoutMenu(props) {
       reader.readAsBinaryString(e1.target.files[0]);
       reader.onloadend = () => {
         const { layout } = JSON.parse(reader.result);
+        // 기존 파일 호환성을 위해 a 속성이 없는 키에 기본값 0 추가
+        const layoutWithRotation = layout.map(key => ({
+          ...key,
+          a: key.a !== undefined ? key.a : 0
+        }));
         selectedState.set(-1);
-        layoutState.set(layout);
+        layoutState.set(layoutWithRotation);
       };
     };
 

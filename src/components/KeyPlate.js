@@ -10,7 +10,7 @@ import LayoutMenu from './LayoutMenu';
 
 function KeyPlate() {
   const layoutState = useState([
-    { label: 'New Key', w: 1, h: 1, x: 0, y: 0 },
+    { label: 'New Key', w: 1, h: 1, x: 0, y: 0, a: 0 },
   ]);
   const selectedState = useState(-1);
   const plateSizeInUnit = plateSize(layoutState.get(), true);
