@@ -38,7 +38,11 @@ function EditPanel(props) {
     } else if (e.target.id === 'selected-key-height') {
       layoutState[selectedState.get()].h.set(roundValue);
     } else if (e.target.id === 'selected-key-angle') {
-      layoutState[selectedState.get()].a.set(newValue);  // 각도는 정수값 사용
+      // Limit the angle between -90 and 90
+      let angle = newValue;
+      if (angle < -90) angle = -90;
+      if (angle > 90) angle = 90;
+      layoutState[selectedState.get()].a.set(angle);
     } else {
       console.log('>>>>> undefined id: ' + e.target.id);
       return;
@@ -116,52 +120,14 @@ function EditPanel(props) {
           </Select>
         </FormControl>
         <FormControl className='hbar__item'>
-          <InputLabel htmlFor='select-key-angle'>Angle</InputLabel>
-          <Select
-            native
+          <TextField
             id='selected-key-angle'
             label='Angle'
+            type='number'
+            InputProps={{ inputProps: { min: -90, max: 90 } }}
             value={selectedState.get() === -1 ? '' : layoutState[selectedState.get()].a.get()}
             onChange={handleSizeChange}
-          >
-            <option value='-90'>-90°</option>
-            <option value='-85'>-85°</option>
-            <option value='-80'>-80°</option>
-            <option value='-75'>-75°</option>
-            <option value='-70'>-70°</option>
-            <option value='-65'>-65°</option>
-            <option value='-60'>-60°</option>
-            <option value='-55'>-55°</option>
-            <option value='-50'>-50°</option>
-            <option value='-45'>-45°</option>
-            <option value='-40'>-40°</option>
-            <option value='-35'>-35°</option>
-            <option value='-30'>-30°</option>
-            <option value='-25'>-25°</option>
-            <option value='-20'>-20°</option>
-            <option value='-15'>-15°</option>
-            <option value='-10'>-10°</option>
-            <option value='-5'>-5°</option>
-            <option value='0'>0°</option>
-            <option value='5'>5°</option>
-            <option value='10'>10°</option>
-            <option value='15'>15°</option>
-            <option value='20'>20°</option>
-            <option value='25'>25°</option>
-            <option value='30'>30°</option>
-            <option value='35'>35°</option>
-            <option value='40'>40°</option>
-            <option value='45'>45°</option>
-            <option value='50'>50°</option>
-            <option value='55'>55°</option>
-            <option value='60'>60°</option>
-            <option value='65'>65°</option>
-            <option value='70'>70°</option>
-            <option value='75'>75°</option>
-            <option value='80'>80°</option>
-            <option value='85'>85°</option>
-            <option value='90'>90°</option>
-          </Select>
+          />
         </FormControl>
         <IconButton
           className='hbar__item editpanel__imageicon'

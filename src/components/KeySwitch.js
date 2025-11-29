@@ -21,20 +21,28 @@ function KeySwitch(props) {
   return (
     <Draggable
       grid={[LayoutUtil.UNIT_0_25, LayoutUtil.UNIT_0_25]}
-      bounds={{left: LayoutUtil.PLATE_PADDING, top: LayoutUtil.PLATE_PADDING}}
+      bounds={{ left: LayoutUtil.PLATE_PADDING, top: LayoutUtil.PLATE_PADDING }}
       position={LayoutUtil.keyPosition(x.get(), y.get())}
       onDrag={handleDrag}
     >
       <div
-        className={`key-switch ${selectedClassName}`}
         style={{
+          position: 'absolute',
           ...LayoutUtil.keySize(w.get(), h.get()),
-          transform: `rotate(${a.get()}deg)`,
-          transformOrigin: 'center center'
         }}
         onClick={handleClick}
       >
-        {label.get()}
+        <div
+          className={`key-switch ${selectedClassName}`}
+          style={{
+            width: '100%',
+            height: '100%',
+            transform: `rotate(${a.get()}deg)`,
+            transformOrigin: 'center center'
+          }}
+        >
+          {label.get()}
+        </div>
       </div>
     </Draggable>
   );
