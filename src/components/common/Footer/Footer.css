@@ -1,10 +1,15 @@
-.footer {
-  position: absolute;
+.footer-container {
+  position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
-	padding: 10px 0;
-	background: #11111111;
+  z-index: 999;
+}
+
+.footer {
+  width: 100%;
+  padding: 10px 0;
+  background: #11111111;
   display: flex;
   text-align: center;
 }

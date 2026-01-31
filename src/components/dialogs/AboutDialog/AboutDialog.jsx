@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import InfoIcon from '@mui/icons-material/Info';
 
 export default function AboutDialog() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -57,18 +57,6 @@ export default function AboutDialog() {
             <a href='https://github.com/SinjinJang/mechanical-keyboard-layout-editor' target='_blank'>GitHub issue</a>
             &nbsp;혹은&nbsp;
             <a href='mailto:sinjin.jang0.gmail.com'>e-mail</a>로 알려주세요.
-          </DialogContentText>
-          <DialogContentText>
-            <p>이슈 사항:</p>
-            <ul>
-              <li>2022/10/04: <u>무료 서버 사용으로 인한 제약 사항</u>
-                <ul>
-                  <li>서버 사양이 낮아 많은 키들을 배치한 경우 <u>도면 생성 작업이 오래</u> 걸립니다. (layout-full 기준 약 30분)</li>
-                  <li>도면 생성 요청 시 작업 대기열에 추가가 되며, <u>하나씩 순차적으로</u> 도면 생성 작업이 진행됩니다.</li>
-                  <li>위 처리 방식 및 도면 생성 시간을 참고하여 사용하시기 바랍니다.</li>
-                </ul>
-              </li>
-            </ul>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
