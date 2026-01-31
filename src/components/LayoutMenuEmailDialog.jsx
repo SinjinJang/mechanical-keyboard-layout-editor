@@ -1,20 +1,20 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Typography from '@material-ui/core/Typography';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Typography from '@mui/material/Typography';
 
-import { useState } from '@hookstate/core';
+import { useHookstate } from '@hookstate/core';
 
 
 export default function LayoutMenuEmailDialog(props) {
   const { openState, onConfirm } = props;
-  const emailState = useState('');
-  const validState = useState(false);
+  const emailState = useHookstate('');
+  const validState = useHookstate(false);
 
   const handleClose = () => {
     openState.set(false);
@@ -22,8 +22,6 @@ export default function LayoutMenuEmailDialog(props) {
 
   const handleChange = (e) => {
     const inputEmail = e.target.value;
-
-    // 이메일 유효성 체크
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     validState.set(re.test(String(inputEmail).toLowerCase()));
     emailState.set(validState.get() ? inputEmail : '');
@@ -51,6 +49,7 @@ export default function LayoutMenuEmailDialog(props) {
             label="Email Address"
             type="email"
             fullWidth
+            variant="standard"
             onChange={handleChange}
           />
           {validState.get() ? '' : <DialogContentText>유효하지 않은 이메일입니다.</DialogContentText>}

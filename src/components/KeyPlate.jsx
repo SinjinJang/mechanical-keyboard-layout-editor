@@ -1,6 +1,6 @@
 import './KeyPlate.css';
 
-import { useState } from '@hookstate/core';
+import { useHookstate } from '@hookstate/core';
 
 import { plateSize } from '../utils/LayoutUtil';
 import EditPanel from './EditPanel';
@@ -9,10 +9,10 @@ import LayoutMenu from './LayoutMenu';
 
 
 function KeyPlate() {
-  const layoutState = useState([
+  const layoutState = useHookstate([
     { label: 'New Key', w: 1, h: 1, x: 0, y: 0, a: 0 },
   ]);
-  const selectedState = useState(-1);
+  const selectedState = useHookstate(-1);
   const plateSizeInUnit = plateSize(layoutState.get(), true);
 
   return (

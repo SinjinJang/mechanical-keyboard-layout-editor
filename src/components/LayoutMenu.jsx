@@ -1,8 +1,8 @@
 import './HorizontalBar.css';
 import './LayoutMenu.css';
 
-import { useState } from '@hookstate/core';
-import { Button, CircularProgress } from '@material-ui/core';
+import { useHookstate } from '@hookstate/core';
+import { Button, CircularProgress } from '@mui/material';
 
 import axios from 'axios';
 import FileSaver from 'file-saver';
@@ -25,33 +25,29 @@ function _makeLayoutObj(layout, fmt = '', email_to = '') {
 
 function LayoutMenu(props) {
   const { layoutState, selectedState } = props;
-  const loadingState = useState(false);
+  const loadingState = useHookstate(false);
 
-  const emailDialogState = useState({
+  const emailDialogState = useHookstate({
     open: false,
     fmt: '',
   });
 
-  const layoutListDialogState = useState({
+  const layoutListDialogState = useHookstate({
     open: false,
     predefinedList: [],
   });
 
   const handlePredefinedClick = async () => {
     loadingState.set(true);
-
     const { data: { result } } = await axios.get(`${HOST}/layouts`);
     layoutListDialogState.predefinedList.set(result);
     layoutListDialogState.open.set(true);
-
     loadingState.set(false);
   };
 
   const handlePredefinedLayoutSelect = async (fname) => {
     loadingState.set(true);
-
     const { data: { result } } = await axios.get(`${HOST}/layouts/${fname}`);
-    // 기존 파일 호환성을 위해 a 속성이 없는 키에 기본값 0 추가
     const layoutWithRotation = result.layout.map(key => ({
       ...key,
       a: key.a !== undefined ? key.a : 0
@@ -59,19 +55,16 @@ function LayoutMenu(props) {
     selectedState.set(-1);
     layoutState.set(layoutWithRotation);
     layoutListDialogState.open.set(false);
-
     loadingState.set(false);
   };
 
   const handleUploadClick = (e) => {
     e.preventDefault();
-
     const handleOnChange = (e1) => {
       const reader = new FileReader();
       reader.readAsBinaryString(e1.target.files[0]);
       reader.onloadend = () => {
         const { layout } = JSON.parse(reader.result);
-        // 기존 파일 호환성을 위해 a 속성이 없는 키에 기본값 0 추가
         const layoutWithRotation = layout.map(key => ({
           ...key,
           a: key.a !== undefined ? key.a : 0
@@ -80,7 +73,6 @@ function LayoutMenu(props) {
         layoutState.set(layoutWithRotation);
       };
     };
-
     const fileSelector = document.createElement('input');
     fileSelector.setAttribute('type', 'file');
     fileSelector.setAttribute('accept', '.json');
@@ -101,20 +93,17 @@ function LayoutMenu(props) {
       console.log('prevent duplicated click!');
       return;
     }
-
     emailDialogState.fmt.set(fmt);
     emailDialogState.open.set(true);
   };
 
   const handleConfirmEmailClick = async (email) => {
     loadingState.set(true);
-
     const { data } = await axios.post(
       `${HOST}/modeling`,
       _makeLayoutObj(layoutState.get(), emailDialogState.fmt.get(), email)
     );
     console.log(data);
-
     loadingState.set(false);
   };
 
@@ -130,44 +119,19 @@ function LayoutMenu(props) {
         onSelect={handlePredefinedLayoutSelect}
       />
       <div className='hbar__container'>
-        <Button
-          className='hbar__item'
-          variant='outlined'
-          color='primary'
-          onClick={handlePredefinedClick}
-        >
+        <Button className='hbar__item' variant='outlined' color='primary' onClick={handlePredefinedClick}>
           Predefined Layout
         </Button>
-        <Button
-          className='hbar__item'
-          variant='outlined'
-          color='primary'
-          onClick={handleUploadClick}
-        >
+        <Button className='hbar__item' variant='outlined' color='primary' onClick={handleUploadClick}>
           Upload Layout
         </Button>
-        <Button
-          className='hbar__item'
-          variant='outlined'
-          color='primary'
-          onClick={handleDownloadClick}
-        >
+        <Button className='hbar__item' variant='outlined' color='primary' onClick={handleDownloadClick}>
           Download Layout
         </Button>
-        <Button
-          className='hbar__item'
-          variant='contained'
-          color='primary'
-          onClick={() => handleGenerateModelClick('stl')}
-        >
+        <Button className='hbar__item' variant='contained' color='primary' onClick={() => handleGenerateModelClick('stl')}>
           Generate STL (3D)
         </Button>
-        <Button
-          className='hbar__item'
-          variant='contained'
-          color='primary'
-          onClick={() => handleGenerateModelClick('dxf')}
-        >
+        <Button className='hbar__item' variant='contained' color='primary' onClick={() => handleGenerateModelClick('dxf')}>
           Generate DXF (2D)
         </Button>
       </div>

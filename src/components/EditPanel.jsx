@@ -2,8 +2,8 @@ import './HorizontalBar.css';
 import './EditPanel.css';
 
 import { none } from '@hookstate/core';
-import { IconButton, FormControl, InputLabel, TextField, Select } from '@material-ui/core';
-import { AddBox, IndeterminateCheckBox } from '@material-ui/icons';
+import { IconButton, FormControl, InputLabel, TextField, Select } from '@mui/material';
+import { AddBox, IndeterminateCheckBox } from '@mui/icons-material';
 
 import { plateSize } from '../utils/LayoutUtil';
 
@@ -12,7 +12,6 @@ function EditPanel(props) {
   const { layoutState, selectedState } = props;
 
   const handleLabelChange = (e) => {
-    // 예외 처리: 선택된 키가 없다면 입력 내용은 무시함.
     if (selectedState.get() === -1) {
       return;
     }
@@ -21,16 +20,13 @@ function EditPanel(props) {
   };
 
   const handleSizeChange = (e) => {
-    // 예외 처리: 선택된 키가 없다면 입력 내용은 무시함.
     if (selectedState.get() === -1) {
       return;
     }
-    // 예외 처리: 키가 선택된 상태에서 크기 없음 선택 불가
     if (e.target.value === '') {
       return;
     }
 
-    // 넓이, 높이, 또는 회전 각도 변경
     const newValue = Number(e.target.value);
     const roundValue = Math.round(newValue * 100) / 100;
     if (e.target.id === 'selected-key-width') {
@@ -38,7 +34,6 @@ function EditPanel(props) {
     } else if (e.target.id === 'selected-key-height') {
       layoutState[selectedState.get()].h.set(roundValue);
     } else if (e.target.id === 'selected-key-angle') {
-      // Limit the angle between -90 and 90
       let angle = newValue;
       if (angle < -90) angle = -90;
       if (angle > 90) angle = 90;
@@ -53,16 +48,15 @@ function EditPanel(props) {
     const { width, height } = plateSize(layoutState.get(), true);
     layoutState.merge([{
       'label': 'New Key',
-      'x': width,  // right end 배치
-      'y': Math.max(height - 1, 0),  // bottom align 배치
+      'x': width,
+      'y': Math.max(height - 1, 0),
       'w': 1,
       'h': 1,
-      'a': 0,  // 기본 회전 각도 0도
+      'a': 0,
     }]);
   };
 
   const handleRemoveSwitch = () => {
-    // 예외 처리: 선택된 키가 없다면 동작 무시함.
     if (selectedState.get() === -1) {
       return;
     }
@@ -74,18 +68,20 @@ function EditPanel(props) {
   return (
     <div className='editpanel'>
       <div className='hbar__container'>
-        <FormControl className='hbar__item'>
+        <FormControl className='hbar__item' variant="standard">
           <TextField
             id='selected-key-label'
             label='Key Label'
+            variant="standard"
             value={selectedState.get() === -1 ? '' : layoutState[selectedState.get()].label.get()}
             onChange={handleLabelChange}
           />
         </FormControl>
-        <FormControl className='hbar__item'>
+        <FormControl className='hbar__item' variant="standard">
           <InputLabel htmlFor='select-key-width'>Width</InputLabel>
           <Select
             native
+            variant="standard"
             id='selected-key-width'
             label='Width'
             value={selectedState.get() === -1 ? '' : layoutState[selectedState.get()].w.get()}
@@ -105,10 +101,11 @@ function EditPanel(props) {
             <option value='7'>7U</option>
           </Select>
         </FormControl>
-        <FormControl className='hbar__item'>
+        <FormControl className='hbar__item' variant="standard">
           <InputLabel htmlFor='select-key-height'>Height</InputLabel>
           <Select
             native
+            variant="standard"
             id='selected-key-height'
             label='Height'
             value={selectedState.get() === -1 ? '' : layoutState[selectedState.get()].h.get()}
@@ -119,12 +116,13 @@ function EditPanel(props) {
             <option value='2'>2U</option>
           </Select>
         </FormControl>
-        <FormControl className='hbar__item'>
+        <FormControl className='hbar__item' variant="standard">
           <TextField
             id='selected-key-angle'
             label='Angle'
             type='number'
-            InputProps={{ inputProps: { min: -90, max: 90 } }}
+            variant="standard"
+            slotProps={{ htmlInput: { min: -90, max: 90 } }}
             value={selectedState.get() === -1 ? '' : layoutState[selectedState.get()].a.get()}
             onChange={handleSizeChange}
           />

@@ -1,18 +1,18 @@
-import { HashRouter, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 
 import Home from './routes/Home';
 import About from './routes/About';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Navigation from './components/Navigation';
 
 const App = () => (
   <>
     <Header />
     <HashRouter>
-      {/* <Navigation /> */}
-      <Route exact path='/' component={Home} />
-      <Route path='/about' component={About} />
+      <Routes>
+        <Route exact path='/' element={<Home />} />
+        <Route path='/about' element={<About />} />
+      </Routes>
     </HashRouter>
     <Footer />
   </>

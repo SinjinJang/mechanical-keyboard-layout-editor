@@ -1,12 +1,12 @@
 import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import InfoIcon from '@material-ui/icons/Info';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import InfoIcon from '@mui/icons-material/Info';
 
 export default function AboutDialog() {
   const [open, setOpen] = React.useState(true);
@@ -22,7 +22,7 @@ export default function AboutDialog() {
   return (
     <div>
       <div style={{ position: 'fixed', right: '5px', top: '5px' }}>
-        <IconButton variant='outlined' color='default' onClick={handleClickOpen}>
+        <IconButton color='default' onClick={handleClickOpen}>
           <InfoIcon />
         </IconButton>
       </div>
@@ -39,7 +39,7 @@ export default function AboutDialog() {
             키 스위치를 사용자가 원하는 대로 배치하고 이를 3D프린터(또는 CNC조각기)로 출력할 수 있도록
             STL 형식의 3D 모델링 또는 DXF 형식의 2D 모델링 파일을 생성해줍니다.
           </DialogContentText>
-          <DialogContentText id='about-dialog-description'>
+          <DialogContentText>
             생성되는 모델링 파일의 종류는
             1) 키 스위치를 꽂을 수 있는 보강판
             2) PCB 용도의 하판
@@ -47,18 +47,18 @@ export default function AboutDialog() {
             입니다.
             키 스위치, 스테빌라이저 및 키캡은 기성품을 구매하여 조립이 필요하며 Cherry MX, Kailh 스위치 등이 호환됩니다.
           </DialogContentText>
-          <DialogContentText id='about-dialog-description'>
+          <DialogContentText>
             사용자가 디자인한 키 레이아웃 및 모델링의 소유권은 모두 이를 디자인한 사용자에게 있습니다.
             또한, 생성된 3D 모델링 파일로 출력 시 발생할 수 있는 모든 문제는 사용자에게 책임이 있습니다.
             제가 참고한 키 스위치 및 스테빌라이저에 맞도록 설계가 되었으므로 다른 부품과는 호환이 되지 않을 수 있습니다.
           </DialogContentText>
-          <DialogContentText id='about-dialog-description'>
+          <DialogContentText>
             발견하신 이슈 및 개선 사항, 또는 문의 사항이 있으시면,&nbsp;
             <a href='https://github.com/SinjinJang/mechanical-keyboard-layout-editor' target='_blank'>GitHub issue</a>
             &nbsp;혹은&nbsp;
             <a href='mailto:sinjin.jang0.gmail.com'>e-mail</a>로 알려주세요.
           </DialogContentText>
-          <DialogContentText id='about-dialog-description'>
+          <DialogContentText>
             <p>이슈 사항:</p>
             <ul>
               <li>2022/10/04: <u>무료 서버 사용으로 인한 제약 사항</u>

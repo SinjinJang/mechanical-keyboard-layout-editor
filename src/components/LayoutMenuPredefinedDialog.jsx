@@ -1,9 +1,9 @@
 import React from 'react';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
 
 
 export default function LayoutMenuPredefinedDialog(props) {
@@ -22,9 +22,9 @@ export default function LayoutMenuPredefinedDialog(props) {
       <DialogTitle id="simple-dialog-title">Choose Predefined Layout</DialogTitle>
       <List>
         {dialogState.predefinedList.get().map((layout, idx) => (
-          <ListItem button onClick={() => handleListItemClick(layout)} key={idx}>
+          <ListItemButton onClick={() => handleListItemClick(layout)} key={idx}>
             <ListItemText primary={layout} />
-          </ListItem>
+          </ListItemButton>
         ))}
       </List>
     </Dialog>
