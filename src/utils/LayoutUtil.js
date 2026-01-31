@@ -11,8 +11,8 @@ export function keyPosition(x, y) {
 
 export function keySize(w, h) {
   return {
-    width: (w * UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
-    height: (h * UNIT_1) - 2,  // NOTE: 테두리 두께만큼 빼줌
+    width: (w * UNIT_1) - 4,  // NOTE: 스위치 간격을 위해 4px 빼줌
+    height: (h * UNIT_1) - 4,  // NOTE: 스위치 간격을 위해 4px 빼줌
   };
 }
 
