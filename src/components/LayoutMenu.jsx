@@ -1,12 +1,13 @@
 import './HorizontalBar.css';
 import './LayoutMenu.css';
 
-import { useHookstate } from '@hookstate/core';
 import { Button, CircularProgress } from '@mui/material';
 
 import axios from 'axios';
 import FileSaver from 'file-saver';
 
+import { useKeyboardStore } from '../store/keyboardStore';
+import { useUIStore } from '../store/uiStore';
 import LayoutMenuEmailDialog from './LayoutMenuEmailDialog';
 import LayoutMenuPredefinedDialog from './LayoutMenuPredefinedDialog';
 import { plateSize } from '../utils/LayoutUtil';
@@ -23,39 +24,36 @@ function _makeLayoutObj(layout, fmt = '', email_to = '') {
   };
 }
 
-function LayoutMenu(props) {
-  const { layoutState, selectedState } = props;
-  const loadingState = useHookstate(false);
+function LayoutMenu() {
+  const layout = useKeyboardStore((state) => state.layout);
+  const setLayout = useKeyboardStore((state) => state.setLayout);
+  const setSelectedIndex = useKeyboardStore((state) => state.setSelectedIndex);
 
-  const emailDialogState = useHookstate({
-    open: false,
-    fmt: '',
-  });
-
-  const layoutListDialogState = useHookstate({
-    open: false,
-    predefinedList: [],
-  });
+  const loading = useUIStore((state) => state.loading);
+  const setLoading = useUIStore((state) => state.setLoading);
+  const emailDialog = useUIStore((state) => state.emailDialog);
+  const setEmailDialog = useUIStore((state) => state.setEmailDialog);
+  const layoutListDialog = useUIStore((state) => state.layoutListDialog);
+  const setLayoutListDialog = useUIStore((state) => state.setLayoutListDialog);
 
   const handlePredefinedClick = async () => {
-    loadingState.set(true);
+    setLoading(true);
     const { data: { result } } = await axios.get(`${HOST}/layouts`);
-    layoutListDialogState.predefinedList.set(result);
-    layoutListDialogState.open.set(true);
-    loadingState.set(false);
+    setLayoutListDialog({ ...layoutListDialog, predefinedList: result, open: true });
+    setLoading(false);
   };
 
   const handlePredefinedLayoutSelect = async (fname) => {
-    loadingState.set(true);
+    setLoading(true);
     const { data: { result } } = await axios.get(`${HOST}/layouts/${fname}`);
     const layoutWithRotation = result.layout.map(key => ({
       ...key,
       a: key.a !== undefined ? key.a : 0
     }));
-    selectedState.set(-1);
-    layoutState.set(layoutWithRotation);
-    layoutListDialogState.open.set(false);
-    loadingState.set(false);
+    setSelectedIndex(-1);
+    setLayout(layoutWithRotation);
+    setLayoutListDialog({ ...layoutListDialog, open: false });
+    setLoading(false);
   };
 
   const handleUploadClick = (e) => {
@@ -64,13 +62,13 @@ function LayoutMenu(props) {
       const reader = new FileReader();
       reader.readAsBinaryString(e1.target.files[0]);
       reader.onloadend = () => {
-        const { layout } = JSON.parse(reader.result);
-        const layoutWithRotation = layout.map(key => ({
+        const { layout: uploadedLayout } = JSON.parse(reader.result);
+        const layoutWithRotation = uploadedLayout.map(key => ({
           ...key,
           a: key.a !== undefined ? key.a : 0
         }));
-        selectedState.set(-1);
-        layoutState.set(layoutWithRotation);
+        setSelectedIndex(-1);
+        setLayout(layoutWithRotation);
       };
     };
     const fileSelector = document.createElement('input');
@@ -81,7 +79,7 @@ function LayoutMenu(props) {
   };
 
   const handleDownloadClick = () => {
-    const data = JSON.stringify(_makeLayoutObj(layoutState.get()));
+    const data = JSON.stringify(_makeLayoutObj(layout));
     FileSaver.saveAs(
       new Blob([data], { type: 'text/json; charset=utf-8' }),
       'layout.json'
@@ -89,33 +87,30 @@ function LayoutMenu(props) {
   };
 
   const handleGenerateModelClick = (fmt) => {
-    if (loadingState.get()) {
+    if (loading) {
       console.log('prevent duplicated click!');
       return;
     }
-    emailDialogState.fmt.set(fmt);
-    emailDialogState.open.set(true);
+    setEmailDialog({ fmt, open: true });
   };
 
   const handleConfirmEmailClick = async (email) => {
-    loadingState.set(true);
+    setLoading(true);
     const { data } = await axios.post(
       `${HOST}/modeling`,
-      _makeLayoutObj(layoutState.get(), emailDialogState.fmt.get(), email)
+      _makeLayoutObj(layout, emailDialog.fmt, email)
     );
     console.log(data);
-    loadingState.set(false);
+    setLoading(false);
   };
 
   return (
     <div className='layoutmenu'>
-      {loadingState.get() ? <div className='loading'><CircularProgress /></div> : ''}
+      {loading ? <div className='loading'><CircularProgress /></div> : ''}
       <LayoutMenuEmailDialog
-        openState={emailDialogState.open}
         onConfirm={handleConfirmEmailClick}
       />
       <LayoutMenuPredefinedDialog
-        dialogState={layoutListDialogState}
         onSelect={handlePredefinedLayoutSelect}
       />
       <div className='hbar__container'>

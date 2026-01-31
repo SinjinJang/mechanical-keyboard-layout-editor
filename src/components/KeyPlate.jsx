@@ -1,7 +1,6 @@
 import './KeyPlate.css';
 
-import { useHookstate } from '@hookstate/core';
-
+import { useKeyboardStore } from '../store/keyboardStore';
 import { plateSize } from '../utils/LayoutUtil';
 import EditPanel from './EditPanel';
 import KeySwitch from './KeySwitch';
@@ -9,36 +8,26 @@ import LayoutMenu from './LayoutMenu';
 
 
 function KeyPlate() {
-  const layoutState = useHookstate([
-    { label: 'New Key', w: 1, h: 1, x: 0, y: 0, a: 0 },
-  ]);
-  const selectedState = useHookstate(-1);
-  const plateSizeInUnit = plateSize(layoutState.get(), true);
+  const layout = useKeyboardStore((state) => state.layout);
+  const plateSizeInUnit = plateSize(layout, true);
 
   return (
     <div>
-      <LayoutMenu
-        layoutState={layoutState}
-        selectedState={selectedState}
-      />
-      <EditPanel
-        layoutState={layoutState}
-        selectedState={selectedState}
-      />
+      <LayoutMenu />
+      <EditPanel />
       <div
         className='key-plate'
-        style={plateSize(layoutState.get())}>
-        {layoutState.map((keyState, index) =>
+        style={plateSize(layout)}>
+        {layout.map((key, index) =>
           <KeySwitch
             key={index}
             seq={index}
-            keyState={keyState}
-            selectedState={selectedState}
+            keyData={key}
           />
         )}
       </div>
       <div className='key-plate-info'>
-        {layoutState.length} keys on {plateSizeInUnit.width}U x {plateSizeInUnit.height}U
+        {layout.length} keys on {plateSizeInUnit.width}U x {plateSizeInUnit.height}U
       </div>
     </div >
   );

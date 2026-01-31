@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -8,35 +8,39 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Typography from '@mui/material/Typography';
 
-import { useHookstate } from '@hookstate/core';
+import { useUIStore } from '../store/uiStore';
 
 
 export default function LayoutMenuEmailDialog(props) {
-  const { openState, onConfirm } = props;
-  const emailState = useHookstate('');
-  const validState = useHookstate(false);
+  const { onConfirm } = props;
+  const emailDialog = useUIStore((state) => state.emailDialog);
+  const setEmailDialog = useUIStore((state) => state.setEmailDialog);
+
+  const [email, setEmail] = useState('');
+  const [isValid, setIsValid] = useState(false);
 
   const handleClose = () => {
-    openState.set(false);
+    setEmailDialog({ ...emailDialog, open: false });
   }
 
   const handleChange = (e) => {
     const inputEmail = e.target.value;
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    validState.set(re.test(String(inputEmail).toLowerCase()));
-    emailState.set(validState.get() ? inputEmail : '');
+    const valid = re.test(String(inputEmail).toLowerCase());
+    setIsValid(valid);
+    setEmail(valid ? inputEmail : '');
   }
 
   const handleConfirmClick = () => {
-    if (validState.get()) {
+    if (isValid) {
       handleClose();
-      onConfirm(emailState.get());
+      onConfirm(email);
     }
   };
 
   return (
     <div>
-      <Dialog open={openState.get()} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={emailDialog.open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Generate Model</DialogTitle>
         <DialogContent>
           <Typography>
@@ -52,7 +56,7 @@ export default function LayoutMenuEmailDialog(props) {
             variant="standard"
             onChange={handleChange}
           />
-          {validState.get() ? '' : <DialogContentText>유효하지 않은 이메일입니다.</DialogContentText>}
+          {isValid ? '' : <DialogContentText>유효하지 않은 이메일입니다.</DialogContentText>}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

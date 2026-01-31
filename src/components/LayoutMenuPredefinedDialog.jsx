@@ -5,12 +5,16 @@ import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 
+import { useUIStore } from '../store/uiStore';
+
 
 export default function LayoutMenuPredefinedDialog(props) {
-  const { dialogState, onSelect } = props;
+  const { onSelect } = props;
+  const layoutListDialog = useUIStore((state) => state.layoutListDialog);
+  const setLayoutListDialog = useUIStore((state) => state.setLayoutListDialog);
 
   const handleClose = () => {
-    dialogState.open.set(false);
+    setLayoutListDialog({ ...layoutListDialog, open: false });
   };
 
   const handleListItemClick = (value) => {
@@ -18,10 +22,10 @@ export default function LayoutMenuPredefinedDialog(props) {
   };
 
   return (
-    <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={dialogState.open.get()}>
+    <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={layoutListDialog.open}>
       <DialogTitle id="simple-dialog-title">Choose Predefined Layout</DialogTitle>
       <List>
-        {dialogState.predefinedList.get().map((layout, idx) => (
+        {layoutListDialog.predefinedList.map((layout, idx) => (
           <ListItemButton onClick={() => handleListItemClick(layout)} key={idx}>
             <ListItemText primary={layout} />
           </ListItemButton>

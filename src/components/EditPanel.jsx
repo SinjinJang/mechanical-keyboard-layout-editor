@@ -1,26 +1,32 @@
 import './HorizontalBar.css';
 import './EditPanel.css';
 
-import { none } from '@hookstate/core';
 import { IconButton, FormControl, InputLabel, TextField, Select } from '@mui/material';
 import { AddBox, IndeterminateCheckBox } from '@mui/icons-material';
 
+import { useKeyboardStore } from '../store/keyboardStore';
 import { plateSize } from '../utils/LayoutUtil';
 
 
-function EditPanel(props) {
-  const { layoutState, selectedState } = props;
+function EditPanel() {
+  const layout = useKeyboardStore((state) => state.layout);
+  const selectedIndex = useKeyboardStore((state) => state.selectedIndex);
+  const updateKey = useKeyboardStore((state) => state.updateKey);
+  const addKey = useKeyboardStore((state) => state.addKey);
+  const removeKey = useKeyboardStore((state) => state.removeKey);
+  const setSelectedIndex = useKeyboardStore((state) => state.setSelectedIndex);
+
+  const selectedKey = selectedIndex >= 0 ? layout[selectedIndex] : null;
 
   const handleLabelChange = (e) => {
-    if (selectedState.get() === -1) {
+    if (selectedIndex === -1) {
       return;
     }
-
-    layoutState[selectedState.get()].label.set(e.target.value);
+    updateKey(selectedIndex, { label: e.target.value });
   };
 
   const handleSizeChange = (e) => {
-    if (selectedState.get() === -1) {
+    if (selectedIndex === -1) {
       return;
     }
     if (e.target.value === '') {
@@ -30,14 +36,14 @@ function EditPanel(props) {
     const newValue = Number(e.target.value);
     const roundValue = Math.round(newValue * 100) / 100;
     if (e.target.id === 'selected-key-width') {
-      layoutState[selectedState.get()].w.set(roundValue);
+      updateKey(selectedIndex, { w: roundValue });
     } else if (e.target.id === 'selected-key-height') {
-      layoutState[selectedState.get()].h.set(roundValue);
+      updateKey(selectedIndex, { h: roundValue });
     } else if (e.target.id === 'selected-key-angle') {
       let angle = newValue;
       if (angle < -90) angle = -90;
       if (angle > 90) angle = 90;
-      layoutState[selectedState.get()].a.set(angle);
+      updateKey(selectedIndex, { a: angle });
     } else {
       console.log('>>>>> undefined id: ' + e.target.id);
       return;
@@ -45,24 +51,22 @@ function EditPanel(props) {
   };
 
   const handleAddSwitch = () => {
-    const { width, height } = plateSize(layoutState.get(), true);
-    layoutState.merge([{
+    const { width, height } = plateSize(layout, true);
+    addKey({
       'label': 'New Key',
       'x': width,
       'y': Math.max(height - 1, 0),
       'w': 1,
       'h': 1,
       'a': 0,
-    }]);
+    });
   };
 
   const handleRemoveSwitch = () => {
-    if (selectedState.get() === -1) {
+    if (selectedIndex === -1) {
       return;
     }
-
-    layoutState[selectedState.get()].set(none);
-    selectedState.set(-1);
+    removeKey(selectedIndex);
   };
 
   return (
@@ -73,7 +77,7 @@ function EditPanel(props) {
             id='selected-key-label'
             label='Key Label'
             variant="standard"
-            value={selectedState.get() === -1 ? '' : layoutState[selectedState.get()].label.get()}
+            value={selectedKey ? selectedKey.label : ''}
             onChange={handleLabelChange}
           />
         </FormControl>
@@ -84,7 +88,7 @@ function EditPanel(props) {
             variant="standard"
             id='selected-key-width'
             label='Width'
-            value={selectedState.get() === -1 ? '' : layoutState[selectedState.get()].w.get()}
+            value={selectedKey ? selectedKey.w : ''}
             onChange={handleSizeChange}
           >
             <option value=''></option>
@@ -108,7 +112,7 @@ function EditPanel(props) {
             variant="standard"
             id='selected-key-height'
             label='Height'
-            value={selectedState.get() === -1 ? '' : layoutState[selectedState.get()].h.get()}
+            value={selectedKey ? selectedKey.h : ''}
             onChange={handleSizeChange}
           >
             <option value=''></option>
@@ -123,7 +127,7 @@ function EditPanel(props) {
             type='number'
             variant="standard"
             slotProps={{ htmlInput: { min: -90, max: 90 } }}
-            value={selectedState.get() === -1 ? '' : layoutState[selectedState.get()].a.get()}
+            value={selectedKey ? selectedKey.a : ''}
             onChange={handleSizeChange}
           />
         </FormControl>
