@@ -11,9 +11,7 @@ import { useUIStore } from '../store/uiStore';
 import LayoutMenuEmailDialog from './LayoutMenuEmailDialog';
 import LayoutMenuPredefinedDialog from './LayoutMenuPredefinedDialog';
 import { plateSize } from '../utils/LayoutUtil';
-
-
-const HOST = 'https://pk92p8sd0k.execute-api.ap-northeast-2.amazonaws.com/main';
+import { API_HOST } from '../utils/constants';
 
 function _makeLayoutObj(layout, fmt = '', email_to = '') {
   return {
@@ -38,14 +36,14 @@ function LayoutMenu() {
 
   const handlePredefinedClick = async () => {
     setLoading(true);
-    const { data: { result } } = await axios.get(`${HOST}/layouts`);
+    const { data: { result } } = await axios.get(`${API_HOST}/layouts`);
     setLayoutListDialog({ ...layoutListDialog, predefinedList: result, open: true });
     setLoading(false);
   };
 
   const handlePredefinedLayoutSelect = async (fname) => {
     setLoading(true);
-    const { data: { result } } = await axios.get(`${HOST}/layouts/${fname}`);
+    const { data: { result } } = await axios.get(`${API_HOST}/layouts/${fname}`);
     const layoutWithRotation = result.layout.map(key => ({
       ...key,
       a: key.a !== undefined ? key.a : 0
@@ -97,7 +95,7 @@ function LayoutMenu() {
   const handleConfirmEmailClick = async (email) => {
     setLoading(true);
     const { data } = await axios.post(
-      `${HOST}/modeling`,
+      `${API_HOST}/modeling`,
       _makeLayoutObj(layout, emailDialog.fmt, email)
     );
     console.log(data);

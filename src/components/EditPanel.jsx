@@ -6,6 +6,7 @@ import { AddBox, IndeterminateCheckBox } from '@mui/icons-material';
 
 import { useKeyboardStore } from '../store/keyboardStore';
 import { plateSize } from '../utils/LayoutUtil';
+import { ANGLE_LIMITS, DEFAULT_KEY } from '../utils/constants';
 
 
 function EditPanel() {
@@ -41,8 +42,8 @@ function EditPanel() {
       updateKey(selectedIndex, { h: roundValue });
     } else if (e.target.id === 'selected-key-angle') {
       let angle = newValue;
-      if (angle < -90) angle = -90;
-      if (angle > 90) angle = 90;
+      if (angle < ANGLE_LIMITS.MIN) angle = ANGLE_LIMITS.MIN;
+      if (angle > ANGLE_LIMITS.MAX) angle = ANGLE_LIMITS.MAX;
       updateKey(selectedIndex, { a: angle });
     } else {
       console.log('>>>>> undefined id: ' + e.target.id);
@@ -53,12 +54,9 @@ function EditPanel() {
   const handleAddSwitch = () => {
     const { width, height } = plateSize(layout, true);
     addKey({
-      'label': 'New Key',
-      'x': width,
-      'y': Math.max(height - 1, 0),
-      'w': 1,
-      'h': 1,
-      'a': 0,
+      ...DEFAULT_KEY,
+      x: width,
+      y: Math.max(height - 1, 0),
     });
   };
 
@@ -126,7 +124,7 @@ function EditPanel() {
             label='Angle'
             type='number'
             variant="standard"
-            slotProps={{ htmlInput: { min: -90, max: 90 } }}
+            slotProps={{ htmlInput: { min: ANGLE_LIMITS.MIN, max: ANGLE_LIMITS.MAX } }}
             value={selectedKey ? selectedKey.a : ''}
             onChange={handleSizeChange}
           />

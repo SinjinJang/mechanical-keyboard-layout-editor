@@ -1,9 +1,10 @@
 import { create } from 'zustand';
+import { DEFAULT_KEY } from '../utils/constants';
 
 export const useKeyboardStore = create((set) => ({
   // Layout state - array of keys
   layout: [
-    { label: 'New Key', w: 1, h: 1, x: 0, y: 0, a: 0 },
+    { ...DEFAULT_KEY },
   ],
 
   // Selected key index

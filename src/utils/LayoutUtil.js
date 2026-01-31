@@ -1,6 +1,8 @@
-export const PLATE_PADDING = 15;
-export const UNIT_1 = 60;
-export const UNIT_0_25 = UNIT_1 / 4;
+import { KEYBOARD_LAYOUT } from './constants';
+
+export const PLATE_PADDING = KEYBOARD_LAYOUT.PLATE_PADDING;
+export const UNIT_1 = KEYBOARD_LAYOUT.UNIT_1;
+export const UNIT_0_25 = KEYBOARD_LAYOUT.UNIT_0_25;
 
 export function keyPosition(x, y) {
   return {
@@ -11,8 +13,8 @@ export function keyPosition(x, y) {
 
 export function keySize(w, h) {
   return {
-    width: (w * UNIT_1) - 4,  // NOTE: 스위치 간격을 위해 4px 빼줌
-    height: (h * UNIT_1) - 4,  // NOTE: 스위치 간격을 위해 4px 빼줌
+    width: (w * UNIT_1) - KEYBOARD_LAYOUT.KEY_GAP,  // NOTE: 스위치 간격을 위해 4px 빼줌
+    height: (h * UNIT_1) - KEYBOARD_LAYOUT.KEY_GAP,  // NOTE: 스위치 간격을 위해 4px 빼줌
   };
 }
 
