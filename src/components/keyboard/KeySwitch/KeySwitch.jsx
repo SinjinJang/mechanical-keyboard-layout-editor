@@ -11,21 +11,40 @@ function KeySwitch(props) {
   const { label, x, y, w, h, a } = keyData;
   const nodeRef = useRef(null);
 
-  const selectedIndex = useKeyboardStore((state) => state.selectedIndex);
-  const setSelectedIndex = useKeyboardStore((state) => state.setSelectedIndex);
+  const layout = useKeyboardStore((state) => state.layout);
+  const selectedIndices = useKeyboardStore((state) => state.selectedIndices);
+  const toggleSelectKey = useKeyboardStore((state) => state.toggleSelectKey);
   const updateKey = useKeyboardStore((state) => state.updateKey);
 
-  const selectedClassName = selectedIndex === seq ? 'key-switch-selected' : '';
+  const isSelected = selectedIndices.includes(seq);
+  const selectedClassName = isSelected ? 'key-switch-selected' : '';
 
   const handleDrag = (e, ui) => {
-    const newX = x + (ui.deltaX / LayoutUtil.UNIT_1);
-    const newY = y + (ui.deltaY / LayoutUtil.UNIT_1);
-    updateKey(seq, { x: newX, y: newY });
+    const deltaX = ui.deltaX / LayoutUtil.UNIT_1;
+    const deltaY = ui.deltaY / LayoutUtil.UNIT_1;
+
+    if (selectedIndices.length > 1 && isSelected) {
+      // Group drag: move all selected keys together
+      selectedIndices.forEach(index => {
+        const key = layout[index];
+        updateKey(index, {
+          x: key.x + deltaX,
+          y: key.y + deltaY
+        });
+      });
+    } else {
+      // Single drag: move only this key
+      updateKey(seq, {
+        x: x + deltaX,
+        y: y + deltaY
+      });
+    }
   };
 
-  const handleClick = () => {
-    // 키 스위치 클릭 시 선택 및 해제하도록 변경
-    setSelectedIndex(selectedIndex === seq ? -1 : seq);
+  const handleClick = (e) => {
+    // Ctrl (Windows/Linux) or Cmd (Mac) for multi-selection
+    const multiSelect = e.ctrlKey || e.metaKey;
+    toggleSelectKey(seq, multiSelect);
   };
 
   return (

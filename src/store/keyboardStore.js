@@ -7,17 +7,41 @@ export const useKeyboardStore = create((set) => ({
     { ...DEFAULT_KEY },
   ],
 
-  // Selected key index
-  selectedIndex: -1,
+  // Selected key indices (array for multi-selection)
+  selectedIndices: [],
 
   // Actions
   setLayout: (layout) => set({ layout }),
 
-  setSelectedIndex: (index) => set({ selectedIndex: index }),
+  setSelectedIndices: (indices) => set({ selectedIndices: indices }),
+
+  toggleSelectKey: (index, multiSelect) => set((state) => {
+    if (multiSelect) {
+      // Multi-select mode (Ctrl/Cmd key pressed)
+      const isSelected = state.selectedIndices.includes(index);
+      if (isSelected) {
+        // Remove from selection
+        return { selectedIndices: state.selectedIndices.filter(i => i !== index) };
+      } else {
+        // Add to selection
+        return { selectedIndices: [...state.selectedIndices, index] };
+      }
+    } else {
+      // Single select mode
+      const isSelected = state.selectedIndices.length === 1 && state.selectedIndices[0] === index;
+      return { selectedIndices: isSelected ? [] : [index] };
+    }
+  }),
 
   updateKey: (index, updates) => set((state) => ({
     layout: state.layout.map((key, i) =>
       i === index ? { ...key, ...updates } : key
+    )
+  })),
+
+  updateKeys: (indices, updates) => set((state) => ({
+    layout: state.layout.map((key, i) =>
+      indices.includes(i) ? { ...key, ...updates } : key
     )
   })),
 
@@ -27,6 +51,11 @@ export const useKeyboardStore = create((set) => ({
 
   removeKey: (index) => set((state) => ({
     layout: state.layout.filter((_, i) => i !== index),
-    selectedIndex: -1
+    selectedIndices: []
+  })),
+
+  removeKeys: (indices) => set((state) => ({
+    layout: state.layout.filter((_, i) => !indices.includes(i)),
+    selectedIndices: []
   })),
 }));

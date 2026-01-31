@@ -7,6 +7,7 @@
   position: relative;
   left: 50%;
   transform: translateX(-50%);
+  user-select: none;
 }
 
 .key-plate-info {

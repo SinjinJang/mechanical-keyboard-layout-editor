@@ -8,8 +8,12 @@
   border-radius: 5px;
   border: 1px solid #777;
   opacity: 0.8;
+  cursor: pointer;
 }
 
 .key-switch-selected {
   font-weight: bold;
+  background: #d0e8ff;
+  border: 2px solid #2196f3;
+  opacity: 1;
 }
