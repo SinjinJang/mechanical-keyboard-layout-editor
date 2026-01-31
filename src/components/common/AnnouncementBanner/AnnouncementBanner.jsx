@@ -66,7 +66,7 @@ const AnnouncementBanner = () => {
                 size="small"
                 onClick={handleToggleExpand}
               >
-                {expanded ? <ExpandLessIcon fontSize="inherit" /> : <ExpandMoreIcon fontSize="inherit" />}
+                {expanded ? <ExpandMoreIcon fontSize="inherit" /> : <ExpandLessIcon fontSize="inherit" />}
               </IconButton>
               {currentAnnouncement.dismissible && (
                 <IconButton
