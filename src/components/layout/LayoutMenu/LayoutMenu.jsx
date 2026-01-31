@@ -1,4 +1,4 @@
-import './HorizontalBar.css';
+import '../../HorizontalBar.css';
 import './LayoutMenu.css';
 
 import { Button, CircularProgress } from '@mui/material';
@@ -6,12 +6,12 @@ import { Button, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import FileSaver from 'file-saver';
 
-import { useKeyboardStore } from '../store/keyboardStore';
-import { useUIStore } from '../store/uiStore';
-import LayoutMenuEmailDialog from './LayoutMenuEmailDialog';
-import LayoutMenuPredefinedDialog from './LayoutMenuPredefinedDialog';
-import { plateSize } from '../utils/LayoutUtil';
-import { API_HOST } from '../utils/constants';
+import { useKeyboardStore } from '../../../store/keyboardStore';
+import { useUIStore } from '../../../store/uiStore';
+import EmailDialog from './EmailDialog';
+import PredefinedDialog from './PredefinedDialog';
+import { plateSize } from '../../../utils/LayoutUtil';
+import { API_HOST } from '../../../utils/constants';
 
 function _makeLayoutObj(layout, fmt = '', email_to = '') {
   return {
@@ -105,10 +105,10 @@ function LayoutMenu() {
   return (
     <div className='layoutmenu'>
       {loading ? <div className='loading'><CircularProgress /></div> : ''}
-      <LayoutMenuEmailDialog
+      <EmailDialog
         onConfirm={handleConfirmEmailClick}
       />
-      <LayoutMenuPredefinedDialog
+      <PredefinedDialog
         onSelect={handlePredefinedLayoutSelect}
       />
       <div className='hbar__container'>

@@ -5,10 +5,10 @@ import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 
-import { useUIStore } from '../store/uiStore';
+import { useUIStore } from '../../../store/uiStore';
 
 
-export default function LayoutMenuPredefinedDialog(props) {
+export default function PredefinedDialog(props) {
   const { onSelect } = props;
   const layoutListDialog = useUIStore((state) => state.layoutListDialog);
   const setLayoutListDialog = useUIStore((state) => state.setLayoutListDialog);

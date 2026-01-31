@@ -4,7 +4,7 @@ import { useKeyboardStore } from '../store/keyboardStore';
 import { plateSize } from '../utils/LayoutUtil';
 import EditPanel from './EditPanel';
 import KeySwitch from './KeySwitch';
-import LayoutMenu from './LayoutMenu';
+import LayoutMenu from './layout/LayoutMenu';
 
 
 function KeyPlate() {

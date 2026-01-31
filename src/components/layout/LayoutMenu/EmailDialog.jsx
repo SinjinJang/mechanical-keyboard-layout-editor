@@ -8,10 +8,10 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Typography from '@mui/material/Typography';
 
-import { useUIStore } from '../store/uiStore';
+import { useUIStore } from '../../../store/uiStore';
 
 
-export default function LayoutMenuEmailDialog(props) {
+export default function EmailDialog(props) {
   const { onConfirm } = props;
   const emailDialog = useUIStore((state) => state.emailDialog);
   const setEmailDialog = useUIStore((state) => state.setEmailDialog);
