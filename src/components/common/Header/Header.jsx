@@ -1,6 +1,6 @@
 import './Header.css';
 
-import AboutDialog from './AboutDialog';
+import AboutDialog from '../../dialogs/AboutDialog';
 
 const Header = () => (
   <header>

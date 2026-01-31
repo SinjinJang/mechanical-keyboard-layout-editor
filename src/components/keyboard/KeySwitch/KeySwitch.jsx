@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import Draggable from 'react-draggable';
 
-import { useKeyboardStore } from '../store/keyboardStore';
-import * as LayoutUtil from '../utils/LayoutUtil';
+import { useKeyboardStore } from '../../../store/keyboardStore';
+import * as LayoutUtil from '../../../utils/LayoutUtil';
 import './KeySwitch.css';
 
 

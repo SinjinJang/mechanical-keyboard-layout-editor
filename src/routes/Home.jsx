@@ -1,6 +1,6 @@
 import './Home.css';
 
-import KeyPlate from '../components/KeyPlate';
+import KeyPlate from '../components/keyboard/KeyPlate';
 
 
 function Home() {

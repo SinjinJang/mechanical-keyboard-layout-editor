@@ -1,12 +1,12 @@
-import './HorizontalBar.css';
+import '../../HorizontalBar.css';
 import './EditPanel.css';
 
 import { IconButton, FormControl, InputLabel, TextField, Select } from '@mui/material';
 import { AddBox, IndeterminateCheckBox } from '@mui/icons-material';
 
-import { useKeyboardStore } from '../store/keyboardStore';
-import { plateSize } from '../utils/LayoutUtil';
-import { ANGLE_LIMITS, DEFAULT_KEY } from '../utils/constants';
+import { useKeyboardStore } from '../../../store/keyboardStore';
+import { plateSize } from '../../../utils/LayoutUtil';
+import { ANGLE_LIMITS, DEFAULT_KEY } from '../../../utils/constants';
 
 
 function EditPanel() {

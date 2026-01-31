@@ -1,10 +1,10 @@
 import './KeyPlate.css';
 
-import { useKeyboardStore } from '../store/keyboardStore';
-import { plateSize } from '../utils/LayoutUtil';
-import EditPanel from './EditPanel';
-import KeySwitch from './KeySwitch';
-import LayoutMenu from './layout/LayoutMenu';
+import { useKeyboardStore } from '../../../store/keyboardStore';
+import { plateSize } from '../../../utils/LayoutUtil';
+import EditPanel from '../EditPanel';
+import KeySwitch from '../KeySwitch';
+import LayoutMenu from '../../layout/LayoutMenu';
 
 
 function KeyPlate() {
