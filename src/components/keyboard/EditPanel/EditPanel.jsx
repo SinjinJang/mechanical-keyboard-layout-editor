@@ -12,25 +12,15 @@ function EditPanel() {
   const updateKey = useKeyboardStore((state) => state.updateKey);
   const layout = useKeyboardStore((state) => state.layout);
 
-  // Only allow editing when single key is selected
-  const isSingleSelect = selectedIndices.length === 1;
-  const isMultiSelect = selectedIndices.length > 1;
-  const selectedKey = isSingleSelect ? layout[selectedIndices[0]] : null;
+  const isDisabled = selectedIndices.length !== 1;
+  const selectedKey = !isDisabled ? layout[selectedIndices[0]] : null;
 
   const handleLabelChange = (e) => {
-    if (!isSingleSelect) {
-      return;
-    }
     updateKey(selectedIndices[0], { label: e.target.value });
   };
 
   const handleSizeChange = (e) => {
-    if (!isSingleSelect) {
-      return;
-    }
-    if (e.target.value === '') {
-      return;
-    }
+    if (e.target.value === '') return;
 
     const newValue = Number(e.target.value);
     const roundValue = Math.round(newValue * 100) / 100;
@@ -39,12 +29,8 @@ function EditPanel() {
     } else if (e.target.id === 'selected-key-height') {
       updateKey(selectedIndices[0], { h: roundValue });
     } else if (e.target.id === 'selected-key-angle') {
-      let angle = newValue;
-      if (angle < ANGLE_LIMITS.MIN) angle = ANGLE_LIMITS.MIN;
-      if (angle > ANGLE_LIMITS.MAX) angle = ANGLE_LIMITS.MAX;
+      const angle = Math.max(ANGLE_LIMITS.MIN, Math.min(ANGLE_LIMITS.MAX, newValue));
       updateKey(selectedIndices[0], { a: angle });
-    } else {
-      return;
     }
   };
 
@@ -58,8 +44,8 @@ function EditPanel() {
             variant="standard"
             value={selectedKey ? selectedKey.label : ''}
             onChange={handleLabelChange}
-            disabled={isMultiSelect}
-            placeholder={isMultiSelect ? `${selectedIndices.length} keys selected` : ''}
+            disabled={isDisabled}
+            placeholder={selectedIndices.length > 1 ? `${selectedIndices.length} keys selected` : ''}
           />
         </FormControl>
         <FormControl className='hbar__item' variant="standard">
@@ -70,7 +56,7 @@ function EditPanel() {
             label='Width'
             value={selectedKey ? selectedKey.w : ''}
             onChange={(e) => handleSizeChange({ target: { id: 'selected-key-width', value: e.target.value } })}
-            disabled={isMultiSelect}
+            disabled={isDisabled}
           >
             <MenuItem value=''>-</MenuItem>
             <MenuItem value={1}>1U</MenuItem>
@@ -94,7 +80,7 @@ function EditPanel() {
             label='Height'
             value={selectedKey ? selectedKey.h : ''}
             onChange={(e) => handleSizeChange({ target: { id: 'selected-key-height', value: e.target.value } })}
-            disabled={isMultiSelect}
+            disabled={isDisabled}
           >
             <MenuItem value=''>-</MenuItem>
             <MenuItem value={1}>1U</MenuItem>
@@ -110,7 +96,7 @@ function EditPanel() {
             slotProps={{ htmlInput: { min: ANGLE_LIMITS.MIN, max: ANGLE_LIMITS.MAX } }}
             value={selectedKey ? selectedKey.a : ''}
             onChange={handleSizeChange}
-            disabled={isMultiSelect}
+            disabled={isDisabled}
           />
         </FormControl>
       </div>
