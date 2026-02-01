@@ -1,6 +1,7 @@
 import '../../HorizontalBar.css';
 import './LayoutMenu.css';
 
+import { useState } from 'react';
 import { Button, CircularProgress } from '@mui/material';
 
 import axios from 'axios';
@@ -10,6 +11,7 @@ import { useKeyboardStore } from '../../../store/keyboardStore';
 import { useUIStore } from '../../../store/uiStore';
 import EmailDialog from './EmailDialog';
 import PredefinedDialog from './PredefinedDialog';
+import DownloadDialog from './DownloadDialog';
 import { plateSize } from '../../../utils/LayoutUtil';
 import { API_HOST } from '../../../utils/constants';
 
@@ -25,7 +27,8 @@ function _makeLayoutObj(layout, fmt = '', email_to = '') {
 function LayoutMenu() {
   const layout = useKeyboardStore((state) => state.layout);
   const setLayout = useKeyboardStore((state) => state.setLayout);
-  const setSelectedIndex = useKeyboardStore((state) => state.setSelectedIndex);
+  const setSelectedIndices = useKeyboardStore((state) => state.setSelectedIndices);
+  const [downloadDialogOpen, setDownloadDialogOpen] = useState(false);
 
   const loading = useUIStore((state) => state.loading);
   const setLoading = useUIStore((state) => state.setLoading);
@@ -48,7 +51,7 @@ function LayoutMenu() {
       ...key,
       a: key.a !== undefined ? key.a : 0
     }));
-    setSelectedIndex(-1);
+    setSelectedIndices([]);
     setLayout(layoutWithRotation);
     setLayoutListDialog({ ...layoutListDialog, open: false });
     setLoading(false);
@@ -65,7 +68,7 @@ function LayoutMenu() {
           ...key,
           a: key.a !== undefined ? key.a : 0
         }));
-        setSelectedIndex(-1);
+        setSelectedIndices([]);
         setLayout(layoutWithRotation);
       };
     };
@@ -77,10 +80,14 @@ function LayoutMenu() {
   };
 
   const handleDownloadClick = () => {
+    setDownloadDialogOpen(true);
+  };
+
+  const handleDownloadConfirm = (filename) => {
     const data = JSON.stringify(_makeLayoutObj(layout));
     FileSaver.saveAs(
       new Blob([data], { type: 'text/json; charset=utf-8' }),
-      'layout.json'
+      filename
     );
   };
 
@@ -110,6 +117,11 @@ function LayoutMenu() {
       />
       <PredefinedDialog
         onSelect={handlePredefinedLayoutSelect}
+      />
+      <DownloadDialog
+        open={downloadDialogOpen}
+        onClose={() => setDownloadDialogOpen(false)}
+        onConfirm={handleDownloadConfirm}
       />
       <div className='hbar__container'>
         <Button className='hbar__item' variant='outlined' color='primary' onClick={handlePredefinedClick}>
