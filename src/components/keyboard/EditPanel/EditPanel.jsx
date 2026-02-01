@@ -8,9 +8,9 @@ import { ANGLE_LIMITS } from '../../../utils/constants';
 
 
 function EditPanel() {
-  const layout = useKeyboardStore((state) => state.layout);
   const selectedIndices = useKeyboardStore((state) => state.selectedIndices);
   const updateKey = useKeyboardStore((state) => state.updateKey);
+  const layout = useKeyboardStore((state) => state.layout);
 
   // Only allow editing when single key is selected
   const isSingleSelect = selectedIndices.length === 1;
@@ -44,7 +44,6 @@ function EditPanel() {
       if (angle > ANGLE_LIMITS.MAX) angle = ANGLE_LIMITS.MAX;
       updateKey(selectedIndices[0], { a: angle });
     } else {
-      console.log('>>>>> undefined id: ' + e.target.id);
       return;
     }
   };

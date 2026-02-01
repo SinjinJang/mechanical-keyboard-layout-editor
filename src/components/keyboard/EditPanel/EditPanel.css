@@ -1,13 +1,3 @@
 .editpanel {
   padding: 0;
 }
-
-.editpanel__imageicon {
-  width: 44px;
-  height: 44px;
-  color: var(--text-secondary) !important;
-}
-
-.editpanel__imageicon:hover {
-  color: var(--text-primary) !important;
-}
