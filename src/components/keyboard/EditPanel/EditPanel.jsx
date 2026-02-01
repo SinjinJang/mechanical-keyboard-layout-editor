@@ -1,7 +1,7 @@
 import '../../HorizontalBar.css';
 import './EditPanel.css';
 
-import { IconButton, FormControl, InputLabel, TextField, Select } from '@mui/material';
+import { IconButton, FormControl, InputLabel, TextField, Select, MenuItem } from '@mui/material';
 import { AddBox, IndeterminateCheckBox } from '@mui/icons-material';
 
 import { useKeyboardStore } from '../../../store/keyboardStore';
@@ -86,42 +86,40 @@ function EditPanel() {
         <FormControl className='hbar__item' variant="standard">
           <InputLabel htmlFor='select-key-width'>Width</InputLabel>
           <Select
-            native
             variant="standard"
             id='selected-key-width'
             label='Width'
             value={selectedKey ? selectedKey.w : ''}
-            onChange={handleSizeChange}
+            onChange={(e) => handleSizeChange({ target: { id: 'selected-key-width', value: e.target.value } })}
             disabled={isMultiSelect}
           >
-            <option value=''></option>
-            <option value='1'>1U</option>
-            <option value='1.25'>1.25U</option>
-            <option value='1.5'>1.5U</option>
-            <option value='1.75'>1.75U</option>
-            <option value='2'>2U</option>
-            <option value='2.25'>2.25U</option>
-            <option value='2.75'>2.75U</option>
-            <option value='6'>6U</option>
-            <option value='6.25'>6.25U</option>
-            <option value='6.5'>6.5U</option>
-            <option value='7'>7U</option>
+            <MenuItem value=''>-</MenuItem>
+            <MenuItem value={1}>1U</MenuItem>
+            <MenuItem value={1.25}>1.25U</MenuItem>
+            <MenuItem value={1.5}>1.5U</MenuItem>
+            <MenuItem value={1.75}>1.75U</MenuItem>
+            <MenuItem value={2}>2U</MenuItem>
+            <MenuItem value={2.25}>2.25U</MenuItem>
+            <MenuItem value={2.75}>2.75U</MenuItem>
+            <MenuItem value={6}>6U</MenuItem>
+            <MenuItem value={6.25}>6.25U</MenuItem>
+            <MenuItem value={6.5}>6.5U</MenuItem>
+            <MenuItem value={7}>7U</MenuItem>
           </Select>
         </FormControl>
         <FormControl className='hbar__item' variant="standard">
           <InputLabel htmlFor='select-key-height'>Height</InputLabel>
           <Select
-            native
             variant="standard"
             id='selected-key-height'
             label='Height'
             value={selectedKey ? selectedKey.h : ''}
-            onChange={handleSizeChange}
+            onChange={(e) => handleSizeChange({ target: { id: 'selected-key-height', value: e.target.value } })}
             disabled={isMultiSelect}
           >
-            <option value=''></option>
-            <option value='1'>1U</option>
-            <option value='2'>2U</option>
+            <MenuItem value=''>-</MenuItem>
+            <MenuItem value={1}>1U</MenuItem>
+            <MenuItem value={2}>2U</MenuItem>
           </Select>
         </FormControl>
         <FormControl className='hbar__item' variant="standard">

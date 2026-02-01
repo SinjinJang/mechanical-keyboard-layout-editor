@@ -126,8 +126,8 @@ function KeyPlate() {
       top: `${top}px`,
       width: `${width}px`,
       height: `${height}px`,
-      border: '2px dashed #2196f3',
-      backgroundColor: 'rgba(33, 150, 243, 0.1)',
+      border: '1px solid rgba(208, 211, 218, 0.5)',
+      backgroundColor: 'rgba(208, 211, 218, 0.08)',
       pointerEvents: 'none',
       zIndex: 1000,
     };

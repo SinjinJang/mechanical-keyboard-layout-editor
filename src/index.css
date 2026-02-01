@@ -86,6 +86,32 @@ code {
   border-color: var(--metal-lighter) !important;
 }
 
+.MuiMenu-paper {
+  background: var(--metal-dark) !important;
+  border: 1px solid var(--metal-light) !important;
+}
+
+.MuiMenuItem-root {
+  color: var(--text-primary) !important;
+  font-size: 0.875rem !important;
+}
+
+.MuiMenuItem-root:hover {
+  background: var(--metal-mid) !important;
+}
+
+.MuiMenuItem-root.Mui-selected {
+  background: var(--metal-mid) !important;
+}
+
+.MuiMenuItem-root.Mui-selected:hover {
+  background: var(--metal-light) !important;
+}
+
+.MuiSelect-icon {
+  color: var(--text-secondary) !important;
+}
+
 a {
   color: var(--accent);
   text-decoration: none;
