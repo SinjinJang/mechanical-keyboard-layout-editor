@@ -1,20 +1,16 @@
 import '../../HorizontalBar.css';
 import './EditPanel.css';
 
-import { IconButton, FormControl, InputLabel, TextField, Select, MenuItem } from '@mui/material';
-import { AddBox, IndeterminateCheckBox } from '@mui/icons-material';
+import { FormControl, InputLabel, TextField, Select, MenuItem } from '@mui/material';
 
 import { useKeyboardStore } from '../../../store/keyboardStore';
-import { plateSize } from '../../../utils/LayoutUtil';
-import { ANGLE_LIMITS, DEFAULT_KEY } from '../../../utils/constants';
+import { ANGLE_LIMITS } from '../../../utils/constants';
 
 
 function EditPanel() {
   const layout = useKeyboardStore((state) => state.layout);
   const selectedIndices = useKeyboardStore((state) => state.selectedIndices);
   const updateKey = useKeyboardStore((state) => state.updateKey);
-  const addKey = useKeyboardStore((state) => state.addKey);
-  const removeKeys = useKeyboardStore((state) => state.removeKeys);
 
   // Only allow editing when single key is selected
   const isSingleSelect = selectedIndices.length === 1;
@@ -51,22 +47,6 @@ function EditPanel() {
       console.log('>>>>> undefined id: ' + e.target.id);
       return;
     }
-  };
-
-  const handleAddSwitch = () => {
-    const { width, height } = plateSize(layout, true);
-    addKey({
-      ...DEFAULT_KEY,
-      x: width,
-      y: Math.max(height - 1, 0),
-    });
-  };
-
-  const handleRemoveSwitch = () => {
-    if (selectedIndices.length === 0) {
-      return;
-    }
-    removeKeys(selectedIndices);
   };
 
   return (
@@ -134,20 +114,6 @@ function EditPanel() {
             disabled={isMultiSelect}
           />
         </FormControl>
-        <IconButton
-          className='hbar__item editpanel__imageicon'
-          alt='Add New Switch'
-          onClick={handleAddSwitch}
-        >
-          <AddBox />
-        </IconButton>
-        <IconButton
-          className='hbar__item editpanel__imageicon'
-          alt='Remove Selected Switch'
-          onClick={handleRemoveSwitch}
-        >
-          <IndeterminateCheckBox />
-        </IconButton>
       </div>
     </div>
   );

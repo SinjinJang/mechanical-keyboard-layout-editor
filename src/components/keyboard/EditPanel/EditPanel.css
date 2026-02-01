@@ -1,9 +1,13 @@
 .editpanel {
-  padding-bottom: 20px;
+  padding: 0;
 }
 
 .editpanel__imageicon {
-  width: 50px;
-  height: 50px;
-  filter: brightness(0.8) invert(0.85);
+  width: 44px;
+  height: 44px;
+  color: var(--text-secondary) !important;
+}
+
+.editpanel__imageicon:hover {
+  color: var(--text-primary) !important;
 }

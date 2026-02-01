@@ -1,8 +1,11 @@
 import './KeyPlate.css';
 import { useState, useRef } from 'react';
+import { IconButton } from '@mui/material';
+import { Add, Remove } from '@mui/icons-material';
 
 import { useKeyboardStore } from '../../../store/keyboardStore';
 import { plateSize, keyPosition, keySize } from '../../../utils/LayoutUtil';
+import { DEFAULT_KEY } from '../../../utils/constants';
 import EditPanel from '../EditPanel';
 import KeySwitch from '../KeySwitch';
 import LayoutMenu from '../../layout/LayoutMenu';
@@ -10,8 +13,25 @@ import LayoutMenu from '../../layout/LayoutMenu';
 
 function KeyPlate() {
   const layout = useKeyboardStore((state) => state.layout);
+  const selectedIndices = useKeyboardStore((state) => state.selectedIndices);
   const setSelectedIndices = useKeyboardStore((state) => state.setSelectedIndices);
+  const addKey = useKeyboardStore((state) => state.addKey);
+  const removeKeys = useKeyboardStore((state) => state.removeKeys);
   const plateSizeInUnit = plateSize(layout, true);
+
+  const handleAddSwitch = () => {
+    const { width, height } = plateSize(layout, true);
+    addKey({
+      ...DEFAULT_KEY,
+      x: width,
+      y: Math.max(height - 1, 0),
+    });
+  };
+
+  const handleRemoveSwitch = () => {
+    if (selectedIndices.length === 0) return;
+    removeKeys(selectedIndices);
+  };
 
   const [selectionBox, setSelectionBox] = useState(null);
   const plateRef = useRef(null);
@@ -134,28 +154,50 @@ function KeyPlate() {
   };
 
   return (
-    <div>
-      <LayoutMenu />
-      <EditPanel />
-      <div
-        ref={plateRef}
-        className='key-plate'
-        style={plateSize(layout)}
-        onMouseDown={handleMouseDown}
-      >
-        {layout.map((key, index) =>
-          <KeySwitch
-            key={index}
-            seq={index}
-            keyData={key}
-          />
-        )}
-        {selectionBox && <div style={getSelectionBoxStyle()} />}
+    <div className='key-plate-wrapper'>
+      <div className='toolbar-section'>
+        <LayoutMenu />
       </div>
-      <div className='key-plate-info'>
-        {layout.length} keys on {plateSizeInUnit.width}U x {plateSizeInUnit.height}U
+      <div className='plate-section'>
+        <div className='key-plate-info'>
+          <span>{layout.length} keys &middot; {plateSizeInUnit.width}U &times; {plateSizeInUnit.height}U</span>
+          <span className='key-plate-info__actions'>
+            <IconButton size='small' onClick={handleAddSwitch} sx={{ color: 'var(--metal-shine)', padding: '3px', '&:hover': { color: '#fff' } }}>
+              <Add />
+            </IconButton>
+            <IconButton
+              size='small'
+              onClick={handleRemoveSwitch}
+              disabled={selectedIndices.length === 0}
+              sx={{
+                color: 'var(--metal-shine)',
+                padding: '3px',
+                '&:hover': { color: '#fff' },
+                '&.Mui-disabled': { color: 'var(--metal-light)', opacity: 0.4 },
+              }}
+            >
+              <Remove />
+            </IconButton>
+          </span>
+        </div>
+        <div
+          ref={plateRef}
+          className='key-plate'
+          style={plateSize(layout)}
+          onMouseDown={handleMouseDown}
+        >
+          {layout.map((key, index) =>
+            <KeySwitch
+              key={index}
+              seq={index}
+              keyData={key}
+            />
+          )}
+          {selectionBox && <div style={getSelectionBoxStyle()} />}
+        </div>
+        <EditPanel />
       </div>
-    </div >
+    </div>
   );
 }
 
