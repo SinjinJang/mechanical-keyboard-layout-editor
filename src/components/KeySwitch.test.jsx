@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import KeySwitch from './KeySwitch';
+import KeySwitch from './keyboard/KeySwitch';
 
 // React 19에서 findDOMNode가 제거되어 react-draggable 테스트가 실패합니다.
 // 실제 브라우저에서는 정상 작동하므로 테스트는 스킵합니다.
