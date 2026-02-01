@@ -112,6 +112,22 @@ code {
   color: var(--text-secondary) !important;
 }
 
+.MuiInput-underline:after {
+  border-bottom-color: var(--metal-shine) !important;
+}
+
+.MuiInput-underline:before {
+  border-bottom-color: var(--metal-light) !important;
+}
+
+.MuiInput-underline:hover:not(.Mui-disabled):before {
+  border-bottom-color: var(--metal-lighter) !important;
+}
+
+.MuiInputLabel-root.Mui-focused {
+  color: var(--metal-shine) !important;
+}
+
 a {
   color: var(--accent);
   text-decoration: none;
