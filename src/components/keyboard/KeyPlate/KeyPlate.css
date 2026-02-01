@@ -1,17 +1,22 @@
 
 .key-plate {
   border-radius: 10px;
-  border: 1px solid #777;
+  border: 1px solid var(--metal-light);
   justify-content: center;
-
   position: relative;
   left: 50%;
   transform: translateX(-50%);
   user-select: none;
+
+  background: linear-gradient(145deg, #2e3138 0%, #22252b 50%, #2a2d33 100%);
+  box-shadow:
+    0 4px 16px rgba(0,0,0,0.4),
+    inset 0 1px 0 var(--border-shine),
+    inset 0 -1px 0 rgba(0,0,0,0.2);
 }
 
 .key-plate-info {
   font-size: smaller;
   font-style: italic;
-  color: #555;
+  color: var(--text-secondary);
 }

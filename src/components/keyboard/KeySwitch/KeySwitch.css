@@ -4,16 +4,33 @@
   justify-content: center;
   align-items: center;
 
-  background: #eee;
+  background: linear-gradient(180deg, #4a4d55 0%, #383b42 60%, #2e3138 100%);
   border-radius: 5px;
-  border: 1px solid #777;
-  opacity: 0.8;
+  border: 1px solid var(--metal-light);
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  opacity: 0.9;
   cursor: pointer;
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  transition: box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.key-switch:hover {
+  opacity: 1;
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.12);
 }
 
 .key-switch-selected {
   font-weight: bold;
-  background: #d0e8ff;
-  border: 2px solid #2196f3;
+  background: linear-gradient(180deg, #6a6d75 0%, #56595f 60%, #484b52 100%);
+  border: 2px solid var(--metal-shine);
+  box-shadow:
+    0 0 10px rgba(208, 211, 218, 0.2),
+    0 2px 6px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.15);
   opacity: 1;
 }

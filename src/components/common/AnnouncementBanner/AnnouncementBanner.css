@@ -12,6 +12,9 @@
   width: 100%;
   box-sizing: border-box;
   margin: 0;
+  background: var(--metal-dark) !important;
+  border-top: 1px solid var(--border-subtle);
+  color: var(--text-primary) !important;
 }
 
 .announcement-banner .MuiAlert-message {

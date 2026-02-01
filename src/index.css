@@ -1,13 +1,116 @@
+:root {
+  --metal-darkest: #24272e;
+  --metal-dark: #343840;
+  --metal-mid: #464a52;
+  --metal-light: #686c74;
+  --metal-lighter: #8a8d95;
+  --metal-lightest: #b0b3ba;
+  --metal-shine: #d0d3da;
+  --accent: #5b9bd5;
+  --accent-glow: #5b9bd533;
+  --text-primary: #e0e2e8;
+  --text-secondary: #9a9da5;
+  --border-subtle: #3a3d4580;
+  --border-shine: #ffffff12;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: var(--metal-darkest);
+  color: var(--text-primary);
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: 'JetBrains Mono', source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* MUI overrides for metallic theme */
+.MuiButton-root {
+  text-transform: none !important;
+  font-family: inherit !important;
+}
+
+.MuiPaper-root {
+  background: var(--metal-dark) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-subtle) !important;
+}
+
+.MuiDialogTitle-root {
+  color: var(--text-primary) !important;
+}
+
+.MuiDialogContentText-root {
+  color: var(--text-secondary) !important;
+}
+
+.MuiInputBase-root {
+  color: var(--text-primary) !important;
+}
+
+.MuiInputLabel-root {
+  color: var(--text-secondary) !important;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: var(--metal-light) !important;
+}
+
+.MuiButton-contained {
+  background: linear-gradient(180deg, var(--metal-mid) 0%, var(--metal-dark) 100%) !important;
+  border: 1px solid var(--border-shine) !important;
+  color: var(--text-primary) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3), inset 0 1px 0 var(--border-shine) !important;
+}
+
+.MuiButton-contained:hover {
+  background: linear-gradient(180deg, #454850 0%, var(--metal-mid) 100%) !important;
+}
+
+.MuiButton-outlined {
+  border-color: var(--metal-light) !important;
+  color: var(--text-primary) !important;
+}
+
+.MuiButton-outlined:hover {
+  background: var(--metal-mid) !important;
+  border-color: var(--metal-lighter) !important;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--metal-shine);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--metal-darkest);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--metal-darkest);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--metal-light);
+  border-radius: 3px;
 }

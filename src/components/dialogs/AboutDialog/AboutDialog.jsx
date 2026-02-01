@@ -22,7 +22,7 @@ export default function AboutDialog() {
   return (
     <div>
       <div style={{ position: 'fixed', right: '5px', top: '5px' }}>
-        <IconButton color='default' onClick={handleClickOpen}>
+        <IconButton onClick={handleClickOpen} sx={{ color: '#b0b3ba' }}>
           <InfoIcon />
         </IconButton>
       </div>
