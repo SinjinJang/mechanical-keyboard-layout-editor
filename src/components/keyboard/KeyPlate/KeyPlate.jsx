@@ -162,7 +162,20 @@ function KeyPlate() {
         <div className='key-plate-info'>
           <span>{layout.length} keys &middot; {plateSizeInUnit.width}U &times; {plateSizeInUnit.height}U</span>
           <span className='key-plate-info__actions'>
-            <IconButton size='small' onClick={handleAddSwitch} sx={{ color: 'var(--metal-shine)', padding: '3px', '&:hover': { color: '#fff' } }}>
+            <IconButton
+              size='small'
+              onClick={handleAddSwitch}
+              sx={{
+                color: 'var(--accent-cyan)',
+                padding: '4px',
+                transition: 'all 0.2s',
+                '&:hover': {
+                  color: '#fff',
+                  textShadow: '0 0 8px var(--accent-cyan)',
+                  background: 'rgba(6, 182, 212, 0.1)'
+                }
+              }}
+            >
               <Add />
             </IconButton>
             <IconButton
@@ -170,10 +183,18 @@ function KeyPlate() {
               onClick={handleRemoveSwitch}
               disabled={selectedIndices.length === 0}
               sx={{
-                color: 'var(--metal-shine)',
-                padding: '3px',
-                '&:hover': { color: '#fff' },
-                '&.Mui-disabled': { color: 'var(--metal-light)', opacity: 0.4 },
+                color: 'var(--accent-magenta)',
+                padding: '4px',
+                transition: 'all 0.2s',
+                '&:hover': {
+                  color: '#fff',
+                  textShadow: '0 0 8px var(--accent-magenta)',
+                  background: 'rgba(217, 70, 239, 0.1)'
+                },
+                '&.Mui-disabled': {
+                  color: 'var(--text-muted)',
+                  opacity: 0.3
+                },
               }}
             >
               <Remove />

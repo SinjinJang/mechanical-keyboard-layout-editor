@@ -1,17 +1,25 @@
 .app_name {
-  font-size: 1.4rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
   text-align: center;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--metal-shine);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  color: var(--text-primary);
+  text-shadow:
+    0 0 10px rgba(6, 182, 212, 0.5),
+    0 0 20px rgba(6, 182, 212, 0.3);
   margin: 0;
-  padding: 16px 0 8px;
+  padding: 20px 0;
+  font-family: var(--font-tech);
 }
 
 header {
-  background: linear-gradient(180deg, var(--metal-dark) 0%, var(--metal-darkest) 100%);
-  border-bottom: 1px solid var(--border-subtle);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-glow);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-modal);
 }
