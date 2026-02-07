@@ -9,5 +9,6 @@
 
 .hbar__item {
   box-sizing: border-box;
-  width: 120px;
+  width: 145px;
+  font-size: 0.75rem !important;
 }
