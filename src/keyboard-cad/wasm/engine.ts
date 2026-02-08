@@ -78,7 +78,14 @@ export class OpenScadEngine {
       }
     } else {
       // For DXF, use low-level FS API
-      const openscad = this.instance.getInstance();
+      // Reinitialize before each DXF render since callMain() corrupts the instance state
+      if (!retryOnError) {
+        // This is already a retry, don't reinitialize again
+      } else {
+        await this.reinitialize();
+      }
+
+      const openscad = this.instance!.getInstance();
       const inputPath = '/input.scad';
       const outputPath = `/output.${format}`;
 
@@ -117,6 +124,16 @@ export class OpenScadEngine {
           openscad.FS.unlink(outputPath);
         } catch (e) {
           // Ignore cleanup errors
+        }
+
+        // If this is the first attempt, try reinitializing and retrying
+        if (retryOnError) {
+          try {
+            await this.reinitialize();
+            return await this.render(scadCode, format, false);
+          } catch (retryError) {
+            throw new Error(`OpenSCAD DXF generation failed after retry: ${error}`);
+          }
         }
         throw error;
       }
