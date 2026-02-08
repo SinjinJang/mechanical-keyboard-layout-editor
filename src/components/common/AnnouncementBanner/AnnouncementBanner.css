@@ -1,50 +1,21 @@
-.announcement-banner {
-  width: 100%;
-  position: relative;
-  z-index: 1000;
-  box-sizing: border-box;
-  overflow-x: hidden;
-  margin-bottom: 0;
+.announcement-dialog .MuiDialog-paper {
+  background: var(--metal-dark);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
 }
 
-.announcement-banner .MuiAlert-root {
-  border-radius: 0;
-  width: 100%;
-  box-sizing: border-box;
+.announcement-dialog .MuiDialogTitle-root {
+  color: var(--text-primary);
+}
+
+.announcement-dialog .MuiDialogContent-root {
+  color: var(--text-secondary);
+}
+
+.announcement-dialog .MuiAlert-root ul {
   margin: 0;
-  background: var(--metal-dark) !important;
-  border-top: 1px solid var(--border-subtle);
-  color: var(--text-primary) !important;
 }
 
-.announcement-banner .MuiAlert-message {
-  flex: 1;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  width: 100%;
-}
-
-.announcement-banner .MuiAlert-action {
-  padding-left: 8px;
-  margin-left: auto;
-  align-items: flex-start;
-  padding-top: 4px;
-  display: flex;
-  gap: 4px;
-}
-
-.announcement-banner .MuiAlertTitle-root {
-  margin-bottom: 0;
-}
-
-@media (max-width: 600px) {
-  .announcement-banner .MuiAlert-message {
-    font-size: 0.875rem;
-  }
-
-  .announcement-banner ul {
-    padding-left: 16px;
-    margin-top: 8px;
-  }
+.announcement-dialog .MuiAlert-root li {
+  line-height: 1.6;
 }

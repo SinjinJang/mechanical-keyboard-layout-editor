@@ -20,12 +20,10 @@ export default function AboutDialog() {
   };
 
   return (
-    <div>
-      <div style={{ position: 'fixed', right: '5px', top: '5px' }}>
-        <IconButton onClick={handleClickOpen} sx={{ color: '#b0b3ba' }}>
-          <InfoIcon />
-        </IconButton>
-      </div>
+    <>
+      <IconButton onClick={handleClickOpen} sx={{ color: '#b0b3ba' }}>
+        <InfoIcon />
+      </IconButton>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -65,6 +63,6 @@ export default function AboutDialog() {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }

@@ -1,14 +1,12 @@
 import './Footer.css';
 import React from 'react';
-import AnnouncementBanner from '../AnnouncementBanner';
 
 function Footer() {
   return (
     <div className='footer-container'>
-      <AnnouncementBanner />
       <footer className='footer'>
         <div className='footer__item'>
-          Copyright©2021 Sinjin Jang<br />All rights reserved.
+          Copyright©2021-2026 Sinjin Jang<br />All rights reserved.
         </div>
         <div className='footer__item'>
           Get source code of this app:<br />

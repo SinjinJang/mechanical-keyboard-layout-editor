@@ -1,5 +1,16 @@
 export const ANNOUNCEMENTS = [
   {
+    id: 'browser-based-rendering-2026-02',
+    severity: 'info',
+    title: '3D 모델 렌더링이 브라우저 기반으로 변경되었습니다',
+    content: [
+      'Thanks to Claude Code! 기존 서버에서 처리하던 3D 모델 렌더링이 브라우저에서 직접 처리되도록 변경되었습니다.',
+      '더 이상 서버 대기열을 기다릴 필요가 없으며, 즉시 결과를 확인할 수 있습니다.',
+      '렌더링 속도는 사용자의 기기 성능에 따라 달라질 수 있습니다.'
+    ],
+    dismissible: true
+  },
+  {
     id: 'server-limitations-2022-10',
     severity: 'warning',
     title: '무료 서버 사용으로 인한 제약 사항',
