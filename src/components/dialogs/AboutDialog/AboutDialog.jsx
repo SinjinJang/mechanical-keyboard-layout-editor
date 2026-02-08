@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../common/AnnouncementBanner/AnnouncementBanner.css';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -29,37 +30,54 @@ export default function AboutDialog() {
         onClose={handleClose}
         aria-labelledby='about-dialog-title'
         aria-describedby='about-dialog-description'
+        maxWidth="sm"
+        fullWidth
+        className="about-dialog"
       >
         <DialogTitle id='about-dialog-title'>About This App</DialogTitle>
         <DialogContent>
-          <DialogContentText id='about-dialog-description'>
-            Mechanical Keyboard Layout Editor은 기계식 키보드를 DIY로 제작하기 위해
-            키 스위치를 사용자가 원하는 대로 배치하고 이를 3D프린터(또는 CNC조각기)로 출력할 수 있도록
-            STL 형식의 3D 모델링 또는 DXF 형식의 2D 모델링 파일을 생성해줍니다.
-          </DialogContentText>
-          <DialogContentText>
-            생성되는 모델링 파일의 종류는
-            1) 키 스위치를 꽂을 수 있는 보강판
-            2) PCB 용도의 하판
-            3) 케이스
-            입니다.
-            키 스위치, 스테빌라이저 및 키캡은 기성품을 구매하여 조립이 필요하며 Cherry MX, Kailh 스위치 등이 호환됩니다.
-          </DialogContentText>
-          <DialogContentText>
-            사용자가 디자인한 키 레이아웃 및 모델링의 소유권은 모두 이를 디자인한 사용자에게 있습니다.
-            또한, 생성된 3D 모델링 파일로 출력 시 발생할 수 있는 모든 문제는 사용자에게 책임이 있습니다.
-            제가 참고한 키 스위치 및 스테빌라이저에 맞도록 설계가 되었으므로 다른 부품과는 호환이 되지 않을 수 있습니다.
-          </DialogContentText>
-          <DialogContentText>
-            발견하신 이슈 및 개선 사항, 또는 문의 사항이 있으시면,&nbsp;
-            <a href='https://github.com/SinjinJang/mechanical-keyboard-layout-editor' target='_blank'>GitHub issue</a>
-            &nbsp;혹은&nbsp;
-            <a href='mailto:sinjin.jang0.gmail.com'>e-mail</a>로 알려주세요.
+          <DialogContentText component='div' id='about-dialog-description'>
+            <p style={{ marginTop: 0 }}>
+              기계식 키보드를 DIY로 제작하기 위한 레이아웃 에디터입니다.
+            </p>
+
+            <strong>주요 기능</strong>
+            <ul style={{ marginTop: '8px', marginBottom: '16px' }}>
+              <li>키 스위치를 원하는 대로 배치</li>
+              <li>3D프린터 또는 CNC조각기용 모델링 파일 생성</li>
+              <li>STL (3D) / DXF (2D) 형식 지원</li>
+            </ul>
+
+            <strong>생성 가능한 모델</strong>
+            <ul style={{ marginTop: '8px', marginBottom: '16px' }}>
+              <li>키 스위치용 보강판</li>
+              <li>PCB 용도의 하판</li>
+              <li>케이스</li>
+            </ul>
+
+            <strong>호환 부품</strong>
+            <ul style={{ marginTop: '8px', marginBottom: '16px' }}>
+              <li>Cherry MX, Kailh 스위치 등 호환</li>
+              <li>키 스위치, 스테빌라이저, 키캡은 별도 구매 필요</li>
+            </ul>
+
+            <strong>주의사항</strong>
+            <ul style={{ marginTop: '8px', marginBottom: '16px' }}>
+              <li>디자인한 레이아웃 및 모델링의 소유권은 사용자에게 있습니다</li>
+              <li>출력 시 발생하는 문제는 사용자 책임입니다</li>
+              <li>참고한 부품 규격 외 다른 부품과는 호환되지 않을 수 있습니다</li>
+            </ul>
+
+            <strong>문의</strong>
+            <ul style={{ marginTop: '8px', marginBottom: '0' }}>
+              <li><a href='https://github.com/SinjinJang/mechanical-keyboard-layout-editor' target='_blank' rel='noreferrer'>GitHub Issue</a></li>
+              <li><a href='mailto:sinjin.jang0@gmail.com'>E-mail</a></li>
+            </ul>
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color='primary' autoFocus>
-            Close
+        <DialogActions sx={{ px: 2, pb: 2 }}>
+          <Button onClick={handleClose} variant="contained" color="primary">
+            닫기
           </Button>
         </DialogActions>
       </Dialog>

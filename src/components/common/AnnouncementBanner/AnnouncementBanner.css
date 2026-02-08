@@ -1,21 +1,26 @@
-.announcement-dialog .MuiDialog-paper {
+.announcement-dialog .MuiDialog-paper,
+.about-dialog .MuiDialog-paper {
   background: var(--metal-dark);
   color: var(--text-primary);
   border: 1px solid var(--border-subtle);
 }
 
-.announcement-dialog .MuiDialogTitle-root {
+.announcement-dialog .MuiDialogTitle-root,
+.about-dialog .MuiDialogTitle-root {
   color: var(--text-primary);
 }
 
-.announcement-dialog .MuiDialogContent-root {
+.announcement-dialog .MuiDialogContent-root,
+.about-dialog .MuiDialogContent-root {
   color: var(--text-secondary);
 }
 
-.announcement-dialog .MuiAlert-root ul {
+.announcement-dialog ul,
+.about-dialog ul {
   margin: 0;
 }
 
-.announcement-dialog .MuiAlert-root li {
+.announcement-dialog li,
+.about-dialog li {
   line-height: 1.6;
 }
