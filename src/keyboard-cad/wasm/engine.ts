@@ -56,87 +56,62 @@ export class OpenScadEngine {
       throw new Error('Engine not initialized');
     }
 
-    if (format === 'stl') {
+    // Reinitialize before each render since callMain() corrupts the instance state
+    if (retryOnError) {
+      await this.reinitialize();
+    }
+
+    const openscad = this.instance!.getInstance();
+    const inputPath = '/input.scad';
+    const outputPath = `/output.${format}`;
+
+    try {
+      // Write input file
+      openscad.FS.writeFile(inputPath, scadCode);
+
+      // Call OpenSCAD with Manifold backend for better performance
+      const returnCode = openscad.callMain([
+        inputPath,
+        '--enable=manifold',
+        '-o',
+        outputPath,
+      ]);
+
+      if (returnCode !== 0) {
+        throw new Error(`OpenSCAD execution failed with code ${returnCode}`);
+      }
+
+      // Read output file as binary
+      const result = openscad.FS.readFile(outputPath, { encoding: 'binary' });
+
+      // Clean up files
       try {
-        // Use the high-level API for STL rendering
-        const stlString = await this.instance.renderToStl(scadCode);
-        return new TextEncoder().encode(stlString);
-      } catch (error) {
-        // If high-level API fails, try to reinitialize and retry once
-        if (retryOnError && typeof error === 'number') {
-          try {
-            await this.reinitialize();
-            return await this.render(scadCode, format, false); // Don't retry again
-          } catch (retryError) {
-            throw new Error(`OpenSCAD WASM error code: ${error}. Retry failed. This may be a memory issue or invalid OpenSCAD code.`);
-          }
-        }
-        if (typeof error === 'number') {
-          throw new Error(`OpenSCAD WASM error code: ${error}. This may be a memory issue or invalid OpenSCAD code.`);
-        }
-        throw error;
-      }
-    } else {
-      // For DXF, use low-level FS API
-      // Reinitialize before each DXF render since callMain() corrupts the instance state
-      if (!retryOnError) {
-        // This is already a retry, don't reinitialize again
-      } else {
-        await this.reinitialize();
+        openscad.FS.unlink(inputPath);
+        openscad.FS.unlink(outputPath);
+      } catch (e) {
+        // Ignore cleanup errors
       }
 
-      const openscad = this.instance!.getInstance();
-      const inputPath = '/input.scad';
-      const outputPath = `/output.${format}`;
-
+      return result;
+    } catch (error) {
+      // Clean up on error
       try {
-        // Write input file
-        openscad.FS.writeFile(inputPath, scadCode);
-
-        // Call OpenSCAD with appropriate output format
-        const returnCode = openscad.callMain([
-          inputPath,
-          '--enable=manifold',
-          '-o',
-          outputPath,
-        ]);
-
-        if (returnCode !== 0) {
-          throw new Error(`OpenSCAD execution failed with code ${returnCode}`);
-        }
-
-        // Read output file as binary
-        const result = openscad.FS.readFile(outputPath, { encoding: 'binary' });
-
-        // Clean up files
-        try {
-          openscad.FS.unlink(inputPath);
-          openscad.FS.unlink(outputPath);
-        } catch (e) {
-          // Ignore cleanup errors
-        }
-
-        return result;
-      } catch (error) {
-        // Clean up on error
-        try {
-          openscad.FS.unlink(inputPath);
-          openscad.FS.unlink(outputPath);
-        } catch (e) {
-          // Ignore cleanup errors
-        }
-
-        // If this is the first attempt, try reinitializing and retrying
-        if (retryOnError) {
-          try {
-            await this.reinitialize();
-            return await this.render(scadCode, format, false);
-          } catch (retryError) {
-            throw new Error(`OpenSCAD DXF generation failed after retry: ${error}`);
-          }
-        }
-        throw error;
+        openscad.FS.unlink(inputPath);
+        openscad.FS.unlink(outputPath);
+      } catch (e) {
+        // Ignore cleanup errors
       }
+
+      // If this is the first attempt, try reinitializing and retrying
+      if (retryOnError) {
+        try {
+          await this.reinitialize();
+          return await this.render(scadCode, format, false);
+        } catch (retryError) {
+          throw new Error(`OpenSCAD ${format.toUpperCase()} generation failed after retry: ${error}`);
+        }
+      }
+      throw error;
     }
   }
 
