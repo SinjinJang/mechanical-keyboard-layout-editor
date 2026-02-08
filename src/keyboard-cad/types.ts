@@ -2,30 +2,12 @@
  * Core type definitions for the keyboard CAD generator
  */
 
+// Re-export Zod-inferred types for consistency
+export type { KeyDefinition, LayoutJson } from './schemas';
+
 export type PartType = 'plate' | 'pcb' | 'case';
 export type StabilizerMount = 'plate' | 'pcb';
 export type OutputFormat = 'stl' | 'dxf' | 'scad';
-
-/**
- * Key definition matching the layout JSON format
- */
-export interface KeyDefinition {
-  label?: string;
-  x: number;
-  y: number;
-  w?: number; // width in units, default 1
-  h?: number; // height in units, default 1
-  a?: number; // rotation angle in degrees, default 0
-}
-
-/**
- * Layout JSON structure
- */
-export interface LayoutJson {
-  width: number;
-  height: number;
-  layout: KeyDefinition[];
-}
 
 /**
  * Options for SCAD generation

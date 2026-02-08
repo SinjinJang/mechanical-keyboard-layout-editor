@@ -1,12 +1,21 @@
 import { useState, useCallback, useRef } from 'react';
 import FileSaver from 'file-saver';
-import { OpenScadEngine, ScadGenerator } from '../keyboard-cad';
+import { OpenScadEngine, ScadGenerator, type LayoutJson, type PartType, type OutputFormat } from '../keyboard-cad';
 import { plateSize } from '../utils/LayoutUtil';
+
+interface EditorKey {
+  label?: string;
+  x: number;
+  y: number;
+  w?: number;
+  h?: number;
+  a?: number;
+}
 
 /**
  * Convert editor layout format to keyboard-cad LayoutJson format
  */
-function convertToLayoutJson(layout) {
+function convertToLayoutJson(layout: EditorKey[]): LayoutJson {
   const { width, height } = plateSize(layout, true);
   return {
     width,
@@ -28,8 +37,8 @@ function convertToLayoutJson(layout) {
 export function useCadGenerator() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [progress, setProgress] = useState('');
-  const [error, setError] = useState(null);
-  const engineRef = useRef(null);
+  const [error, setError] = useState<string | null>(null);
+  const engineRef = useRef<OpenScadEngine | null>(null);
 
   const initEngine = useCallback(async () => {
     if (engineRef.current?.isReady()) {
@@ -38,14 +47,18 @@ export function useCadGenerator() {
 
     setProgress('Initializing OpenSCAD WASM engine...');
     const engine = await OpenScadEngine.initialize({
-      printOutput: (text) => console.log('[OpenSCAD]', text),
-      printError: (text) => console.error('[OpenSCAD Error]', text),
+      printOutput: (text: string) => console.log('[OpenSCAD]', text),
+      printError: (text: string) => console.error('[OpenSCAD Error]', text),
     });
     engineRef.current = engine;
     return engine;
   }, []);
 
-  const generateModel = useCallback(async (layout, format, partType = 'plate') => {
+  const generateModel = useCallback(async (
+    layout: EditorKey[],
+    format: OutputFormat,
+    partType: PartType = 'plate'
+  ) => {
     if (isGenerating) {
       console.log('Generation already in progress');
       return false;
@@ -72,7 +85,7 @@ export function useCadGenerator() {
 
       // Render using WASM
       setProgress(`Rendering ${format.toUpperCase()}... (this may take a while)`);
-      const data = await engine.render(scadCode, format);
+      const data = await engine.render(scadCode, format as 'stl' | 'dxf');
 
       // Download file
       setProgress('Downloading...');
@@ -86,18 +99,18 @@ export function useCadGenerator() {
       return true;
     } catch (err) {
       console.error('CAD generation error:', err);
-      setError(err.message || 'Unknown error occurred');
+      setError(err instanceof Error ? err.message : 'Unknown error occurred');
       setProgress('');
       setIsGenerating(false);
       return false;
     }
   }, [isGenerating, initEngine]);
 
-  const generateSTL = useCallback((layout, partType = 'plate') => {
+  const generateSTL = useCallback((layout: EditorKey[], partType: PartType = 'plate') => {
     return generateModel(layout, 'stl', partType);
   }, [generateModel]);
 
-  const generateDXF = useCallback((layout, partType = 'plate') => {
+  const generateDXF = useCallback((layout: EditorKey[], partType: PartType = 'plate') => {
     return generateModel(layout, 'dxf', partType);
   }, [generateModel]);
 

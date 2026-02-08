@@ -20,12 +20,12 @@ export type {
   KeyPosition,
 } from './types';
 
-// Schemas
+// Schemas and validation
 export {
   KeyDefinitionSchema,
   LayoutJsonSchema,
-  type KeyDefinitionParsed,
-  type LayoutJsonParsed,
+  parseLayoutJson,
+  safeParseLayoutJson,
 } from './schemas';
 
 // Templates
