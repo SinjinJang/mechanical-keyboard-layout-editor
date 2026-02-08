@@ -2,18 +2,17 @@ import '../../HorizontalBar.css';
 import './LayoutMenu.css';
 
 import { useState } from 'react';
-import { Button, CircularProgress } from '@mui/material';
+import { Button, CircularProgress, Snackbar, Alert } from '@mui/material';
 
-import axios from 'axios';
 import FileSaver from 'file-saver';
 
 import { useKeyboardStore } from '../../../store/keyboardStore';
 import { useUIStore } from '../../../store/uiStore';
-import EmailDialog from './EmailDialog';
 import PredefinedDialog from './PredefinedDialog';
 import DownloadDialog from './DownloadDialog';
 import { plateSize } from '../../../utils/LayoutUtil';
-import { API_HOST } from '../../../utils/constants';
+import { useCadGenerator } from '../../../hooks/useCadGenerator';
+import { PREDEFINED_LAYOUTS, LAYOUT_LIST } from '../../../assets/layouts';
 
 function _makeLayoutObj(layout, fmt = '', email_to = '') {
   return {
@@ -32,29 +31,29 @@ function LayoutMenu() {
 
   const loading = useUIStore((state) => state.loading);
   const setLoading = useUIStore((state) => state.setLoading);
-  const emailDialog = useUIStore((state) => state.emailDialog);
-  const setEmailDialog = useUIStore((state) => state.setEmailDialog);
   const layoutListDialog = useUIStore((state) => state.layoutListDialog);
   const setLayoutListDialog = useUIStore((state) => state.setLayoutListDialog);
 
-  const handlePredefinedClick = async () => {
-    setLoading(true);
-    const { data: { result } } = await axios.get(`${API_HOST}/layouts`);
-    setLayoutListDialog({ ...layoutListDialog, predefinedList: result, open: true });
-    setLoading(false);
+  const { isGenerating, progress, error, generateSTL, generateDXF } = useCadGenerator();
+
+  // Snackbar state for progress/error messages
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'info' });
+
+  const handlePredefinedClick = () => {
+    setLayoutListDialog({ ...layoutListDialog, predefinedList: LAYOUT_LIST, open: true });
   };
 
-  const handlePredefinedLayoutSelect = async (fname) => {
-    setLoading(true);
-    const { data: { result } } = await axios.get(`${API_HOST}/layouts/${fname}`);
-    const layoutWithRotation = result.layout.map(key => ({
-      ...key,
-      a: key.a !== undefined ? key.a : 0
-    }));
-    setSelectedIndices([]);
-    setLayout(layoutWithRotation);
+  const handlePredefinedLayoutSelect = (layoutName) => {
+    const selectedLayout = PREDEFINED_LAYOUTS[layoutName];
+    if (selectedLayout) {
+      const layoutWithRotation = selectedLayout.layout.map(key => ({
+        ...key,
+        a: key.a !== undefined ? key.a : 0
+      }));
+      setSelectedIndices([]);
+      setLayout(layoutWithRotation);
+    }
     setLayoutListDialog({ ...layoutListDialog, open: false });
-    setLoading(false);
   };
 
   const handleUploadClick = (e) => {
@@ -91,30 +90,44 @@ function LayoutMenu() {
     );
   };
 
-  const handleGenerateModelClick = (fmt) => {
-    if (loading) {
+  const handleGenerateModelClick = async (fmt) => {
+    if (isGenerating || loading) {
       console.log('prevent duplicated click!');
       return;
     }
-    setEmailDialog({ fmt, open: true });
+
+    setSnackbar({ open: true, message: 'Starting generation...', severity: 'info' });
+
+    try {
+      let success;
+      if (fmt === 'stl') {
+        success = await generateSTL(layout);
+      } else {
+        success = await generateDXF(layout);
+      }
+
+      if (success) {
+        setSnackbar({ open: true, message: 'File generated successfully!', severity: 'success' });
+      } else if (error) {
+        setSnackbar({ open: true, message: `Error: ${error}`, severity: 'error' });
+      }
+    } catch (err) {
+      setSnackbar({ open: true, message: `Error: ${err.message}`, severity: 'error' });
+    }
   };
 
-  const handleConfirmEmailClick = async (email) => {
-    setLoading(true);
-    const { data } = await axios.post(
-      `${API_HOST}/modeling`,
-      _makeLayoutObj(layout, emailDialog.fmt, email)
-    );
-    console.log(data);
-    setLoading(false);
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
   };
 
   return (
     <div className='layoutmenu'>
-      {loading ? <div className='loading'><CircularProgress /></div> : ''}
-      <EmailDialog
-        onConfirm={handleConfirmEmailClick}
-      />
+      {(loading || isGenerating) ? (
+        <div className='loading'>
+          <CircularProgress />
+          {progress && <div className='loading-text'>{progress}</div>}
+        </div>
+      ) : ''}
       <PredefinedDialog
         onSelect={handlePredefinedLayoutSelect}
       />
@@ -123,6 +136,16 @@ function LayoutMenu() {
         onClose={() => setDownloadDialogOpen(false)}
         onConfirm={handleDownloadConfirm}
       />
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
       <div className='hbar__container'>
         <Button className='hbar__item' variant='outlined' color='primary' onClick={handlePredefinedClick}>
           Predefined Layout
@@ -133,10 +156,22 @@ function LayoutMenu() {
         <Button className='hbar__item' variant='outlined' color='primary' onClick={handleDownloadClick}>
           Download Layout
         </Button>
-        <Button className='hbar__item' variant='contained' color='primary' onClick={() => handleGenerateModelClick('stl')}>
+        <Button
+          className='hbar__item'
+          variant='contained'
+          color='primary'
+          onClick={() => handleGenerateModelClick('stl')}
+          disabled={isGenerating}
+        >
           Generate STL (3D)
         </Button>
-        <Button className='hbar__item' variant='contained' color='primary' onClick={() => handleGenerateModelClick('dxf')}>
+        <Button
+          className='hbar__item'
+          variant='contained'
+          color='primary'
+          onClick={() => handleGenerateModelClick('dxf')}
+          disabled={isGenerating}
+        >
           Generate DXF (2D)
         </Button>
       </div>

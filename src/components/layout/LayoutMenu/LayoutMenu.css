@@ -14,3 +14,10 @@
   align-items: center;
   backdrop-filter: blur(2px);
 }
+
+.loading-text {
+  margin-top: 16px;
+  color: #ffffff;
+  font-size: 14px;
+  text-align: center;
+}
