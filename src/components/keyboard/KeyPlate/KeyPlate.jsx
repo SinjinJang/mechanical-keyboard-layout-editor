@@ -1,37 +1,17 @@
 import './KeyPlate.css';
 import { useState, useRef } from 'react';
-import { IconButton } from '@mui/material';
-import { Add, Remove } from '@mui/icons-material';
 
 import { useKeyboardStore } from '../../../store/keyboardStore';
 import { plateSize, keyPosition, keySize } from '../../../utils/LayoutUtil';
-import { DEFAULT_KEY } from '../../../utils/constants';
 import EditPanel from '../EditPanel';
 import KeySwitch from '../KeySwitch';
-import LayoutMenu from '../../layout/LayoutMenu';
+import FloatingDock from '../../layout/FloatingDock';
 
 
 function KeyPlate() {
   const layout = useKeyboardStore((state) => state.layout);
-  const selectedIndices = useKeyboardStore((state) => state.selectedIndices);
   const setSelectedIndices = useKeyboardStore((state) => state.setSelectedIndices);
-  const addKey = useKeyboardStore((state) => state.addKey);
-  const removeKeys = useKeyboardStore((state) => state.removeKeys);
   const plateSizeInUnit = plateSize(layout, true);
-
-  const handleAddSwitch = () => {
-    const { width, height } = plateSize(layout, true);
-    addKey({
-      ...DEFAULT_KEY,
-      x: width,
-      y: Math.max(height - 1, 0),
-    });
-  };
-
-  const handleRemoveSwitch = () => {
-    if (selectedIndices.length === 0) return;
-    removeKeys(selectedIndices);
-  };
 
   const [selectionBox, setSelectionBox] = useState(null);
   const plateRef = useRef(null);
@@ -155,51 +135,9 @@ function KeyPlate() {
 
   return (
     <div className='key-plate-wrapper'>
-      <div className='toolbar-section'>
-        <LayoutMenu />
-      </div>
       <div className='plate-section'>
         <div className='key-plate-info'>
           <span>{layout.length} keys &middot; {plateSizeInUnit.width}U &times; {plateSizeInUnit.height}U</span>
-          <span className='key-plate-info__actions'>
-            <IconButton
-              size='small'
-              onClick={handleAddSwitch}
-              sx={{
-                color: 'var(--accent-cyan)',
-                padding: '4px',
-                transition: 'all 0.2s',
-                '&:hover': {
-                  color: '#fff',
-                  textShadow: '0 0 8px var(--accent-cyan)',
-                  background: 'rgba(6, 182, 212, 0.1)'
-                }
-              }}
-            >
-              <Add />
-            </IconButton>
-            <IconButton
-              size='small'
-              onClick={handleRemoveSwitch}
-              disabled={selectedIndices.length === 0}
-              sx={{
-                color: 'var(--accent-magenta)',
-                padding: '4px',
-                transition: 'all 0.2s',
-                '&:hover': {
-                  color: '#fff',
-                  textShadow: '0 0 8px var(--accent-magenta)',
-                  background: 'rgba(217, 70, 239, 0.1)'
-                },
-                '&.Mui-disabled': {
-                  color: 'var(--text-muted)',
-                  opacity: 0.3
-                },
-              }}
-            >
-              <Remove />
-            </IconButton>
-          </span>
         </div>
         <div
           ref={plateRef}
@@ -216,8 +154,9 @@ function KeyPlate() {
           )}
           {selectionBox && <div style={getSelectionBoxStyle()} />}
         </div>
-        <EditPanel />
       </div>
+      <EditPanel />
+      <FloatingDock />
     </div>
   );
 }
