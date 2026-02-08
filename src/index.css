@@ -2,7 +2,7 @@
 
 :root {
   /* Premium Midnight RGB Palette */
-  --bg-darkest: #0f172a;
+  --bg-darkest: #334155;
   --bg-dark: #1e293b;
   --bg-panel: rgba(30, 41, 59, 0.7); /* Glassmorphism base */
   --bg-header: rgba(15, 23, 42, 0.8);
@@ -43,8 +43,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg-darkest);
-  background-image: 
-    linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)),
+  background-image:
+    linear-gradient(rgba(51, 65, 85, 0.9), rgba(51, 65, 85, 0.9)),
     url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2306b6d4' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   color: var(--text-primary);
   min-height: 100vh;
