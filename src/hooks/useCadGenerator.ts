@@ -57,8 +57,9 @@ export function useCadGenerator() {
   const generateModel = useCallback(async (
     layout: EditorKey[],
     format: OutputFormat,
-    partType: PartType = 'plate'
-  ) => {
+    partType: PartType = 'plate',
+    options: { preview?: boolean } = {}
+  ): Promise<Uint8Array | boolean> => {
     if (isGenerating) {
       console.log('Generation already in progress');
       return false;
@@ -87,6 +88,13 @@ export function useCadGenerator() {
       setProgress(`Rendering ${format.toUpperCase()}... (this may take a while)`);
       const data = await engine.render(scadCode, format as 'stl' | 'dxf');
 
+      // If preview mode, return data instead of downloading
+      if (options.preview) {
+        setProgress('Done!');
+        setIsGenerating(false);
+        return data;
+      }
+
       // Download file
       setProgress('Downloading...');
       const mimeType = format === 'stl' ? 'model/stl' : 'application/dxf';
@@ -114,6 +122,14 @@ export function useCadGenerator() {
     return generateModel(layout, 'dxf', partType);
   }, [generateModel]);
 
+  const generatePreview = useCallback(async (layout: EditorKey[], partType: PartType = 'plate'): Promise<Uint8Array | null> => {
+    const result = await generateModel(layout, 'stl', partType, { preview: true });
+    if (result instanceof Uint8Array) {
+      return result;
+    }
+    return null;
+  }, [generateModel]);
+
   const dispose = useCallback(() => {
     if (engineRef.current) {
       engineRef.current.dispose();
@@ -128,6 +144,7 @@ export function useCadGenerator() {
     generateSTL,
     generateDXF,
     generateModel,
+    generatePreview,
     dispose,
   };
 }
