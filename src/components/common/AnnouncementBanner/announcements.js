@@ -1,13 +1,24 @@
 export const ANNOUNCEMENTS = [
   {
+    id: 'unified-model-generator-2026-02',
+    severity: 'info',
+    title: 'Plate/Case/PCB 통합 모델 생성 기능이 추가되었습니다',
+    content: [
+      '이제 Plate, Case, PCB 모델을 하나의 다이얼로그에서 생성할 수 있습니다.',
+      'STL (3D) 또는 DXF (2D) 포맷을 선택하여 다운로드할 수 있습니다.',
+      '3D 미리보기 기능도 모든 파트 타입에 대해 지원됩니다.',
+      '플로팅 독 또는 상단 메뉴의 "Generate Model" 버튼을 클릭하여 사용하세요.'
+    ],
+    dismissible: true
+  },
+  {
     id: 'browser-based-rendering-2026-02',
     severity: 'info',
     title: '3D 모델 렌더링이 브라우저 기반으로 변경되었습니다',
     content: [
       'Thanks to Claude Code! 기존 서버에서 처리하던 3D 모델 렌더링이 브라우저에서 직접 처리되도록 변경되었습니다.',
       '더 이상 서버 대기열을 기다릴 필요가 없으며, 즉시 결과를 확인할 수 있습니다.',
-      '렌더링 속도는 사용자의 기기 성능에 따라 달라질 수 있습니다. (키보드 크기에 따라 수 분 소요 가능)',
-      '기존에 지원하던 케이스/PCB 모델링은 향후 지원 추가하겠습니다.'
+      '렌더링 속도는 사용자의 기기 성능에 따라 달라질 수 있습니다. (키보드 크기에 따라 수 분 소요 가능)'
     ],
     dismissible: true
   },

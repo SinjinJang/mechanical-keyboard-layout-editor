@@ -26,7 +26,7 @@ const MODEL_COLORS = [
   { name: 'Purple', value: '#9c27b0' },
 ];
 
-function StlPreviewDialog({ open, onClose, stlData, filename = 'keyboard-plate.stl' }) {
+function StlPreviewDialog({ open, onClose, stlData, partType = 'plate', filename }) {
   const containerRef = useRef(null);
   const sceneRef = useRef(null);
   const rendererRef = useRef(null);
@@ -220,8 +220,9 @@ function StlPreviewDialog({ open, onClose, stlData, filename = 'keyboard-plate.s
 
   const handleDownload = () => {
     if (stlData) {
+      const resolvedFilename = filename || `keyboard-${partType}.stl`;
       const blob = new Blob([stlData], { type: 'model/stl' });
-      FileSaver.saveAs(blob, filename);
+      FileSaver.saveAs(blob, resolvedFilename);
     }
   };
 
@@ -245,7 +246,7 @@ function StlPreviewDialog({ open, onClose, stlData, filename = 'keyboard-plate.s
       }}
     >
       <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <span>3D Preview</span>
+        <span>3D Preview - {partType.charAt(0).toUpperCase() + partType.slice(1)}</span>
         <IconButton onClick={onClose} size="small">
           <Close />
         </IconButton>
@@ -312,7 +313,7 @@ function StlPreviewDialog({ open, onClose, stlData, filename = 'keyboard-plate.s
           startIcon={<Download />}
           onClick={handleDownload}
         >
-          Download STL
+          Download {partType.charAt(0).toUpperCase() + partType.slice(1)} STL
         </Button>
       </DialogActions>
     </Dialog>

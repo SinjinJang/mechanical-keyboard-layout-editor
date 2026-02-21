@@ -1,16 +1,14 @@
 import './FloatingDock.css';
 
 import { useState } from 'react';
-import { IconButton, Tooltip, CircularProgress, Snackbar, Alert } from '@mui/material';
+import { IconButton, Tooltip, CircularProgress } from '@mui/material';
 import {
   Dashboard,
   FileUpload,
   FileDownload,
   ViewInAr,
-  Architecture,
   Add,
-  Remove,
-  Visibility
+  Remove
 } from '@mui/icons-material';
 
 import FileSaver from 'file-saver';
@@ -19,9 +17,8 @@ import { useKeyboardStore } from '../../../store/keyboardStore';
 import { useUIStore } from '../../../store/uiStore';
 import PredefinedDialog from '../LayoutMenu/PredefinedDialog';
 import DownloadDialog from '../LayoutMenu/DownloadDialog';
-import StlPreviewDialog from '../../dialogs/StlPreviewDialog';
+import ModelGeneratorDialog from '../../dialogs/ModelGeneratorDialog/ModelGeneratorDialog';
 import { plateSize } from '../../../utils/LayoutUtil';
-import { useCadGenerator } from '../../../hooks/useCadGenerator';
 import { PREDEFINED_LAYOUTS, LAYOUT_LIST } from '../../../assets/layouts';
 import { DEFAULT_KEY } from '../../../utils/constants';
 
@@ -47,12 +44,7 @@ function FloatingDock() {
   const layoutListDialog = useUIStore((state) => state.layoutListDialog);
   const setLayoutListDialog = useUIStore((state) => state.setLayoutListDialog);
 
-  const { isGenerating, progress, error, generateSTL, generateDXF, generatePreview } = useCadGenerator();
-
-  const [previewDialogOpen, setPreviewDialogOpen] = useState(false);
-  const [previewStlData, setPreviewStlData] = useState(null);
-
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'info' });
+  const [modelDialogOpen, setModelDialogOpen] = useState(false);
 
   const handlePredefinedClick = () => {
     setLayoutListDialog({ ...layoutListDialog, predefinedList: LAYOUT_LIST, open: true });
@@ -105,62 +97,6 @@ function FloatingDock() {
     );
   };
 
-  const handleGenerateModelClick = async (fmt) => {
-    if (isGenerating || loading) {
-      console.log('prevent duplicated click!');
-      return;
-    }
-
-    setSnackbar({ open: true, message: 'Starting generation...', severity: 'info' });
-
-    try {
-      let success;
-      if (fmt === 'stl') {
-        success = await generateSTL(layout);
-      } else {
-        success = await generateDXF(layout);
-      }
-
-      if (success) {
-        setSnackbar({ open: true, message: 'File generated successfully!', severity: 'success' });
-      } else if (error) {
-        setSnackbar({ open: true, message: `Error: ${error}`, severity: 'error' });
-      }
-    } catch (err) {
-      setSnackbar({ open: true, message: `Error: ${err.message}`, severity: 'error' });
-    }
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbar({ ...snackbar, open: false });
-  };
-
-  const handlePreviewClick = async () => {
-    if (isGenerating || loading) {
-      console.log('prevent duplicated click!');
-      return;
-    }
-
-    setSnackbar({ open: true, message: 'Generating 3D preview...', severity: 'info' });
-
-    try {
-      const stlData = await generatePreview(layout);
-      if (stlData) {
-        setPreviewStlData(stlData);
-        setPreviewDialogOpen(true);
-        setSnackbar({ open: false, message: '', severity: 'info' });
-      } else if (error) {
-        setSnackbar({ open: true, message: `Error: ${error}`, severity: 'error' });
-      }
-    } catch (err) {
-      setSnackbar({ open: true, message: `Error: ${err.message}`, severity: 'error' });
-    }
-  };
-
-  const handleClosePreviewDialog = () => {
-    setPreviewDialogOpen(false);
-  };
-
   const handleAddSwitch = () => {
     const { width, height } = plateSize(layout, true);
     addKey({
@@ -181,9 +117,7 @@ function FloatingDock() {
     { icon: <FileUpload />, tooltip: 'Upload Layout', onClick: handleUploadClick, group: 'file' },
     { icon: <FileDownload />, tooltip: 'Download Layout', onClick: handleDownloadClick, group: 'file' },
     // Generate group
-    { icon: <Visibility />, tooltip: '3D Preview', onClick: handlePreviewClick, disabled: isGenerating, group: 'generate' },
-    { icon: <ViewInAr />, tooltip: 'Generate STL (3D)', onClick: () => handleGenerateModelClick('stl'), disabled: isGenerating, group: 'generate' },
-    { icon: <Architecture />, tooltip: 'Generate DXF (2D)', onClick: () => handleGenerateModelClick('dxf'), disabled: isGenerating, group: 'generate' },
+    { icon: <ViewInAr />, tooltip: 'Generate Model', onClick: () => setModelDialogOpen(true), group: 'generate' },
     // Edit group
     { icon: <Add />, tooltip: 'Add Key', onClick: handleAddSwitch, group: 'edit' },
     { icon: <Remove />, tooltip: 'Remove Key', onClick: handleRemoveSwitch, disabled: selectedIndices.length === 0, group: 'edit' },
@@ -215,10 +149,9 @@ function FloatingDock() {
 
   return (
     <>
-      {(loading || isGenerating) && (
+      {loading && (
         <div className='loading-overlay'>
           <CircularProgress />
-          {progress && <div className='loading-text'>{progress}</div>}
         </div>
       )}
       <PredefinedDialog onSelect={handlePredefinedLayoutSelect} />
@@ -227,23 +160,11 @@ function FloatingDock() {
         onClose={() => setDownloadDialogOpen(false)}
         onConfirm={handleDownloadConfirm}
       />
-      <StlPreviewDialog
-        open={previewDialogOpen}
-        onClose={handleClosePreviewDialog}
-        stlData={previewStlData}
-        filename="keyboard-plate.stl"
+      <ModelGeneratorDialog
+        open={modelDialogOpen}
+        onClose={() => setModelDialogOpen(false)}
+        layout={layout}
       />
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        sx={{ bottom: '100px !important' }}
-      >
-        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
       <div className="floating-dock">
         {renderDockItems()}
       </div>

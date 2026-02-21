@@ -2,7 +2,7 @@ import '../../HorizontalBar.css';
 import './LayoutMenu.css';
 
 import { useState } from 'react';
-import { Button, CircularProgress, Snackbar, Alert } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 
 import FileSaver from 'file-saver';
 
@@ -10,8 +10,8 @@ import { useKeyboardStore } from '../../../store/keyboardStore';
 import { useUIStore } from '../../../store/uiStore';
 import PredefinedDialog from './PredefinedDialog';
 import DownloadDialog from './DownloadDialog';
+import ModelGeneratorDialog from '../../dialogs/ModelGeneratorDialog/ModelGeneratorDialog';
 import { plateSize } from '../../../utils/LayoutUtil';
-import { useCadGenerator } from '../../../hooks/useCadGenerator';
 import { PREDEFINED_LAYOUTS, LAYOUT_LIST } from '../../../assets/layouts';
 
 function _makeLayoutObj(layout, fmt = '', email_to = '') {
@@ -30,14 +30,10 @@ function LayoutMenu() {
   const [downloadDialogOpen, setDownloadDialogOpen] = useState(false);
 
   const loading = useUIStore((state) => state.loading);
-  const setLoading = useUIStore((state) => state.setLoading);
   const layoutListDialog = useUIStore((state) => state.layoutListDialog);
   const setLayoutListDialog = useUIStore((state) => state.setLayoutListDialog);
 
-  const { isGenerating, progress, error, generateSTL, generateDXF } = useCadGenerator();
-
-  // Snackbar state for progress/error messages
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'info' });
+  const [modelDialogOpen, setModelDialogOpen] = useState(false);
 
   const handlePredefinedClick = () => {
     setLayoutListDialog({ ...layoutListDialog, predefinedList: LAYOUT_LIST, open: true });
@@ -90,42 +86,11 @@ function LayoutMenu() {
     );
   };
 
-  const handleGenerateModelClick = async (fmt) => {
-    if (isGenerating || loading) {
-      console.log('prevent duplicated click!');
-      return;
-    }
-
-    setSnackbar({ open: true, message: 'Starting generation...', severity: 'info' });
-
-    try {
-      let success;
-      if (fmt === 'stl') {
-        success = await generateSTL(layout);
-      } else {
-        success = await generateDXF(layout);
-      }
-
-      if (success) {
-        setSnackbar({ open: true, message: 'File generated successfully!', severity: 'success' });
-      } else if (error) {
-        setSnackbar({ open: true, message: `Error: ${error}`, severity: 'error' });
-      }
-    } catch (err) {
-      setSnackbar({ open: true, message: `Error: ${err.message}`, severity: 'error' });
-    }
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbar({ ...snackbar, open: false });
-  };
-
   return (
     <div className='layoutmenu'>
-      {(loading || isGenerating) ? (
+      {loading ? (
         <div className='loading'>
           <CircularProgress />
-          {progress && <div className='loading-text'>{progress}</div>}
         </div>
       ) : ''}
       <PredefinedDialog
@@ -136,16 +101,11 @@ function LayoutMenu() {
         onClose={() => setDownloadDialogOpen(false)}
         onConfirm={handleDownloadConfirm}
       />
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
+      <ModelGeneratorDialog
+        open={modelDialogOpen}
+        onClose={() => setModelDialogOpen(false)}
+        layout={layout}
+      />
       <div className='hbar__container'>
         <Button className='hbar__item' variant='outlined' color='primary' onClick={handlePredefinedClick}>
           Predefined Layout
@@ -160,19 +120,9 @@ function LayoutMenu() {
           className='hbar__item'
           variant='contained'
           color='primary'
-          onClick={() => handleGenerateModelClick('stl')}
-          disabled={isGenerating}
+          onClick={() => setModelDialogOpen(true)}
         >
-          Generate STL (3D)
-        </Button>
-        <Button
-          className='hbar__item'
-          variant='contained'
-          color='primary'
-          onClick={() => handleGenerateModelClick('dxf')}
-          disabled={isGenerating}
-        >
-          Generate DXF (2D)
+          Generate Model
         </Button>
       </div>
     </div>
