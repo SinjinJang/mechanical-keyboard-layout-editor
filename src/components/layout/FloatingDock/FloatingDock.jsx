@@ -11,90 +11,35 @@ import {
   Remove
 } from '@mui/icons-material';
 
-import FileSaver from 'file-saver';
-
 import { useKeyboardStore } from '../../../store/keyboardStore';
 import { useUIStore } from '../../../store/uiStore';
+import { useLayoutActions } from '../../../hooks/useLayoutActions';
 import PredefinedDialog from '../LayoutMenu/PredefinedDialog';
 import DownloadDialog from '../LayoutMenu/DownloadDialog';
 import ModelGeneratorDialog from '../../dialogs/ModelGeneratorDialog/ModelGeneratorDialog';
 import { plateSize } from '../../../utils/LayoutUtil';
-import { PREDEFINED_LAYOUTS, LAYOUT_LIST } from '../../../assets/layouts';
 import { DEFAULT_KEY } from '../../../utils/constants';
 
-function _makeLayoutObj(layout, fmt = '', email_to = '') {
-  return {
-    ...plateSize(layout, true),
-    layout: layout,
-    fmt: fmt,
-    email_to: email_to,
-  };
-}
-
 function FloatingDock() {
-  const layout = useKeyboardStore((state) => state.layout);
-  const setLayout = useKeyboardStore((state) => state.setLayout);
   const selectedIndices = useKeyboardStore((state) => state.selectedIndices);
-  const setSelectedIndices = useKeyboardStore((state) => state.setSelectedIndices);
   const addKey = useKeyboardStore((state) => state.addKey);
   const removeKeys = useKeyboardStore((state) => state.removeKeys);
   const [downloadDialogOpen, setDownloadDialogOpen] = useState(false);
 
   const loading = useUIStore((state) => state.loading);
-  const layoutListDialog = useUIStore((state) => state.layoutListDialog);
-  const setLayoutListDialog = useUIStore((state) => state.setLayoutListDialog);
 
   const [modelDialogOpen, setModelDialogOpen] = useState(false);
 
-  const handlePredefinedClick = () => {
-    setLayoutListDialog({ ...layoutListDialog, predefinedList: LAYOUT_LIST, open: true });
-  };
-
-  const handlePredefinedLayoutSelect = (layoutName) => {
-    const selectedLayout = PREDEFINED_LAYOUTS[layoutName];
-    if (selectedLayout) {
-      const layoutWithRotation = selectedLayout.layout.map(key => ({
-        ...key,
-        a: key.a !== undefined ? key.a : 0
-      }));
-      setSelectedIndices([]);
-      setLayout(layoutWithRotation);
-    }
-    setLayoutListDialog({ ...layoutListDialog, open: false });
-  };
-
-  const handleUploadClick = (e) => {
-    e.preventDefault();
-    const handleOnChange = (e1) => {
-      const reader = new FileReader();
-      reader.readAsBinaryString(e1.target.files[0]);
-      reader.onloadend = () => {
-        const { layout: uploadedLayout } = JSON.parse(reader.result);
-        const layoutWithRotation = uploadedLayout.map(key => ({
-          ...key,
-          a: key.a !== undefined ? key.a : 0
-        }));
-        setSelectedIndices([]);
-        setLayout(layoutWithRotation);
-      };
-    };
-    const fileSelector = document.createElement('input');
-    fileSelector.setAttribute('type', 'file');
-    fileSelector.setAttribute('accept', '.json');
-    fileSelector.onchange = handleOnChange;
-    fileSelector.click();
-  };
+  const {
+    layout,
+    handlePredefinedClick,
+    handlePredefinedLayoutSelect,
+    handleUploadClick,
+    handleDownloadConfirm,
+  } = useLayoutActions();
 
   const handleDownloadClick = () => {
     setDownloadDialogOpen(true);
-  };
-
-  const handleDownloadConfirm = (filename) => {
-    const data = JSON.stringify(_makeLayoutObj(layout));
-    FileSaver.saveAs(
-      new Blob([data], { type: 'text/json; charset=utf-8' }),
-      filename
-    );
   };
 
   const handleAddSwitch = () => {

@@ -18,6 +18,15 @@ export function keySize(w, h) {
   };
 }
 
+export function makeLayoutObj(layout, fmt = '', email_to = '') {
+  return {
+    ...plateSize(layout, true),
+    layout: layout,
+    fmt: fmt,
+    email_to: email_to,
+  };
+}
+
 export function plateSize(newLayout, in_unit = false) {
   let newWidth = 0;
   let newHeight = 0;
